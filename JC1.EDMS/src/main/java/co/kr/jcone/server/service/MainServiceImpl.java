@@ -22,24 +22,22 @@ public class MainServiceImpl implements MainService{
 		ModelAndView mv = new ModelAndView();
 
 		String title = bean.getTitle();	
+		
 		System.out.println(title);
-		
-		mv.addObject("title", title);
-		
 		List<DocumentBean> list = new ArrayList<>();
 		Calendar cal = new GregorianCalendar();
 
-		for(int i = 0; i < 10; i++) {
-			cal.add(Calendar.DATE, i);
-			DocumentBean db = new DocumentBean();
-			db.setIdx(i+1);
-			db.setGroup("그룹"+i);
-			db.setSubTitle("섭타"+i);
-			db.setTitle("메인제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ"+i);
-			db.setWriter("작성"+i);
-			db.setWriteDate(cal.getTime());
-			list.add(db);
-		}
+//		for(int i = 0; i < 10; i++) {
+//			cal.add(Calendar.DATE, i);
+//			DocumentBean db = new DocumentBean();
+//			db.setIdx(i+1);
+//			db.setGroup("그룹"+i);
+//			db.setSubTitle("섭타"+i);
+//			db.setTitle("메인제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ"+i);
+//			db.setWriter("작성"+i);
+//			db.setWriteDate(cal.getTime());
+//			list.add(db);
+//		}
 		
 		mv.addObject("d_list", list);
 		mv.setViewName("content/listDocument");

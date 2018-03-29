@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 html {
 	height: 100%;
 }
@@ -9,13 +10,13 @@ body {
 }
 
 #header {
-    height: 100px;
+    height: 10%;
     width: 100%;
 }
 
 #logo {
 	width:15%;
-	background-color: #261F68;
+	background-color: #282828;
 	height: 100%; 
 	float: left;
 }
@@ -24,7 +25,6 @@ body {
 	width:85%; 
 	height: 100%; 
 	float: left;
-	border-bottom: 1px solid black;
 }
 
 .box-color {
@@ -32,7 +32,7 @@ body {
 }
 
 #main {
-	height: 100%;
+	height: 90%;
 }
 
 #left_Bar {
@@ -40,11 +40,11 @@ body {
 	height: 100%; 
 	float: left;
 	box-sizing: border-box;
-	background-color: #261F68;
+	background-color: #282828;
 }
 
 #left-menu {
-	height: 80%; 
+	height: 90%; 
 	margin: 20px; 
 	border: 3px solid white;
 }
@@ -53,6 +53,13 @@ body {
 	height: 100%; 
 	float: left;
 	color: black;
+}
+
+#logoDiv {
+	text-align: center;
+    font-weight: bold;
+    font-size: 55px;
+    padding-top: 7%;
 }
 
 .menu-col {
@@ -76,7 +83,7 @@ footer {
 
 
 /* tab CSS */
-.dd{
+.leftMenu-top{
 	float: left;	
 	color:black;
     width: 33.3333333333%;
@@ -264,12 +271,27 @@ a.btn-layerClose:hover {
 
 /* Dropdown Button */
 .dropbtn {
-    background-color: #3498DB;
+    /* background-color: #3498DB;
     color: white;
     padding: 16px;
     font-size: 16px;
-    border: none;
+    border: none; */
     cursor: pointer;
+    
+    display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 
 /* Dropdown button on hover & focus */

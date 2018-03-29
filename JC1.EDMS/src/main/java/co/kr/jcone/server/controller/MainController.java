@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.jcone.server.bean.DocumentBean;
+import co.kr.jcone.server.service.DocumentService;
 import co.kr.jcone.server.service.MainService;
 
 @Controller
@@ -28,6 +29,9 @@ public class MainController {
 	
 	@Autowired
 	private MainService mainService;
+	
+	@Autowired
+	private DocumentService documentService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
@@ -38,7 +42,6 @@ public class MainController {
 		mv.setViewName("login");
 		// todo
 		// 로그인 페이지
-		
 		
 		return mv;
 	}
@@ -69,13 +72,9 @@ public class MainController {
 	
 	@ResponseBody
 	@RequestMapping(value="/uploadDocument")
-	public String uploadDocument(HttpServletRequest request,
-			@RequestParam(value = "files[]", required = false) MultipartFile[] mfl) {
+	public String uploadDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean) {
 		
-		System.out.println(mfl);
-		System.out.println(mfl.length);
-		
-		return "asdf";
+		return documentService.uploadDocument(request,bean);
 	}
 	
 	@RequestMapping(value = "/listDocument")

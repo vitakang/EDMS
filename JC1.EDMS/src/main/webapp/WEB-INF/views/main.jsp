@@ -9,7 +9,7 @@
 <body>
 	<div id="header">
 	    <div id="logo">
-	 
+	 		<div id="logoDiv">EDMS</div>
 		</div>
 		<div id="menu">
 			<div class="menu-row">
@@ -42,10 +42,10 @@
 	<div id="main">
 		<div id="left_Bar">
 			<div id="left-menu" >
-				<div style="height: 35px;">
-					<div class="dd" style="color: white;">사용자</div>
-					<div class="dd" style="color: white;">누구</div>
-					<div class="dd" onclick="settingContent()" style="color: white;">설정</div>
+				<div style="height: 35px; padding-top: 10px">
+					<div class="leftMenu-top" style="color: white;">사용자</div>
+					<div class="leftMenu-top" style="color: white;">누구</div>
+					<div class="leftMenu-top" onclick="settingContent()" style="color: white;"><img src="resources/images/gear.png"></div>
 				</div>
 				<div style="height:50px;">
 					<ul class="tabs">
@@ -62,7 +62,7 @@
 								<li>
 									<button type="button" class="open"></button> <a class="open box-color">first-first</a>
 									<ul id="subMenu1-1">
-										<li><a onclick="documentContent(this)" class="box-color">first-first-first</a></li>
+										<li><a onclick="documentContent(this)" class="box-color">first-first-안녕</a></li>
 										<li><a onclick="documentContent(this)" class="box-color">first-first-second</a></li>
 									</ul>
 								</li>

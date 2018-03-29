@@ -21,9 +21,9 @@
 	</settings>
 
 	<typeAliases>
-		<!-- <typeAlias type="com.jcone.hieform.server.domain.EssHistory"
-			alias="EssHistory" />
-		<typeAlias type="com.jcone.hieform.server.domain.SendMailInfo"
+		<typeAlias type="co.kr.jcone.server.bean.DocumentBean"
+			alias="document" />
+		<!-- <typeAlias type="com.jcone.hieform.server.domain.SendMailInfo"
 			alias="SendMailInfo" />
 
 		ING dto
@@ -43,8 +43,7 @@
 
 
 	<mappers>
-<!-- 		<mapper resource="mapper/essHistory_SQL.xml" />
-		<mapper resource="mapper/cedaCert_SQL.xml" /> -->
+ 		<mapper resource="mapper/edms_SQL.xml" />
 
 	</mappers>
 
