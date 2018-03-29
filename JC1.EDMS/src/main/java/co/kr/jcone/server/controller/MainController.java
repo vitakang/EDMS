@@ -35,7 +35,6 @@ public class MainController {
 	public ModelAndView login(Locale locale, Model model) {
 		
 		ModelAndView mv = new ModelAndView();
-		
 		mv.setViewName("login");
 		// todo
 		// 로그인 페이지
