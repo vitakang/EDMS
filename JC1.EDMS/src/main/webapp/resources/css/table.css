@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+#table-background {
+	height: 100%;
+	position: absolute;
+	width:85%; 
+}
+
+#table-main {
+	box-sizing: border-box;
+	border: 1px solid black;
+	height: 100%;
+	padding: 90px;
+	background: #DEDEE0;
+	
+}
+
+#table {
+	box-sizing: border-box;
+    border: 2px solid white;
+	height: 100%;
+	width: 100%;
+}
+
+.table-title {
+	height: 5%;
+    font-weight: bold;
+    font-size: 25px;
+    padding-left: 30px;
+    border: 2px solid white;
+}
+
+.table-search {
+	height: 8%;
+	
+}
+.table-view {
+	height: 80%;
+}
+
+.table-search-list {
+	float: left
+}
+
+.table-left {
+	width: 15%;
+	text-align: center;
+	border: 2px solid white;
+}
+
+.table-right {
+	width: 85%;
+	text-align: left;
+	border: 2px solid white;
+	padding-left: 10px;
+}
+.main-line {
+	height: 10px;
+}
+
+.listTable1 {
+	width: 5%;
+}
+.listTable2 {
+	width: 7%;
+}
+.listTable3 {
+	width: 13%;
+}
+.listTable4 {
+	width: 45%;
+}
+.listTable5 {
+	width: 15%;
+}
+.listTable6 {
+	width: 15%;
+}
+
+#search-title {
+	
+	background-color: red;
+	width: 10%;
+}
+
+#search-select {
+	width: 10%;
+	background-color: blue;
+}
+
+#search-input {
+	width: 60%;
+	background-color: gray;
+}
+
+#search-button {
+	width: 20%;
+	background-color: black;
+}
