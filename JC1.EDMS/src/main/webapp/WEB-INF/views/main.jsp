@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 </head>
 <body>
 	<div id="header">
-	    <div id="logo" onclick="movePage('/jcone/main')">
+	    <div id="logo" onclick="movePage('/jcone/main')" style="cursor: pointer;">
 	 		<div id="logoDiv">EDMS</div>
 		</div>
 		<div id="menu">
@@ -57,16 +58,25 @@
 				<div id="tab-1" class="tab-content current">
 					<ul id="treeMenu" style="display: none;">
 						<li>
-							<button type="button" class="open"></button> <a class="open box-color">first</a>
+							<button type="button" class="holer"></button> <a class="open box-color">JCONE</a>
 							<ul id="subMenu1">
-								<li>
+								<c:forEach var="gList" items="${groupList}">
+									<li class="forderPut group_${gList.group_id}">
+										<button type="button" class="open"></button> <a class="open box-color">${gList.group_name}</a>
+									<!-- <ul id="subMenu1-1">
+										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-안녕</a></li>
+										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-second</a></li>
+									</ul> -->
+									</li>
+								</c:forEach>
+<!-- 								<li class="forderPut">
 									<button type="button" class="open"></button> <a class="open box-color">first-first</a>
 									<ul id="subMenu1-1">
-										<li><a onclick="documentContent(this)" class="box-color">first-first-안녕</a></li>
-										<li><a onclick="documentContent(this)" class="box-color">first-first-second</a></li>
+										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-안녕</a></li>
+										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-second</a></li>
 									</ul>
 								</li>
-								<li><a href="#" class="box-color">first-second</a></li>
+								<li class="forderPut"><a href="#" class="box-color">first-second</a></li> -->
 							</ul>
 						</li>
 					</ul>
@@ -102,34 +112,6 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script type="text/javascript">
-
-var opener = $("a.open");
-var nested = $("a.open").parent().find("li");
-var nestedCont = $("li > ul > li").parent();
-var that;
-
-var tree = {
-	init : function() {
-		nestedCont.hide();
-		$("li:last-child").addClass("end");
-		$("a.open").each(function() {
-			$(opener).click(function(target) {
-				tree.click(this);
-			});
-			return false;
-		})
-	},
-	click : function(_tar) {
-		that = _tar;
-		$(that).next().show();
-		$(that).prev().toggleClass("close");
-		$(that).toggleClass("close");
-		if (!$(that).hasClass("close")) {
-			$(that).next().hide();
-		}
-	}
-}
-tree.init();
 
 function documentContent(obj) {
 	var arr = {title:obj.text,sub:'sub'};
@@ -179,6 +161,59 @@ $(document).ready(function() {
 		$(this).addClass('current');
 		$("#" + tab_id).addClass('current');
 	})
+	
+	var childObj = $('#subMenu1').children('li');
+	var myGroupId = 'group_' + ${myGroup}; 
+	
+	for(var i = 0; i < childObj.length; i++){
+		var cl = childObj[i].className;
+		
+		if(cl.indexOf(myGroupId) > 0){
+			continue;
+		}
+		
+		childObj[i].children[0].classList.remove('open');
+		childObj[i].children[0].classList.add('holer');
+		childObj[i].children[0].classList.add('end');
+	}
+	
+
+	var opener = $("button.open");
+	var opener2 = $("a.open");
+	var nested = $("button.open").parent().find("li");
+	var nestedCont = $("li.forderPut > ul > li.forderPut").parent();
+	var that;
+	
+	
+	var tree = {
+		init : function() {
+			console.log(nestedCont);
+			//nestedCont.hide();
+			//$("li:last-child").addClass("end");			
+			$("button.open").each(function() {
+				$(opener).click(function(target) {
+					tree.click(this);
+				});
+				return false;
+			})
+			$("a.open").each(function() {
+				$(opener2).click(function(target) {
+					tree.click(this);
+				});
+				return false;
+			})
+		},
+		click : function(_tar) {
+			that = _tar;
+			$(that).next().next().show();
+			$(that).prev().toggleClass("close");
+			$(that).toggleClass("close");
+			if (!$(that).hasClass("close")) {
+				$(that).next().next().hide();
+			}
+		}
+	}
+	tree.init();
 
 })
     

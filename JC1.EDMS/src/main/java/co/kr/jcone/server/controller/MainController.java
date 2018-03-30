@@ -31,14 +31,9 @@ public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	@RequestMapping(value = "/main")
-	public ModelAndView main(Locale locale, Model model) {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView main(HttpServletRequest request) {
 		
-		mv.setViewName("main");
-		// todo
-		// 메인 페이지
-		
-		return mv;
+		return mainService.mainPageView(request);
 	}
 
 	@RequestMapping(value = "/insertDocument")

@@ -21,5 +21,16 @@
 	<select id="getList" resultType="HashMap">	
 		SELECT * FROM USER_INFORMATION
 	</select>
+	
+	<select id="selectGroupList" resultType="group">
+		SELECT 
+			* 
+		FROM 
+			GROUP_INFORMATION g LEFT JOIN FOLDER f
+		ON 
+			g.group_id = f.PARENT_FOLDER_ID
+		WHERE
+			g.group_type = 'Y'
+	</select>
 
 </mapper>

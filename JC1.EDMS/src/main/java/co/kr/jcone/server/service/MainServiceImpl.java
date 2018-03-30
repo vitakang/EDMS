@@ -7,16 +7,64 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.jcone.server.bean.DocumentBean;
+import co.kr.jcone.server.bean.GroupBean;
+import co.kr.jcone.server.dao.MainDao;
 
 @Service
 public class MainServiceImpl implements MainService{
+	
+	@Autowired
+	private MainDao mainDao;
+	
+	@Override
+	public ModelAndView mainPageView(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		
+		List<GroupBean> groupInFolderList = mainDao.selectGroupList();
+		List<GroupBean> groupList = new ArrayList<>();
+		
+		
+		for(int i = 0; i < groupInFolderList.size(); i++) {
+			
+//			System.out.println(" test : " + groupInFolderList.get(i));
+//			System.out.println(" test2 : " + groupList.contains(groupInFolderList.get(i)));
+			
+			for (int j = i; j < groupInFolderList.size(); j++) {
+				if (!groupInFolderList.get(j).getGroup_id().equals(groupInFolderList.get(i).getGroup_id())) {
+					groupList.add(groupInFolderList.get(i));
+				
+//					if (!groupList.contains(groupInFolderList.get(i))) groupList.add(groupInFolderList.get(i));
+				}
+			}
+		}
+		
+//		for(int i = 0; i < groupInFolderList.size(); i++) {
+//			groupList.add(groupInFolderList.get(i));
+//		}
+//		for(int i=0; i<groupList.size();i++) {
+//			for(int j = 0; j<groupList.size();j++) {
+//				if(groupList.get(i).equals(groupList.get(j))) {
+//					groupList.remove(i);
+//				}
+//			}
+//		}
+		
+		mv.addObject("groupList", groupList);
+		mv.addObject("groupInFolderList", groupInFolderList);
+		
+		mv.addObject("myGroup", "4");
+		mv.setViewName("main");
+		return mv;
+	}
 
 	@Override
 	public ModelAndView getListDocument(HttpServletRequest request, DocumentBean bean) {

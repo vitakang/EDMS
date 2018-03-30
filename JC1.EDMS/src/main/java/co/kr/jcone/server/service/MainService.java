@@ -11,4 +11,6 @@ public interface MainService {
 
 	ModelAndView getListDocument(HttpServletRequest request, DocumentBean bean);
 
+	ModelAndView mainPageView(HttpServletRequest request);
+
 }

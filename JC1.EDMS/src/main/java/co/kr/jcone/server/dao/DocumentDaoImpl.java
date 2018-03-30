@@ -2,6 +2,7 @@ package co.kr.jcone.server.dao;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,8 +13,7 @@ import co.kr.jcone.server.bean.DocumentBean;
 public class DocumentDaoImpl implements DocumentDao{
 
 	@Autowired
-	@Resource(name = "sqlSession")
-	SqlSessionTemplate sqlSession;
+	private SqlSession sqlSession;
 	
 	@Override
 	public int insertDocument(DocumentBean db) {

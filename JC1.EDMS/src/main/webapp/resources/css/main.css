@@ -188,6 +188,13 @@ a:hover {
 		no-repeat 0 0;
 }
 
+#treeMenu li button.holer {
+	background:
+		url(../images/folder_C.png)
+		no-repeat 0 0;
+}
+
+
 #treeMenu li button.close {
 	background:
 		url(../images/folder_O.png)
