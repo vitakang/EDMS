@@ -22,9 +22,39 @@
       </layout>
     </appender>
     
-	<logger name="com.jcone.hieform.server" level="DEBUG">
+	<logger name="co.kr.jcone.server" level="DEBUG">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</logger>
+	
+	<logger name="org.springframework" level="INFO">
+    	<appender-ref ref="STDOUT" />
+    	<appender-ref ref="FILE" />
+    </logger>
+    <logger name="org.apache.catalina" level="INFO">
+    	<appender-ref ref="STDOUT" />
+    	<appender-ref ref="FILE" />
+    </logger>
+    <logger name="org.apache.commons" level="ERROR">
+    	<appender-ref ref="STDOUT" />
+    	<appender-ref ref="FILE" />
+    </logger>
+    
+    <logger name="edmsMapper" level="DEBUG">
+    	<appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+    
+    <!-- <logger name="jdbc.sqlonly" additivity="false"> 
+        <level value="INFO"/> 
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE" /> 
+    </logger>
+    
+    <logger name="jdbc.resultset" additivity="false"> 
+        <level value="INFO"/> 
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE" /> 
+    </logger> -->
 	
 </configuration>

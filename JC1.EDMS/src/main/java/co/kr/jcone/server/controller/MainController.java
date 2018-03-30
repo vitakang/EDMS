@@ -1,8 +1,5 @@
 package co.kr.jcone.server.controller;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.jcone.server.bean.DocumentBean;
@@ -34,21 +29,9 @@ public class MainController {
 	private DocumentService documentService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
-	
-	@RequestMapping(value = "/")
-	public ModelAndView login(Locale locale, Model model) {
-		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("login");
-		// todo
-		// 로그인 페이지
-		
-		return mv;
-	}
 
 	@RequestMapping(value = "/main")
 	public ModelAndView main(Locale locale, Model model) {
-		
 		ModelAndView mv = new ModelAndView();
 		
 		mv.setViewName("main");

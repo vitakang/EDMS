@@ -6,5 +6,20 @@
 	<select id="selectTest" resultType="String">
 		select count(*) from document
 	</select>
+	
+	<select id="loginCheck" parameterType="HashMap" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(USER_ID) AS CNT
+		FROM
+			USER_INFORMATION
+		WHERE
+			USER_ID = #{email}
+		AND
+			USER_PASSWORD = #{password}
+	</select>
+	
+	<select id="getList" resultType="HashMap">	
+		SELECT * FROM USER_INFORMATION
+	</select>
 
 </mapper>
