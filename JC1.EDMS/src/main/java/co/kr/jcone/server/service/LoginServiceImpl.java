@@ -1,7 +1,8 @@
 package co.kr.jcone.server.service;
 
-import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,14 +15,25 @@ import co.kr.jcone.server.dao.LoginDao;
 public class LoginServiceImpl implements LoginService {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired private LoginDao loginDAO;
+
+	private @Autowired LoginDao loginDAO;
 
 	@Override
-	public String login(Map<String, String> paramMap) {
+	public String login(Map<String, String> paramMap, HttpSession httpSession) {
 		int result = loginDAO.loginChceck(paramMap);
-		List<Map<String, String>> list = loginDAO.getList();
-		return result > 0 ? "S" : "F";
+		String resultMsg = null;
+		String userId = paramMap.get("email");
+		
+		if (result > 0) {
+			httpSession.setAttribute("userId", userId);
+			resultMsg = "S";
+		} else {
+			resultMsg = "F";
+		}
+		
+		logger.info("[{}] - LOGIN RESULT => {}", userId, resultMsg);
+		
+		return resultMsg;
 	}
 
 }
