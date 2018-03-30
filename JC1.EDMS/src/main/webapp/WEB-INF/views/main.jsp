@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div id="header">
-	    <div id="logo">
+	    <div id="logo" onclick="movePage('/jcone/main')">
 	 		<div id="logoDiv">EDMS</div>
 		</div>
 		<div id="menu">
@@ -161,6 +161,9 @@ function changeContent(url,arr) {
     $('#right_Content').load(url,arr);
 }
 
+function movePage(url) {
+	location.href = url;
+}
 function myFunction() {
     //document.getElementById("myDropdown").classList.toggle("show");
 }

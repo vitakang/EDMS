@@ -30,8 +30,8 @@ public class DocumentServiceImpl implements DocumentService{
 			db.setDOCUMENT_DESCRIPTION(MainUtls.changeTextUTF8(bean.getDOCUMENT_DESCRIPTION()));
 			db.setREGISTER_DATE(bean.getREGISTER_DATE());
 			
-			
-			System.out.println(documentDao.testDb());
+			System.out.println(bean.getMultiPartFiles().length);
+			//System.out.println(documentDao.testDb());
 			//documentDao.insertDocument(db);
 			
 			
@@ -40,7 +40,7 @@ public class DocumentServiceImpl implements DocumentService{
 //		System.out.println(bean.getDOCUMENT_TITLE());
 //		System.out.println(bean.getDOCUMENT_DESCRIPTION());
 //		System.out.println(bean.getREGISTER_DATE());
-//		//System.out.println(bean.getMultiPartFiles().length);
+//		System.out.println(bean.getMultiPartFiles().length);
 //			for(MultipartFile file : bean.getMultiPartFiles()) {
 //				//multiPartFiles  apache-tomcat-8.5.29-windows-x64.zip  application/x-zip-compressed  11181877  [B@6567fba6
 //				System.out.println(file.getName() + "  " + file.getOriginalFilename() + "  " + file.getContentType() + "  " + file.getSize() + "  " + file.getBytes());

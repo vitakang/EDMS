@@ -12,66 +12,26 @@
 
 <div class="table-wrapper">
 	<div class="table-title">
-				<h2>
-					 ※ ${table_title} 문서목록
-				</h2>
+		<h2>
+			 ※ ${table_title} 문서목록
+		</h2>
 	</div>
 	<div class="table-filter">
-		<div class="row">
-			<div class="table-search-list" id="search-title">검색</div>
-			<div class="table-search-list" id="search-select">
-				<select>
-					<option value="">등록구분</option>
-					<option value="">철제목</option>
-					<option value="">문서제목</option>
-					<option value="">작성일</option>
-					<option value="">작성일자</option>
-				</select>
-			</div>
-			<div class="table-search-list" id="search-input">
-				<input type="text" placeholder="검색어를 입력해주세요" style="width: 100%">
-			</div>
-			<div class="table-search-list" id="search-button">
-				<input type="button" value="검색">
-			</div>
-			<!--  <div class="col-sm-3">
-				<div class="show-entries">
-					<span>Show</span> <select class="form-control">
-						<option>5</option>
-						<option>10</option>
-						<option>15</option>
-						<option>20</option>
-					</select> <span>entries</span>
-				</div>
-			</div>
-			<div class="col-sm-9">-->
-				<!-- <button type="button" class="btn btn-primary">
-					<i class="fa fa-search"></i>
-				</button>
-				<div class="filter-group">
-					<label>Name</label> <input type="text" class="form-control">
-				</div>
-				<div class="filter-group">
-					<label>Location</label> <select class="form-control">
-						<option>All</option>
-						<option>Berlin</option>
-						<option>London</option>
-						<option>Madrid</option>
-						<option>New York</option>
-						<option>Paris</option>
-					</select>
-				</div>
-				<div class="filter-group">
-					<label>Status</label> <select class="form-control">
-						<option>Any</option>
-						<option>Delivered</option>
-						<option>Shipped</option>
-						<option>Pending</option>
-						<option>Cancelled</option>
-					</select>
-				</div>
-				<span class="filter-icon"><i class="fa fa-filter"></i></span> -->
-			<!-- </div> -->
+		<div class="table-search-list" id="search-title"><img src="resources/images/search.png" style="vertical-align: middle; height: 100%">&nbsp;&nbsp;<span style="vertical-align: middle; font-weight: bold;">SEARCH</span></div>
+		<div class="table-search-list" id="search-select">
+			<span style="vertical-align: middle;"><select>
+				<option value="">등록구분</option>
+				<option value="">철제목</option>
+				<option value="">문서제목</option>
+				<option value="">작성일</option>
+				<option value="">작성일자</option>
+			</select></span>
+		</div>
+		<div class="table-search-list" id="search-input">
+			<input type="text" placeholder="검색어를 입력해주세요" style="width: 100%; vertical-align: middle;">
+		</div>
+		<div class="table-search-list" id="search-button">
+			<input type="button" value="검색" style="vertical-align: middle;">
 		</div>
 	</div>
 	<table class="table table-striped table-hover">
@@ -86,54 +46,31 @@
 			</tr>
 		</thead>
 		<tbody>
+			<c:forEach var="list" items="${d_list }">
+				<tr style="text-align: center;">
+					<td class="listTable1 listCheck" id="${list.DOCUMENT_ID}"><input type="checkbox"></td>
+					<td class="listTable2">${list.GROUP_NAME}</td>
+					<td class="listTable3">${list.BIND_TITLE}</td>
+					<td class="listTable4" style="cursor: pointer; " onclick="viewDetail(${list.DOCUMENT_ID},'${table_title}')">${list.DOCUMENT_TITLE}</td>
+					<td class="listTable5">${list.USER_ID}</td>
+					<td class="listTable6">${list.REGISTER_DATE}</td>
+				</tr>	
+			</c:forEach>
 			<tr>
-				<td class="listTable1">1</td>
-				<td class="listTable2"> Michael Holz</td>
-				<td class="listTable3">London</td>
-				<td class="listTable4">Jun 15, 2017</td>
-				<td class="listTable5"><span class="status text-success">&bull;</span> Delivered</td>
-				<td class="listTable6">$254</td>
+				<td colspan="2" style="text-align: left;">검색건수 :  ${fn:length(d_list)}</td>
+				<td colspan="4" style="text-align: center;">1</td>
 			</tr>
 			<tr>
-				<td class="listTable1">2</td>
-				<td class="listTable2">Paula Wilson</td>
-				<td class="listTable3">Madrid</td>
-				<td class="listTable4">Jun 21, 2017</td>
-				<td class="listTable5"><span class="status text-info">&bull;</span> Shipped</td>
-				<td class="listTable6">$1,260</td>
-			</tr>
-			<tr>
-				<td class="listTable1">3</td>
-				<td class="listTable2">Antonio Moreno</td>
-				<td class="listTable3">Berlin</td>
-				<td class="listTable4">Jul 04, 2017</td>
-				<td class="listTable5"><span class="status text-danger">&bull;</span> Cancelled</td>
-				<td class="listTable6">$350</td>
-			</tr>
-			<tr>
-				<td class="listTable1">4</td>
-				<td class="listTable2">Mary Saveley</td>
-				<td class="listTable3">New York</td>
-				<td class="listTable4">Jul 16, 2017</td>
-				<td class="listTable5"><span class="status text-warning">&bull;</span> Pending</td>
-				<td class="listTable6">$1,572</td>
-			</tr>
-			<tr>
-				<td class="listTable1">5</td>
-				<td class="listTable2"> Martin Sommer</td>
-				<td class="listTable3">Paris</td>
-				<td class="listTable4">Aug 04, 2017</td>
-				<td class="listTable5"><span class="status text-success">&bull;</span> Delivered</td>
-				<td class="listTable6">$580</td>
+				<td colspan="6" style="text-align: right;"><input type="button" value="즐겨찾기등록"></td>
 			</tr>
 		</tbody>
 	</table>
-	<div class="clearfix">
+<!-- 	<div class="clearfix">
 		<div class="hint-text">
 			Showing <b>5</b> out of <b>25</b> entries
 		</div>
 		<ul class="pagination">
-<!-- 			<li class="page-item disabled"><a href="#">Previous</a></li>
+			<li class="page-item disabled"><a href="#">Previous</a></li>
 			<li class="page-item"><a href="#" class="page-link">1</a></li>
 			<li class="page-item"><a href="#" class="page-link">2</a></li>
 			<li class="page-item"><a href="#" class="page-link">3</a></li>
@@ -141,7 +78,7 @@
 			<li class="page-item"><a href="#" class="page-link">5</a></li>
 			<li class="page-item"><a href="#" class="page-link">6</a></li>
 			<li class="page-item"><a href="#" class="page-link">7</a></li>
-			<li class="page-item"><a href="#" class="page-link">Next</a></li> -->
+			<li class="page-item"><a href="#" class="page-link">Next</a></li>
 		</ul>
-	</div>
+	</div> -->
 </div>
