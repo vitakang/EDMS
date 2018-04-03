@@ -133,3 +133,7 @@ body {
 	</div>
 </body>
 </html>
+
+<script>
+	var a = '${param.page}';
+</script>
