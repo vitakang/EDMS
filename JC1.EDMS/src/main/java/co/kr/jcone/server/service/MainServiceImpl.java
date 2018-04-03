@@ -3,11 +3,8 @@ package co.kr.jcone.server.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.jcone.server.bean.DocumentBean;
 import co.kr.jcone.server.bean.GroupBean;
+import co.kr.jcone.server.dao.DocumentDao;
 import co.kr.jcone.server.dao.MainDao;
 
 @Service
@@ -25,25 +23,33 @@ public class MainServiceImpl implements MainService{
 	@Autowired
 	private MainDao mainDao;
 	
+	@Autowired
+	private DocumentDao documentDao;
+	
 	@Override
 	public ModelAndView mainPageView(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		
 		List<GroupBean> groupInFolderList = mainDao.selectGroupList();
 		List<GroupBean> groupList = new ArrayList<>();
-		
+		int overCnt = 0;
 		
 		for(int i = 0; i < groupInFolderList.size(); i++) {
 			
 //			System.out.println(" test : " + groupInFolderList.get(i));
 //			System.out.println(" test2 : " + groupList.contains(groupInFolderList.get(i)));
 			
-			for (int j = i; j < groupInFolderList.size(); j++) {
-				if (!groupInFolderList.get(j).getGroup_id().equals(groupInFolderList.get(i).getGroup_id())) {
-					groupList.add(groupInFolderList.get(i));
-				
-//					if (!groupList.contains(groupInFolderList.get(i))) groupList.add(groupInFolderList.get(i));
+			if (groupList.size() <= 0) {
+				groupList.add(groupInFolderList.get(i));
+			} else {
+				for (int j = 0; j < groupList.size(); j++) {
+					if (groupList.get(j).getGroup_id().equals(groupInFolderList.get(i).getGroup_id())) {
+						overCnt++;
+					}
 				}
+				
+				if (overCnt == 0) groupList.add(groupInFolderList.get(i));
+				else overCnt = 0;
 			}
 		}
 		
@@ -70,28 +76,18 @@ public class MainServiceImpl implements MainService{
 	public ModelAndView getListDocument(HttpServletRequest request, DocumentBean bean) {
 		ModelAndView mv = new ModelAndView();
 
-		String title = bean.getTitle();	
+		String folderName = bean.getFOLDER_NAME();	
 		
-		System.out.println(title);
-		List<DocumentBean> list = new ArrayList<>();
-		Calendar cal = new GregorianCalendar();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		DocumentBean documentBean = new DocumentBean();
+//		documentBean.setUSER_ID("vitakang");
+		documentBean.setFOLDER_ID(bean.getFOLDER_ID());
+		documentBean.setGROUP_ID("4");
 		
-		for(int i = 0; i < 10; i++) {
-			cal.add(Calendar.DATE, i);
-			DocumentBean db = new DocumentBean();
-			db.setDOCUMENT_ID(""+i+1);
-			db.setGROUP_NAME("그룹"+i);
-			db.setBIND_TITLE("섭타"+i);
-			db.setDOCUMENT_TITLE("메인제목ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ"+i);
-			db.setUSER_ID("작성"+i);
-			db.setREGISTER_DATE(dateFormat.format(cal.getTime()));
-			list.add(db);
-		}
-		
+		List<DocumentBean> list = documentDao.getDocumentList(documentBean);
+
 		mv.addObject("d_list", list);
 		mv.setViewName("content/listDocument");
-		mv.addObject("table_title", title);
+		mv.addObject("folderName", folderName);
 		// todo
 		// 문서 목록
 		return mv;
