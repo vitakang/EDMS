@@ -3,11 +3,8 @@ package co.kr.jcone.server.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,19 +28,24 @@ public class MainServiceImpl implements MainService{
 		
 		List<GroupBean> groupInFolderList = mainDao.selectGroupList();
 		List<GroupBean> groupList = new ArrayList<>();
-		
+		int overCnt = 0;
 		
 		for(int i = 0; i < groupInFolderList.size(); i++) {
 			
 //			System.out.println(" test : " + groupInFolderList.get(i));
 //			System.out.println(" test2 : " + groupList.contains(groupInFolderList.get(i)));
 			
-			for (int j = i; j < groupInFolderList.size(); j++) {
-				if (!groupInFolderList.get(j).getGroup_id().equals(groupInFolderList.get(i).getGroup_id())) {
-					groupList.add(groupInFolderList.get(i));
-				
-//					if (!groupList.contains(groupInFolderList.get(i))) groupList.add(groupInFolderList.get(i));
+			if (groupList.size() <= 0) {
+				groupList.add(groupInFolderList.get(i));
+			} else {
+				for (int j = 0; j < groupList.size(); j++) {
+					if (groupList.get(j).getGroup_id().equals(groupInFolderList.get(i).getGroup_id())) {
+						overCnt++;
+					}
 				}
+				
+				if (overCnt == 0) groupList.add(groupInFolderList.get(i));
+				else overCnt = 0;
 			}
 		}
 		
