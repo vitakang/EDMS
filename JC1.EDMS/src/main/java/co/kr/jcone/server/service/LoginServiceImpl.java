@@ -20,12 +20,15 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public String login(Map<String, String> paramMap, HttpSession httpSession) {
-		int result = loginDAO.loginChceck(paramMap);
+		Map<String, String> userInfoMap = loginDAO.loginChceck(paramMap);
 		String resultMsg = null;
-		String userId = paramMap.get("email");
+		String userId = null;
 		
-		if (result > 0) {
+		if (userInfoMap != null && !userInfoMap.isEmpty()) {
+			userId = paramMap.get("id");
 			httpSession.setAttribute("userId", userId);
+			httpSession.setAttribute("userName", userInfoMap.get("USER_NAME"));
+			httpSession.setAttribute("groupId", userInfoMap.get("GROUP_ID"));
 			resultMsg = "S";
 		} else {
 			resultMsg = "F";

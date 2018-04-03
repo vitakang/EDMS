@@ -14,9 +14,9 @@ public class LoginDaoImpl implements LoginDao{
 	private SqlSession sqlSession;
 
 	@Override
-	public int loginChceck(Map<String, String> paramMap) {
-		int cnt = sqlSession.selectOne("edmsMapper.loginCheck", paramMap);
-		return cnt;
+	public Map<String, String> loginChceck(Map<String, String> paramMap) {
+		Map<String, String> userInfoMap = sqlSession.selectOne("edmsMapper.loginCheck", paramMap);
+		return userInfoMap;
 	}
 	
 	public List<Map<String, String>> getList() {
