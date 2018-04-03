@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JC1 EDMS</title>
 <link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.css">
 </head>
 <body>
 	<div id="header">
@@ -63,6 +64,15 @@
 								<c:forEach var="gList" items="${groupList}">
 									<li class="forderPut group_${gList.group_id}">
 										<button type="button" class="open"></button> <a class="open box-color">${gList.group_name}</a>
+										<ul id="subMenu1-1">
+										<c:forEach var="gFolderList" items="${groupInFolderList}">
+											<c:if test="${gFolderList.parent_folder_id ==  gList.group_id}">
+													<li class="forderPut">
+													<a onclick="documentContent(this)" class="box-color" id="${gFolderList.folder_id }">${gFolderList.folder_name }</a>
+													</li>
+											</c:if>
+										</c:forEach>
+										</ul>
 									<!-- <ul id="subMenu1-1">
 										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-안녕</a></li>
 										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-second</a></li>
@@ -70,12 +80,12 @@
 									</li>
 								</c:forEach>
 <!-- 								<li class="forderPut">
-									<button type="button" class="open"></button> <a class="open box-color">first-first</a>
-									<ul id="subMenu1-1">
-										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-안녕</a></li>
-										<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-second</a></li>
-									</ul>
-								</li>
+										<button type="button" class="open"></button> <a class="open box-color">first-first</a>
+										<ul id="subMenu1-1">
+											<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-안녕</a></li>
+											<li class="forderPut"><a onclick="documentContent(this)" class="box-color">first-first-second</a></li>
+										</ul>
+									</li>
 								<li class="forderPut"><a href="#" class="box-color">first-second</a></li> -->
 							</ul>
 						</li>
@@ -95,12 +105,46 @@
 	</div>
 	<div id="footer"></div>
 	
-<div class="dim-layer">
+<div class="dim-layer" id="layerDiv">
+    <div class="dimBg"></div>
+    <div id="layer" class="pop-layer">
+        <div class="pop-container">
+            <div class="pop-conts">
+				<div id="layer-conts">
+					<ul id="treeMenu">
+						<li>
+							<button type="button" class="holer"></button> <a class="open box-color" style="color: black;">JCONE</a>
+							<ul id="subMenu1">
+								<c:forEach var="gList" items="${groupList}">
+									<li class="forderPut group_${gList.group_id}">
+										<button type="button" class="open"></button> <a class="open box-color" style="color: black;">${gList.group_name}</a>
+										<ul id="subMenu1-1">
+										<c:forEach var="gFolderList" items="${groupInFolderList}">
+											<c:if test="${gFolderList.parent_folder_id ==  gList.group_id}">
+													<li class="forderPut"><a onclick="setDocumentFolderValue(this)" class="box-color" style="color: black;" id="${gFolderList.folder_id }">${gFolderList.folder_name }</a></li>
+											</c:if>
+										</c:forEach>
+										</ul>
+									</li>
+								</c:forEach>
+							</ul>
+						</li>
+					</ul>
+				</div>
+                <div class="btn-r">
+                    <a href="#" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
+</div>	
+<div class="dim-layer" id="layer2Div">
     <div class="dimBg"></div>
     <div id="layer2" class="pop-layer">
         <div class="pop-container">
             <div class="pop-conts">
-				<div id="layer-conts"></div>
+				<div id="layer-conts2"></div>
                 <div class="btn-r">
                     <a href="#" class="btn-layerClose">Close</a>
                 </div>
@@ -109,21 +153,37 @@
         </div>
     </div>
 </div>
+<div class="wrap-loading display-none">
+    <div><img src="resources/images/loading.gif" /></div>
+</div>   
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="resources/js/jquery-ui.js"></script>
+<script src="resources/js/datepicker-ko.js"></script>
 <script type="text/javascript">
 
+//문서 목록
 function documentContent(obj) {
-	var arr = {title:obj.text,sub:'sub'};
+	var arr = {FOLDER_NAME:obj.text,FOLDER_ID:obj.id};
 	var url = 'listDocument';
 	console.log(arr);
 	console.log(url);
 	changeContent(url,arr);
 }
 
-function viewDetail(idx,title) {
+function setDocumentFolderValue(obj) {
+	var id = obj.id;
+	var text = obj.text;
+	$('#documentFolder').val(text);
+	$('#documentFolderId').val(id);
+
+    $('#layerDiv').fadeOut();
+}
+
+// 상세보기
+function viewDetail(documentId,folderName) {
 	var url = 'viewDetail';
-	var arr = {idx:idx,title:title};
+	var arr = {DOCUMENT_ID:documentId,FOLDER_NAME:folderName};
 	changeContent(url,arr);
 }
 
@@ -171,10 +231,13 @@ $(document).ready(function() {
 		if(cl.indexOf(myGroupId) > 0){
 			continue;
 		}
-		
+
 		childObj[i].children[0].classList.remove('open');
 		childObj[i].children[0].classList.add('holer');
 		childObj[i].children[0].classList.add('end');
+
+		childObj[i].children[1].classList.remove('open');
+		childObj[i].children[1].classList.add('holer');
 	}
 	
 
@@ -184,11 +247,10 @@ $(document).ready(function() {
 	var nestedCont = $("li.forderPut > ul > li.forderPut").parent();
 	var that;
 	
-	
 	var tree = {
 		init : function() {
 			console.log(nestedCont);
-			//nestedCont.hide();
+			nestedCont.hide();
 			//$("li:last-child").addClass("end");			
 			$("button.open").each(function() {
 				$(opener).click(function(target) {
@@ -205,11 +267,21 @@ $(document).ready(function() {
 		},
 		click : function(_tar) {
 			that = _tar;
-			$(that).next().next().show();
+			if($(that)[0].tagName == 'BUTTON'){
+				$(that).next().next().show();
+			}else if($(that)[0].tagName == 'A'){
+				$(that).next().show();
+			}
+			
 			$(that).prev().toggleClass("close");
 			$(that).toggleClass("close");
 			if (!$(that).hasClass("close")) {
-				$(that).next().next().hide();
+
+				if($(that)[0].tagName == 'BUTTON'){
+					$(that).next().next().hide();
+				}else if($(that)[0].tagName == 'A'){
+					$(that).next().hide();
+				}
 			}
 		}
 	}
@@ -221,8 +293,13 @@ function layer_popup(el){
 
     var $el = $(el);        //레이어의 id를 $el 변수에 저장
     var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+    
+    if(el == '#layer'){
+    	$('#layer-conts').css('height','400px');
+    	$('#layer-conts').css('overflow-y','scroll');
+    }
 
-    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+    isDim ? $(el+'Div').fadeIn() : $el.fadeIn();
 
     var $elWidth = ~~($el.outerWidth()),
         $elHeight = ~~($el.outerHeight()),
@@ -240,12 +317,12 @@ function layer_popup(el){
     }
 
     $el.find('a.btn-layerClose').click(function(){
-        isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+        isDim ? $(el+'Div').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
         return false;
     });
 
     $('.layer .dimBg').click(function(){
-        $('.dim-layer').fadeOut();
+        $(el+'Div').fadeOut();
         return false;
     });
 

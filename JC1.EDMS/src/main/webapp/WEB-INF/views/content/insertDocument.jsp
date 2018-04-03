@@ -6,153 +6,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="resources/css/table2.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- <style type="text/css">
-	.table-wrapper {
-        background: #fff;
-        padding: 20px 25px;
-        margin: 30px auto;
-		border-radius: 3px;
-        box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    }
-	.table-wrapper .btn {
-		float: right;
-		color: #333;
-    	background-color: #fff;
-		border-radius: 3px;
-		border: none;
-		outline: none !important;
-		margin-left: 10px;
-	}
-	.table-wrapper .btn:hover {
-        color: #333;
-		background: #f2f2f2;
-	}
-	.table-wrapper .btn.btn-primary {
-		color: #fff;
-		background: #03A9F4;
-	}
-	.table-wrapper .btn.btn-primary:hover {
-		background: #03a3e7;
-	}
-	.table-title .btn {		
-		font-size: 13px;
-		border: none;
-	}
-	.table-title .btn i {
-		float: left;
-		font-size: 21px;
-		margin-right: 5px;
-	}
-	.table-title .btn span {
-		float: left;
-		margin-top: 2px;
-	}
-	.table-title {
-		color: #fff;
-		background: #4b5366;		
-		padding: 16px 25px;
-		margin: -20px -25px 10px;
-		border-radius: 3px 3px 0 0;
-    }
-    .table-title h2 {
-		margin: 5px 0 0;
-		font-size: 24px;
-	}
-	.show-entries select.form-control {        
-        width: 60px;
-		margin: 0 5px;
-	}
-	.table-filter .filter-group {
-        float: right;
-		margin-left: 15px;
-    }
-	.table-filter input, .table-filter select {
-		height: 34px;
-		border-radius: 3px;
-		border-color: #ddd;
-        box-shadow: none;
-	}
-	.table-filter {
-		padding: 5px 0 15px;
-		border-bottom: 1px solid #e9e9e9;
-		margin-bottom: 5px;
-	}
-	.table-filter .btn {
-		height: 34px;
-	}
-	.table-filter label {
-		font-weight: normal;
-		margin-left: 10px;
-	}
-	.table-filter select, .table-filter input {
-		display: inline-block;
-		margin-left: 5px;
-	}
-	.table-filter input {
-		width: 200px;
-		display: inline-block;
-	}
-	.filter-group select.form-control {
-		width: 110px;
-	}
-	.filter-icon {
-		float: right;
-		margin-top: 7px;
-	}
-	.filter-icon i {
-		font-size: 18px;
-		opacity: 0.7;
-	}	
-    table.table tr th, table.table tr td {
-        border-color: #e9e9e9;
-		padding: 12px 15px;
-		vertical-align: middle;
-    }
-	table.table tr th:first-child {
-		width: 60px;
-	}
-	table.table tr th:last-child {
-		width: 80px;
-	}
-    table.table-striped tbody tr:nth-of-type(odd) {
-    	background-color: #fcfcfc;
-	}
-	table.table-striped.table-hover tbody tr:hover {
-		background: #f5f5f5;
-	}
-    table.table th i {
-        font-size: 13px;
-        margin: 0 5px;
-        cursor: pointer;
-    }	
-	table.table td a {
-		font-weight: bold;
-		color: #566787;
-		display: inline-block;
-		text-decoration: none;
-	}
-	table.table td a:hover {
-		color: #2196F3;
-	}
-	table.table td a.view {        
-		width: 30px;
-		height: 30px;
-		color: #2196F3;
-		border: 2px solid;
-		border-radius: 30px;
-		text-align: center;
-    }
-    table.table td a.view i {
-        font-size: 22px;
-		margin: 2px 0 0 1px;
-    }   
-	table.table .avatar {
-		border-radius: 50%;
-		vertical-align: middle;
-		margin-right: 10px;
-	}
-</style> -->
 <div class="table-wrapper">
 	<div class="table-title">
 		<h2>
@@ -182,14 +35,15 @@
 			<tr style="height:8%">
 				<td class="table-left">작성일자</td>
 				<td class="table-right">
-					<input type="text" id="registerDate" style="width: 40%;" >
+					<input type="text" id="registerDate" style="width: 40%;" readonly="readonly">
 					<input type="button" class="layer-btn" value="달력" id="datePicker">
 				</td>
 			</tr>
 			<tr style="height:8%">
 				<td class="table-left">문서함</td>
 				<td class="table-right">
-					<input type="text" style="width: 40%;">
+					<input type="text" style="width: 40%;" readonly="readonly" id="documentFolder">
+					<input type="text" style="display: none;" id="documentFolderId">
 					<input type="button" class="layer-btn" value="찾아보기" id="documentBox">
 				</td>
 			</tr>
@@ -224,7 +78,7 @@
 			<tr style="height:8%">
 				<td colspan="2" style="text-align: right; width: 100%">
 					<input type="button" value="등록" onclick="sendData()">
-					<input type="button" value="초기화">
+					<input type="button" value="초기화" onclick="dataClear()">
 				</td>
 			</tr>
 		</tbody>
@@ -237,24 +91,41 @@ console.log('누를때마다 호출');
 var form_Data = new FormData();
 var file_arr = new Array();
 
-$('.layer-btn').click(function(){
+$('#datePicker').click(function(){
 	layer_popup('#layer2');
     var id = $(this).attr('id');
     
     console.log(id);
 	
-    if(id == 'datePicker'){
-        console.log('달력');
-    	$('#layer-conts').datepicker({
-    		onSelect:function(dateText, inst) {
-    			$('#registerDate').val(dateText);
-            	console.log(dateText);
-                $('.dim-layer').fadeOut();
-        	}
-    	});	
-    }else if(id == 'documentBox'){
-        console.log('문서함');
-    }
+    console.log('달력');
+	$('#layer-conts2').datepicker({
+		onSelect:function(dateText, inst) {
+			$('#registerDate').val(dateText);
+        	console.log(dateText);
+            $('#layer2Div').fadeOut();
+    	}
+	});
+	
+});
+
+function dataClear() {
+	
+	$('#bindTitle').val('');
+	$('#documentTitle').val('');
+	$('#documentDescrption').val('');
+	$('#registerDate').val('');
+	$('#documentFolderId').val('');
+	$('#documentFolder').val('');
+	$('#selectedFile').val('');
+	$('#fileListBox option').remove();
+	$('input[name=securityLevel]:checked').prop('checked',false);
+	
+}
+
+$('#documentBox').click(function(){
+	layer_popup('#layer');
+	
+    console.log('문서함');
 	
 });
 
@@ -272,9 +143,6 @@ $('#attachFile').click(function() {
 		fileList.add(option);
 		
 		file_arr.push(fileObj);
-		//console.log(fileObj);
-		
-		//form_Data.append('files[]', fileObj);
 	}
 
 });
@@ -294,33 +162,94 @@ $('#fileDelete').click(function() {
 
 function sendData() {
 	
-	for(var i = 0; i < file_arr.length; i++){
-		form_Data.append('multiPartFiles',file_arr[i]);
-	}
+	var fileSize = file_arr.length;
 	
+	var bTitle = $('#bindTitle').val();
+	var dTitle = $('#documentTitle').val();
+	var dDescrption = $('#documentDescrption').val();
+	var rDate = $('#registerDate').val();
 	var checkedVal = '';
+	var fId = $('#documentFolderId').val();
+	
 	$("input[name=securityLevel]:checked").each(function() {
 		  checkedVal = $(this).val();
 	});
+
+	if(bTitle == ''){
+		alert('철제목을 입력해주세요');
+		return;
+	}
+
+	if(dTitle == ''){
+		alert('문서제목을 입력해주세요');
+		return;
+	}
+
+	if(dDescrption == ''){
+		alert('문서요약을 입력해주세요');
+		return;
+	}
+
+	if(rDate == ''){
+		alert('작성일자을 선택해주세요');
+		return;
+	}
 	
-	form_Data.append('BIND_TITLE', $('#bindTitle').val());
-	form_Data.append('DOCUMENT_TITLE', $('#documentTitle').val());
-	form_Data.append('DOCUMENT_DESCRIPTION', $('#documentDescrption').val());
-	form_Data.append('REGISTER_DATE', $('#registerDate').val());
-	form_Data.append('SECURITY_GRADE', checkedVal);
+	if(fId == ''){
+		alert('문서함을 선택해주세요');
+		return;
+	}
+
+	if(checkedVal == ''){
+		alert('보안등급을 선택해주세요');
+		return;
+	}
 	
-	$.ajax({
-        url: '/jcone/uploadDocument',
-        enctype: 'multipart/form-data',
-        processData: false, 
-        contentType: false,
-        cache: false,
-        data: form_Data,
-        type: 'POST',
-        success: function(result){
-            alert("업로드 성공!!");
-        }
-    });
+	if(fileSize > 0){
+		for(var i = 0; i < fileSize; i++){
+			form_Data.append('multiPartFiles',file_arr[i]);
+		}
+		
+		
+		form_Data.append('BIND_TITLE', $('#bindTitle').val());
+		form_Data.append('DOCUMENT_TITLE', $('#documentTitle').val());
+		form_Data.append('DOCUMENT_DESCRIPTION', $('#documentDescrption').val());
+		form_Data.append('REGISTER_DATE', $('#registerDate').val());
+		form_Data.append('SECURITY_GRADE', checkedVal);
+		form_Data.append('FOLDER_ID', $('#documentFolderId').val());
+		
+		$.ajax({
+	        url: '/jcone/uploadDocument',
+	        enctype: 'multipart/form-data',
+	        processData: false, 
+	        contentType: false,
+	        cache: false,
+	        data: form_Data,
+	        type: 'POST',
+	        success: function(result){
+	        	console.log(result);
+	        	if(result == 'success'){
+		            alert("업로드 성공!!");
+		            movePage('/jcone/main');
+	        	}else{
+	        		alert(result);
+		        	form_Data = new FormData();
+	        	}
+	        },beforeSend:function(){
+	            //(이미지 보여주기 처리)
+	            $('.wrap-loading').removeClass('display-none');
+	        },complete:function(){
+	           // (이미지 감추기 처리)
+	            $('.wrap-loading').addClass('display-none');
+	        },error:function(e){
+	        	alert('오류 발생\n' + e);
+	        	form_Data = new FormData();
+	        },timeout:100000 //"응답제한시간 ms"
+	
+	    });
+	}else{
+		alert('파일을 선택해주세요');
+	}
 }
 
 $('.radio-label').click(function() {

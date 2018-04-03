@@ -25,6 +25,10 @@
 	<!-- multipartResolver -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxUploadSize="104857600" />
 
+	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations" value="classpath:/config.properties" />
+		<beans:property name="fileEncoding" value="UTF-8" />
+	</beans:bean>
 	<!-- <interceptors>
 		<interceptor>
 			<mapping path="/**" />

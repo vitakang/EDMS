@@ -13,7 +13,7 @@
 <div class="table-wrapper">
 	<div class="table-title">
 		<h2>
-			 ※ ${table_title} 문서목록
+			 ※ ${folderName} 문서목록
 		</h2>
 	</div>
 	<div class="table-filter">
@@ -46,16 +46,42 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="list" items="${d_list }">
-				<tr style="text-align: center;">
-					<td class="listTable1 listCheck" id="${list.DOCUMENT_ID}"><input type="checkbox"></td>
-					<td class="listTable2">${list.GROUP_NAME}</td>
-					<td class="listTable3">${list.BIND_TITLE}</td>
-					<td class="listTable4" style="cursor: pointer; " onclick="viewDetail(${list.DOCUMENT_ID},'${table_title}')">${list.DOCUMENT_TITLE}</td>
-					<td class="listTable5">${list.USER_ID}</td>
-					<td class="listTable6">${list.REGISTER_DATE}</td>
-				</tr>	
-			</c:forEach>
+		
+			<c:if test="${fn:length(d_list) < 10}">
+				<c:forEach var="list" items="${d_list }">
+					<tr style="text-align: center;">
+						<td class="listTable1 listCheck" id="${list.DOCUMENT_ID}"><input type="checkbox"></td>
+						<td class="listTable2">${list.GROUP_NAME}</td>
+						<td class="listTable3">${list.BIND_TITLE}</td>
+						<td class="listTable4" style="cursor: pointer; " onclick="viewDetail('${list.DOCUMENT_ID}','${folderName}')">${list.DOCUMENT_TITLE}</td>
+						<td class="listTable5">${list.USER_ID}</td>
+						<td class="listTable6">${list.REGISTER_DATE}</td>
+					</tr>	
+				</c:forEach>
+				<c:forEach begin="0" end="${10 - fn:length(d_list)}">
+					<tr style="text-align: center;">
+						<td class="listTable1" ></td>
+						<td class="listTable2"></td>
+						<td class="listTable3"></td>
+						<td class="listTable4"></td>
+						<td class="listTable5"></td>
+						<td class="listTable6"></td>
+					</tr>	
+				</c:forEach>
+				
+			</c:if>
+			<c:if test="${fn:length(d_list) > 10}">
+				<c:forEach var="list" items="${d_list }">
+					<tr style="text-align: center;">
+						<td class="listTable1 listCheck" id="${list.DOCUMENT_ID}"><input type="checkbox"></td>
+						<td class="listTable2">${list.GROUP_NAME}</td>
+						<td class="listTable3">${list.BIND_TITLE}</td>
+						<td class="listTable4" style="cursor: pointer; " onclick="viewDetail('${list.DOCUMENT_ID}','${folderName}')">${list.DOCUMENT_TITLE}</td>
+						<td class="listTable5">${list.USER_ID}</td>
+						<td class="listTable6">${list.REGISTER_DATE}</td>
+					</tr>	
+				</c:forEach>
+			</c:if>
 			<tr>
 				<td colspan="2" style="text-align: left;">검색건수 :  ${fn:length(d_list)}</td>
 				<td colspan="4" style="text-align: center;">1</td>

@@ -7,6 +7,73 @@
 		select count(*) from document
 	</select>
 	
+	<insert id="insertDocument" parameterType="document">
+		INSERT INTO DOCUMENT(
+			DOCUMENT_ID,
+			REGISTER_DATE,
+			DOCUMENT_DESCRIPTION,
+			SECURITY_GRADE,
+			BIND_TITLE,
+			BIND_ID,
+			DOCUMENT_TITLE,
+			VERSION
+			<!-- USER_ID,
+			USER_NAME,
+			GROUP_ID,
+			GROUP_NAME -->
+		)VALUES(
+			#{DOCUMENT_ID},
+			#{REGISTER_DATE},
+			#{DOCUMENT_DESCRIPTION},
+			#{SECURITY_GRADE},
+			#{BIND_TITLE},
+			#{BIND_ID},
+			#{DOCUMENT_TITLE},
+			#{VERSION}
+		)
+	</insert>
+	
+	<insert id="insertDocumentFile" parameterType="document">
+		INSERT INTO DOCUMENT_FILE(
+			DOCUMENT_FILE_ID,
+			DOCUMENT_ID,
+			ORIGINAL_FILE_NAME,
+			FILE_SIZE,
+			FILE_ORDER
+		) VALUES(
+			#{DOCUMENT_FILE_ID},
+			#{DOCUMENT_ID},
+			#{ORIGINAL_FILE_NAME},
+			#{FILE_SIZE},
+			#{FILE_ORDER}
+		)
+	</insert>
+	
+	<insert id="insertDocumentVersion" parameterType="document">
+		INSERT INTO DOCUMENT_VERSION(
+			DOCUMENT_ID,
+			VERSION,
+			MODIFY_REASON
+			<!-- USER_ID,
+			USER_NAME,
+			ORIGINAL_DOCUMENT_ID -->
+		) VALUES(
+			#{DOCUMENT_ID},
+			#{VERSION},
+			#{MODIFY_REASON}
+		)
+	</insert>
+	
+	<insert id="insertDocumentFolder" parameterType="document">
+		INSERT INTO DOCUMENT_FOLDER(
+			DOCUMENT_ID,
+			FOLDER_ID
+		) VALUES(
+			#{DOCUMENT_ID},
+			#{FOLDER_ID}
+		)
+	</insert>
+	
 	<select id="loginCheck" parameterType="HashMap" resultType="java.lang.Integer">
 		SELECT 
 			COUNT(USER_ID) AS CNT
@@ -22,15 +89,43 @@
 		SELECT * FROM USER_INFORMATION
 	</select>
 	
-	<select id="selectGroupList" resultType="group">
+	<select id="selectGroupList" resultType="group">	
+		SELECT * FROM GROUP_INFORMATION
+	</select>
+	
+	<select id="selectGroupInFolderList" resultType="group">
 		SELECT 
 			* 
 		FROM 
-			GROUP_INFORMATION g LEFT JOIN FOLDER f
+			GROUP_INFORMATION g LEFT JOIN (SELECT * FROM FOLDER WHERE PARENT_FOLDER_ID = '4') f
 		ON 
 			g.group_id = f.PARENT_FOLDER_ID
 		WHERE
 			g.group_type = 'Y'
 	</select>
+	
+	<select id="getDocumentList" parameterType="document" resultType="document">
+		SELECT 
+			D.DOCUMENT_ID,
+ 			D.REGISTER_DATE,
+ 			D.DOCUMENT_DESCRIPTION,
+			D.SECURITY_GRADE,
+			D.BIND_ID,
+			D.BIND_TITLE,
+			D.DOCUMENT_TITLE,
+			D.VERSION,
+			D.GROUP_NAME,
+			F.FOLDER_ID
+		FROM
+			DOCUMENT D, DOCUMENT_FOLDER F
+		WHERE
+				D.DOCUMENT_ID = F.DOCUMENT_ID
+			AND
+				D.DELETE_TYPE != 1
+			AND
+				F.FOLDER_ID = #{FOLDER_ID}
+	</select>
+	
+	
 
 </mapper>

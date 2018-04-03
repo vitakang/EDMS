@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class DocumentBean{
 	
+	// TABLE : document
+	
 	private String DOCUMENT_ID;						// 문서아이디
 	private String REGISTER_TYPE;					// 등록유형
 	private String LIBRARY_POSITION;				// 서고위치
@@ -31,6 +33,33 @@ public class DocumentBean{
 	private String DELETE_TYPE;						// 삭제유형
 	private Date ROW_INPUT_DATE;					// 행 입력 일지
 	private MultipartFile[] multiPartFiles;			// 업로드 요청 파일들
+	
+	// TABLE : document_file
+	
+	private String DOCUMENT_FILE_ID;
+	private String ORIGINAL_FILE_NAME;
+	private int FILE_SIZE;
+	private int FILE_ORDER;
+	
+	// TABLE : document_version
+	
+	private String MODIFY_REASON;
+	private String ORIGINAL_DOCUMENT_ID;
+	
+	// TABLE : document_folder
+	
+	private String FOLDER_ID;
+	
+	// TABLE : folder
+	
+	private String FOLDER_TYPE;
+	private String FOLDER_NAME;
+	private String FOLDER_DESCRIPTION;
+	private String FOLDER_LEVEL;
+	private String PARENT_FOLDER_ID;
+	private String FOLDER_PATH;
+	
+	// TEST
 	
 	private String title;
 	
@@ -183,6 +212,84 @@ public class DocumentBean{
 	}
 	public void setMultiPartFiles(MultipartFile[] multiPartFiles) {
 		this.multiPartFiles = multiPartFiles;
-	}			
-
+	}
+	public String getDOCUMENT_FILE_ID() {
+		return DOCUMENT_FILE_ID;
+	}
+	public void setDOCUMENT_FILE_ID(String dOCUMENT_FILE_ID) {
+		DOCUMENT_FILE_ID = dOCUMENT_FILE_ID;
+	}
+	public String getORIGINAL_FILE_NAME() {
+		return ORIGINAL_FILE_NAME;
+	}
+	public void setORIGINAL_FILE_NAME(String oRIGINAL_FILE_NAME) {
+		ORIGINAL_FILE_NAME = oRIGINAL_FILE_NAME;
+	}
+	public int getFILE_SIZE() {
+		return FILE_SIZE;
+	}
+	public void setFILE_SIZE(int fILE_SIZE) {
+		FILE_SIZE = fILE_SIZE;
+	}
+	public int getFILE_ORDER() {
+		return FILE_ORDER;
+	}
+	public void setFILE_ORDER(int fILE_ORDER) {
+		FILE_ORDER = fILE_ORDER;
+	}
+	public String getMODIFY_REASON() {
+		return MODIFY_REASON;
+	}
+	public void setMODIFY_REASON(String mODIFY_REASON) {
+		MODIFY_REASON = mODIFY_REASON;
+	}
+	public String getORIGINAL_DOCUMENT_ID() {
+		return ORIGINAL_DOCUMENT_ID;
+	}
+	public void setORIGINAL_DOCUMENT_ID(String oRIGINAL_DOCUMENT_ID) {
+		ORIGINAL_DOCUMENT_ID = oRIGINAL_DOCUMENT_ID;
+	}
+	public String getFOLDER_ID() {
+		return FOLDER_ID;
+	}
+	public void setFOLDER_ID(String fOLDER_ID) {
+		FOLDER_ID = fOLDER_ID;
+	}
+	public String getFOLDER_TYPE() {
+		return FOLDER_TYPE;
+	}
+	public void setFOLDER_TYPE(String fOLDER_TYPE) {
+		FOLDER_TYPE = fOLDER_TYPE;
+	}
+	public String getFOLDER_NAME() {
+		return FOLDER_NAME;
+	}
+	public void setFOLDER_NAME(String fOLDER_NAME) {
+		FOLDER_NAME = fOLDER_NAME;
+	}
+	public String getFOLDER_DESCRIPTION() {
+		return FOLDER_DESCRIPTION;
+	}
+	public void setFOLDER_DESCRIPTION(String fOLDER_DESCRIPTION) {
+		FOLDER_DESCRIPTION = fOLDER_DESCRIPTION;
+	}
+	public String getFOLDER_LEVEL() {
+		return FOLDER_LEVEL;
+	}
+	public void setFOLDER_LEVEL(String fOLDER_LEVEL) {
+		FOLDER_LEVEL = fOLDER_LEVEL;
+	}
+	public String getPARENT_FOLDER_ID() {
+		return PARENT_FOLDER_ID;
+	}
+	public void setPARENT_FOLDER_ID(String pARENT_FOLDER_ID) {
+		PARENT_FOLDER_ID = pARENT_FOLDER_ID;
+	}
+	public String getFOLDER_PATH() {
+		return FOLDER_PATH;
+	}
+	public void setFOLDER_PATH(String fOLDER_PATH) {
+		FOLDER_PATH = fOLDER_PATH;
+	}		
+	
 }

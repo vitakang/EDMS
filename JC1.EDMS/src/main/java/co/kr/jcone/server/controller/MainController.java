@@ -56,8 +56,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/listDocument")
-	public ModelAndView listDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean,
-			@RequestParam("title") String title,@RequestParam("sub") String sub) {
+	public ModelAndView listDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean) {
 
 		
 		return mainService.getListDocument(request, bean);
@@ -66,13 +65,11 @@ public class MainController {
 	
 
 	@RequestMapping(value = "/viewDetail")
-	public ModelAndView viewDetail(HttpServletRequest request, @RequestParam("idx") String idx,@RequestParam("title") String title) {
+	public ModelAndView viewDetail(HttpServletRequest request, @ModelAttribute DocumentBean bean) {
 		
 		ModelAndView mv = new ModelAndView();
 		
-		System.out.println(idx);
-		System.out.println("viewDetail : "+ title);
-		mv.addObject("title",title);
+		mv.addObject("folderName",bean.getFOLDER_NAME());
 		mv.setViewName("content/viewDetail");
 		
 		return mv;

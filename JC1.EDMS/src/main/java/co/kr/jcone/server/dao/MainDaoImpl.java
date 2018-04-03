@@ -18,6 +18,13 @@ public class MainDaoImpl implements MainDao{
 	public List<GroupBean> selectGroupList() {
 		return sqlSession.selectList("edmsMapper.selectGroupList");
 	}
+
+	@Override
+	public List<GroupBean> selectGroupInFolderList() {
+		return sqlSession.selectList("edmsMapper.selectGroupInFolderList");
+	}
+	
+	
 	
 	
 	
