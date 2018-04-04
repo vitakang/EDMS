@@ -74,15 +74,27 @@
 		)
 	</insert>
 	
-	<select id="loginCheck" parameterType="HashMap" resultType="java.lang.Integer">
+	<select id="loginCheck" parameterType="HashMap" resultType="HashMap">
 		SELECT 
+			A.USER_ID AS USER_ID , 
+			A.USER_NAME AS USER_NAME, 
+			B.GROUP_ID AS GROUP_ID 
+		FROM 
+			USER_INFORMATION A , GROUP_MEMBER B 
+		WHERE 
+			A.USER_ID = B.MEMBER_ID 
+		AND 
+			A.USER_ID=#{id}
+		AND
+			A.USER_PASSWORD = #{password}
+		<!-- SELECT 
 			COUNT(USER_ID) AS CNT
 		FROM
 			USER_INFORMATION
 		WHERE
 			USER_ID = #{email}
 		AND
-			USER_PASSWORD = #{password}
+			USER_PASSWORD = #{password} -->
 	</select>
 	
 	<select id="getList" resultType="HashMap">	
