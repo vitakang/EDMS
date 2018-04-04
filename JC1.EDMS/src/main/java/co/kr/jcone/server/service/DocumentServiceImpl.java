@@ -7,14 +7,17 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.jcone.server.bean.DocumentBean;
 import co.kr.jcone.server.bean.PathBean;
@@ -30,7 +33,7 @@ public class DocumentServiceImpl implements DocumentService{
 	private DocumentDao documentDao;
 
 	@Override
-	public String uploadDocument(HttpServletRequest request, DocumentBean bean) {
+	public String uploadDocument(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		
 		// ID를 위한 날짜 (밀리세컨드)
 	 	Date today = new Date();
@@ -55,7 +58,7 @@ public class DocumentServiceImpl implements DocumentService{
 			
 			String bindTitle = MainUtls.changeTextUTF8(bean.getBIND_TITLE());
 			String documentTitle = MainUtls.changeTextUTF8(bean.getDOCUMENT_TITLE());
-			String securityCode = MainUtls.changeSecurityGradeCode(MainUtls.changeTextUTF8(bean.getSECURITY_GRADE()));
+			String securityCode = MainUtls.changeSecurityGradeCode(MainUtls.changeTextUTF8(bean.getSECURITY_GRADE()),"1");
 			String documentId = documentTitle + "_" + dateMiliSecond;
 			
 //			System.out.println(bindTitle + dateMiliSecond);
@@ -176,5 +179,29 @@ public class DocumentServiceImpl implements DocumentService{
 		
 		return "success";
 	}
+
+	@Override
+	public ModelAndView viewDetail(HttpServletRequest request, DocumentBean bean, HttpSession session) {
+
+		ModelAndView mv = new ModelAndView();
+		String documentId = bean.getDOCUMENT_ID();
+		
+		System.out.println(documentId);
+		
+		DocumentBean documentBean = documentDao.viewDetail(documentId);
+		List<DocumentBean> documentFileBean = documentDao.selectFileListFromDocumentId(documentId);
+		
+		documentBean.setSECURITY_GRADE(MainUtls.changeSecurityGradeCode(documentBean.getSECURITY_GRADE(),"2"));
+		
+		mv.addObject("folderName",bean.getFOLDER_NAME());
+		mv.addObject("documentBean",documentBean);
+		mv.addObject("fileList",documentFileBean);
+		mv.setViewName("content/viewDetail");
+		
+		
+		return mv;
+	}
+	
+	
 
 }

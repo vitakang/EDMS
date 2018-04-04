@@ -20,15 +20,6 @@ public class DocumentDaoImpl implements DocumentDao{
 	
 	@Override
 	public int insertDocument(DocumentBean db) {
-
-		System.out.println(db.getDOCUMENT_ID());
-		System.out.println(db.getREGISTER_DATE());
-		System.out.println(db.getDOCUMENT_DESCRIPTION());
-		System.out.println(db.getSECURITY_GRADE());
-		System.out.println(db.getBIND_TITLE());
-		System.out.println(db.getBIND_ID());
-		System.out.println(db.getDOCUMENT_TITLE());
-		System.out.println(db.getVERSION());
 		
 		return sqlSession.insert("edmsMapper.insertDocument", db);
 	}
@@ -58,7 +49,20 @@ public class DocumentDaoImpl implements DocumentDao{
 	public List<DocumentBean> getDocumentList(DocumentBean documentBean) {
 		return sqlSession.selectList("edmsMapper.getDocumentList", documentBean);
 	}
-	
-	
 
+	@Override
+	public DocumentBean viewDetail(String documentId) {
+		return sqlSession.selectOne("edmsMapper.viewDetail", documentId);
+	}
+
+	@Override
+	public List<DocumentBean> selectFileListFromDocumentId(String documentId) {
+		return sqlSession.selectList("edmsMapper.selectFileListFromDocumentId", documentId);
+	}
+
+	@Override
+	public String getFileOriginalPath(DocumentBean bean) {
+		return sqlSession.selectOne("edmsMapper.getFileOriginalPath", bean);
+	}
+	
 }

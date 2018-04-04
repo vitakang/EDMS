@@ -1,12 +1,17 @@
 package co.kr.jcone.server.service;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +32,10 @@ public class MainServiceImpl implements MainService{
 	private DocumentDao documentDao;
 	
 	@Override
-	public ModelAndView mainPageView(HttpServletRequest request) {
+	public ModelAndView mainPageView(HttpServletRequest request, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		
-		List<GroupBean> groupInFolderList = mainDao.selectGroupList();
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList();
 		List<GroupBean> groupList = new ArrayList<>();
 		int overCnt = 0;
 		
@@ -73,7 +78,7 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public ModelAndView getListDocument(HttpServletRequest request, DocumentBean bean) {
+	public ModelAndView getListDocument(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 
 		String folderName = bean.getFOLDER_NAME();	
@@ -93,4 +98,65 @@ public class MainServiceImpl implements MainService{
 		return mv;
 	}
 
+	@Override
+	public String download(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean) {
+		
+		
+		String documentFileId = bean.getDOCUMENT_FILE_ID();
+		
+		response.setHeader("Cache-Control", "max-age=0");
+
+		if (documentFileId == null || "".equals(documentFileId)) {
+			return "fail"; 
+		} else {
+
+			String fullPath = documentDao.getFileOriginalPath(bean);
+
+			File file = new File(fullPath);
+
+			if (!file.exists()) {
+				return "fail"; 
+			} else {
+
+				FileInputStream fin = null;
+				ServletOutputStream sout = null;
+
+				try {
+					int len = (int) file.length();
+					fin = new FileInputStream(file);
+					byte[] data = new byte[len];
+					fin.read(data);
+
+					response.setContentType("multipart/form-data;boundary=dkjseu40f9844djs8dviwdf;charset=UTF-8");
+					response.setHeader("Content-Transfer-Encoding", "base64");
+					response.setHeader("Content-Disposition", "attachment;filename=" + documentFileId + ";");
+					response.setHeader("Content-Length", String.valueOf(len));
+
+					sout = response.getOutputStream();
+					sout.write(data, 0, len);
+					sout.flush();
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (sout != null) {
+						try {
+							sout.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					if (fin != null) {
+						try {
+							fin.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
+		return "ok";
+	}
+	
 }

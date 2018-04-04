@@ -28,6 +28,7 @@ public class LoginController {
 
 	@RequestMapping(value = "view")
 	public ModelAndView loginView(Locale locale, Model model) {
+		
 		return new ModelAndView("login");
 	}
 
