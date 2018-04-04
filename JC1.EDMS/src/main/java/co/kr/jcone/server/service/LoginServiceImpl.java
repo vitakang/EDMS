@@ -22,13 +22,13 @@ public class LoginServiceImpl implements LoginService {
 	public String login(Map<String, String> paramMap, HttpSession httpSession) {
 		Map<String, String> userInfoMap = loginDAO.loginChceck(paramMap);
 		String resultMsg = null;
-		String userId = null;
+		String userId = paramMap.get("id");
 		
 		if (userInfoMap != null && !userInfoMap.isEmpty()) {
-			userId = paramMap.get("id");
 			httpSession.setAttribute("userId", userId);
 			httpSession.setAttribute("userName", userInfoMap.get("USER_NAME"));
 			httpSession.setAttribute("groupId", userInfoMap.get("GROUP_ID"));
+			httpSession.setAttribute("groupName", userInfoMap.get("GROUP_NAME"));
 			resultMsg = "S";
 		} else {
 			resultMsg = "F";

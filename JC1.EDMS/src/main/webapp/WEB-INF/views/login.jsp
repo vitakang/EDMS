@@ -113,8 +113,8 @@ body {
 						<div class="tab-pane active" id="login">
 							<img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
 							<form class="form-signin" id="formData">
-								<input type="text" class="form-control" placeholder="Id" required autofocus name="id" value="test">
-								<input type="password" class="form-control" placeholder="Password" required name="password" value="test">
+								<input type="text" class="form-control" placeholder="Id" required autofocus name="id" value="junkim">
+								<input type="password" class="form-control" placeholder="Password" required name="password" value="junkim">
 								<input type="button" class="btn btn-lg btn-default btn-block" value="Login" onclick="login();"/>
 							</form>
 							<!-- <div id="tabs" data-tabs="tabs">
