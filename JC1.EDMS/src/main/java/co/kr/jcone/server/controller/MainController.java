@@ -77,10 +77,18 @@ public class MainController {
 		
 		return documentService.teamFolderInsert(request, bean, session);
 	}
+	
 	@RequestMapping(value = "/teamFolderManager")
 	public ModelAndView teamFolderManager(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
 		
 		return documentService.teamFolderManager(request, bean, session);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/insertFolder")
+	public String insertFolder(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
+		
+		return documentService.insertFolder(request, bean, session);
 	}
 
 	@RequestMapping(value = "/setting")

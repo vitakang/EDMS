@@ -24,4 +24,10 @@ public interface DocumentDao {
 
 	String getFileOriginalPath(DocumentBean bean);
 
+	List<DocumentBean> selectGroupFolderList(DocumentBean bean);
+
+	int insertFolder(DocumentBean bean);
+
+	List<DocumentBean> selectTeamFolderList(DocumentBean bean);
+
 }

@@ -64,5 +64,23 @@ public class DocumentDaoImpl implements DocumentDao{
 	public String getFileOriginalPath(DocumentBean bean) {
 		return sqlSession.selectOne("edmsMapper.getFileOriginalPath", bean);
 	}
+
+	@Override
+	public List<DocumentBean> selectGroupFolderList(DocumentBean bean) {
+		return sqlSession.selectList("edmsMapper.selectGroupFolderList", bean);
+	}
+
+	@Override
+	public int insertFolder(DocumentBean bean) {
+		return sqlSession.insert("edmsMapper.insertFolder", bean);
+	}
+
+	@Override
+	public List<DocumentBean> selectTeamFolderList(DocumentBean bean) {
+		
+		return sqlSession.selectList("edmsMapper.selectTeamFolderList", bean);
+	}
+	
+	
 	
 }

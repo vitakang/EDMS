@@ -17,4 +17,6 @@ public interface DocumentService{
 
 	ModelAndView teamFolderManager(HttpServletRequest request, DocumentBean bean, HttpSession session);
 
+	String insertFolder(HttpServletRequest request, DocumentBean bean, HttpSession session);
+
 }

@@ -188,6 +188,11 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public ModelAndView teamFolderInsert(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
+		
+		List<DocumentBean> groupFolderList = documentDao.selectGroupFolderList(bean);
+		
+		mv.addObject("groupName", "3사업부");
+		mv.addObject("groupFolderList", groupFolderList);
 		mv.setViewName("content/teamFolderInsert");
 		
 		return mv;
@@ -196,12 +201,34 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public ModelAndView teamFolderManager(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
+
+	    bean.setGROUP_ID("4");
+		List<DocumentBean> folderList = documentDao.selectTeamFolderList(bean); 
+
+		mv.addObject("folderList", folderList);
 		mv.setViewName("content/teamFolderManager");
 		
 		return mv;
 	}
-	
-	
+
+	@Override
+	public String insertFolder(HttpServletRequest request, DocumentBean bean, HttpSession session) {
+
+		// ID를 위한 날짜 (밀리세컨드)
+	 	Date today = new Date();
+
+	 	SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+	    String dateMiliSecond = date.format(today);
+	    bean.setGROUP_ID("4");
+	    bean.setFOLDER_ID(bean.getGROUP_ID() + "_" + dateMiliSecond);
+		
+		if(documentDao.insertFolder(bean) < 1) {
+			return "fail";
+		}
+		
+		return "success";
+	}
 	
 
 }

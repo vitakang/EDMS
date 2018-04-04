@@ -189,5 +189,53 @@
 			DOCUMENT_FILE_ID = #{DOCUMENT_FILE_ID}
 	</select>
 	
+	<select id="selectGroupFolderList" parameterType="document" resultType="document">
+		SELECT 
+			g.GROUP_ID,
+			g.GROUP_NAME,
+			f.FOLDER_ID,
+			f.FOLDER_NAME
+		FROM 
+			GROUP_INFORMATION g LEFT JOIN (SELECT * FROM FOLDER WHERE PARENT_FOLDER_ID = #{GROUP_ID}) f
+		ON 
+			g.group_id = f.PARENT_FOLDER_ID
+		WHERE
+				g.group_type = 'Y'
+			AND
+				g.GROUP_ID = #{GROUP_ID}
+	</select>
+	
+	<insert id="insertFolder" parameterType="document">
+		INSERT INTO FOLDER(
+			FOLDER_ID,
+			FOLDER_TYPE,
+			FOLDER_NAME,
+			FOLDER_DESCRIPTION,
+			FOLDER_LEVEL,
+			PARENT_FOLDER_ID
+			<!-- USER_ID,
+			USER_NAME -->
+		) VALUES(
+			#{FOLDER_ID},
+			'1',
+			#{FOLDER_NAME},
+			#{FOLDER_DESCRIPTION},
+			'1',
+			#{GROUP_ID}
+		)
+	
+	</insert>
+	
+	<select id="selectTeamFolderList" parameterType="document" resultType="document">
+		SELECT
+			*
+		FROM 
+			FOLDER 
+		WHERE 
+			PARENT_FOLDER_ID = #{GROUP_ID} 
+		ORDER BY 
+			FOLDER_ID DESC
+	
+	</select>
 
 </mapper>
