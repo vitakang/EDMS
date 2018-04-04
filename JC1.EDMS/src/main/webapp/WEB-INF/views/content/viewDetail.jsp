@@ -17,43 +17,48 @@
 			<tr style="height:8%">
 				<td class="table-left">철제목</td>
 				<td class="table-right">
-					
+					${documentBean.BIND_TITLE}
 				</td>
 			</tr>
 			<tr style="height:8%">
 				<td class="table-left">문서제목</td>
 				<td class="table-right">
-					
+					${documentBean.DOCUMENT_TITLE}
 				</td>
 			</tr>
 			<tr style="height:12%">
 				<td class="table-left">문서요약</td>
 				<td class="table-right">
-					<textarea style="height: 85%;resize: none; width: 95%; overflow-y:scroll " readonly="readonly" rows="3"></textarea>
+					<textarea style="height: 85%;resize: none; width: 95%; overflow-y:scroll " readonly="readonly" rows="3">${documentBean.DOCUMENT_DESCRIPTION}</textarea>
 				</td>
 			</tr>
 			<tr style="height:8%">
 				<td class="table-left">작성일자</td>
 				<td class="table-right">
-					
+					${documentBean.REGISTER_DATE}
 				</td>
 			</tr>
 			<tr style="height:8%">
 				<td class="table-left">문서함</td>
 				<td class="table-right">
-					
+					${documentBean.FOLDER_NAME}
 				</td>
 			</tr>
 			<tr style="height:8%">
 				<td class="table-left">보안등급</td>
 				<td class="table-right">
-					
+					${documentBean.SECURITY_GRADE}
 				</td>
 			</tr>
 			<tr style="height:24%">
 				<td class="table-left">첨부파일</td>
 				<td class="table-right">
-					<select id="fileListBox" size="6" style="width: 90%"></select> <input type="button" value="다운로드">
+					<select id="fileListBox" size="6" style="width: 90%">
+						<c:forEach var="list" items="${fileList}">
+							<option value="${list.DOCUMENT_FILE_ID }">${list.DOCUMENT_FILE_ID }</option>
+						</c:forEach>
+					</select> 
+					<input type="button" value="다운로드" onclick="downloadFile()">
 				</td>
 			</tr>
 			<tr style="height:8%">
@@ -75,6 +80,34 @@ function documentlist() {
 	console.log(arr);
 	console.log(url);
 	changeContent(url,arr);
+}
+
+function downloadFile() {
+	
+	var fileId = $('#fileListBox option:selected').val();
+	
+	$.ajax({
+        url: '/jcone/download',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
+        data: {DOCUMENT_FILE_ID:fileId},
+        type: 'POST',
+        success: function(result){
+        	
+        	console.log(result);
+
+        },beforeSend:function(){
+            //(이미지 보여주기 처리)
+            $('.wrap-loading').removeClass('display-none');
+        },complete:function(){
+           // (이미지 감추기 처리)
+            $('.wrap-loading').addClass('display-none');
+        },error:function(e){
+        	alert('오류 발생\n' + e);
+        	form_Data = new FormData();
+        },timeout:100000 //"응답제한시간 ms"
+
+    });
+	
 }
 
 </script>

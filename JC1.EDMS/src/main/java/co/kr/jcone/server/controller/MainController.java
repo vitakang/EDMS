@@ -3,6 +3,8 @@ package co.kr.jcone.server.controller;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +33,13 @@ public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	@RequestMapping(value = "/main")
-	public ModelAndView main(HttpServletRequest request) {
+	public ModelAndView main(HttpServletRequest request, HttpSession session) {
 		
-		return mainService.mainPageView(request);
+		return mainService.mainPageView(request, session);
 	}
 
 	@RequestMapping(value = "/insertDocument")
-	public ModelAndView insertDocument(HttpServletRequest request) {
+	public ModelAndView insertDocument(HttpServletRequest request, HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		
@@ -50,34 +52,29 @@ public class MainController {
 	
 	@ResponseBody
 	@RequestMapping(value="/uploadDocument")
-	public String uploadDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean) {
+	public String uploadDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
 		
-		return documentService.uploadDocument(request,bean);
+		return documentService.uploadDocument(request, bean, session);
 	}
 	
 	@RequestMapping(value = "/listDocument")
-	public ModelAndView listDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean) {
+	public ModelAndView listDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
 
 		
-		return mainService.getListDocument(request, bean);
+		return mainService.getListDocument(request, bean, session);
 		
 	}
 	
 
 	@RequestMapping(value = "/viewDetail")
-	public ModelAndView viewDetail(HttpServletRequest request, @ModelAttribute DocumentBean bean) {
+	public ModelAndView viewDetail(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
 		
-		ModelAndView mv = new ModelAndView();
-		
-		mv.addObject("folderName",bean.getFOLDER_NAME());
-		mv.setViewName("content/viewDetail");
-		
-		return mv;
+		return documentService.viewDetail(request, bean, session);
 		
 	}
 
 	@RequestMapping(value = "/setting")
-	public ModelAndView setting(HttpServletRequest request) {
+	public ModelAndView setting(HttpServletRequest request, HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		
@@ -88,5 +85,11 @@ public class MainController {
 		return mv;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="download")
+	public String download(HttpServletRequest request, HttpServletResponse response, HttpSession session, @ModelAttribute DocumentBean bean) {
+		
+		return mainService.download(request, response, session, bean);
+	}
 
 }

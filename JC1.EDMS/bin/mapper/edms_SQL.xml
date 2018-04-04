@@ -74,15 +74,27 @@
 		)
 	</insert>
 	
-	<select id="loginCheck" parameterType="HashMap" resultType="java.lang.Integer">
+	<select id="loginCheck" parameterType="HashMap" resultType="HashMap">
 		SELECT 
+			A.USER_ID AS USER_ID , 
+			A.USER_NAME AS USER_NAME, 
+			B.GROUP_ID AS GROUP_ID 
+		FROM 
+			USER_INFORMATION A , GROUP_MEMBER B 
+		WHERE 
+			A.USER_ID = B.MEMBER_ID 
+		AND 
+			A.USER_ID=#{id}
+		AND
+			A.USER_PASSWORD = #{password}
+		<!-- SELECT 
 			COUNT(USER_ID) AS CNT
 		FROM
 			USER_INFORMATION
 		WHERE
 			USER_ID = #{email}
 		AND
-			USER_PASSWORD = #{password}
+			USER_PASSWORD = #{password} -->
 	</select>
 	
 	<select id="getList" resultType="HashMap">	
@@ -126,6 +138,53 @@
 				F.FOLDER_ID = #{FOLDER_ID}
 	</select>
 	
+	<select id="viewDetail" parameterType="String" resultType="document">
+	
+		SELECT 
+			F.FOLDER_NAME, A.* 
+		FROM (
+			SELECT 	D.DOCUMENT_ID,
+					D.REGISTER_DATE,
+					D.DOCUMENT_DESCRIPTION,
+					D.SECURITY_GRADE,
+					D.BIND_ID,
+					D.BIND_TITLE,
+					D.DOCUMENT_TITLE,
+					D.VERSION,
+					D.GROUP_ID,
+					D.GROUP_NAME,
+					DF.FOLDER_ID
+			FROM 
+				DOCUMENT D, DOCUMENT_FOLDER DF 
+			WHERE 
+ 					D.DOCUMENT_ID = DF.DOCUMENT_ID
+ 				AND 
+ 					D.DOCUMENT_ID = #{documentId}
+ 			  ) A, FOLDER F 
+ 		WHERE 
+ 			A.FOLDER_ID = F.FOLDER_ID
+		
+	</select>
+	
+	
+	<select id="selectFileListFromDocumentId" parameterType="String" resultType="document">
+		SELECT 
+			*
+		FROM 
+			DOCUMENT_FILE
+		WHERE
+			DOCUMENT_ID = #{documentId}
+		ORDER BY FILE_ORDER ASC
+	</select>
+	
+	<select id="getFileOriginalPath" parameterType="document" resultType="document">
+		SELECT
+			ORIGINAL_FILE_NAME
+		FROM
+			DOCUMENT_FILE
+		WHERE
+			DOCUMENT_FILE_ID = #{DOCUMENT_FILE_ID}
+	</select>
 	
 
 </mapper>

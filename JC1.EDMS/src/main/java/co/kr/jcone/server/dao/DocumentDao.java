@@ -18,4 +18,10 @@ public interface DocumentDao {
 
 	List<DocumentBean> getDocumentList(DocumentBean documentBean);
 
+	DocumentBean viewDetail(String documentId);
+
+	List<DocumentBean> selectFileListFromDocumentId(String documentId);
+
+	String getFileOriginalPath(DocumentBean bean);
+
 }
