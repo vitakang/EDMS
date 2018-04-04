@@ -46,29 +46,12 @@ public class DocumentServiceImpl implements DocumentService{
 
 		try {
 			
-//			최초등록,최초등록20180402152410007
-//			최초등록,최초등록
-//			안녕하세요,안녕하세요20180402152410007
-//			안녕하세요,안녕하세요
-//			안녕하세요 처음 문서 등록하겠습니다.,안녕하세요 처음 문서 등록하겠습니다.
-//			FAIL
-//			2018-04-02,2018-04-02
-			
 			MultipartFile[] multiPartUploadFile = bean.getMultiPartFiles();
 			
 			String bindTitle = MainUtls.changeTextUTF8(bean.getBIND_TITLE());
 			String documentTitle = MainUtls.changeTextUTF8(bean.getDOCUMENT_TITLE());
 			String securityCode = MainUtls.changeSecurityGradeCode(MainUtls.changeTextUTF8(bean.getSECURITY_GRADE()),"1");
 			String documentId = documentTitle + "_" + dateMiliSecond;
-			
-//			System.out.println(bindTitle + dateMiliSecond);
-//			System.out.println(bindTitle);
-//			System.out.println(documentId);
-//			System.out.println(documentTitle);
-//			System.out.println(MainUtls.changeTextUTF8(bean.getDOCUMENT_DESCRIPTION()));
-//			System.out.println(securityCode);
-//			System.out.println(bean.getREGISTER_DATE());
-			
 			
 			DocumentBean document = new DocumentBean();
 			// 철ID
@@ -201,6 +184,23 @@ public class DocumentServiceImpl implements DocumentService{
 		
 		return mv;
 	}
+
+	@Override
+	public ModelAndView teamFolderInsert(HttpServletRequest request, DocumentBean bean, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("content/teamFolderInsert");
+		
+		return mv;
+	}
+
+	@Override
+	public ModelAndView teamFolderManager(HttpServletRequest request, DocumentBean bean, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("content/teamFolderManager");
+		
+		return mv;
+	}
+	
 	
 	
 

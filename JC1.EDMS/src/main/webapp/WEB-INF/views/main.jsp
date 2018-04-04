@@ -19,24 +19,23 @@
 					<button onclick="documentInsert(this)" class="dropbtn">문서등록</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button onclick="myFunction()" class="dropbtn">문서검색</button>
-					<!-- <div id="myDropdown" class="dropdown-content">
-						<a href="#">Link 1</a>
-						<a href="#">Link 2</a>
-						<a href="#">Link 3</a>
-					</div> -->
+					<button class="dropbtn">문서검색</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
 					<button onclick="myFunction()" class="dropbtn">팀문서함</button>
+					<div id="myDropdown" class="dropdown-content">
+						<a href="javascript:teamFolder('teamFolderInsert');">팀문서함 등록</a>
+						<a href="javascript:teamFolder('teamFolderManager');">팀문서함 관리</a>
+					</div>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button onclick="myFunction()" class="dropbtn">즐겨찾기</button>
+					<button class="dropbtn">즐겨찾기</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button onclick="myFunction()" class="dropbtn">개인문서</button>
+					<button class="dropbtn">개인문서</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button onclick="myFunction()" class="dropbtn">로그아웃</button>
+					<button class="dropbtn">로그아웃</button>
 				</div>
 			</div>
 		</div>
@@ -197,6 +196,12 @@ function settingContent() {
 	changeContent(url,null);
 }
 
+function teamFolder(url) {
+	var groupId = ${myGroup};
+	var arr = {GROUP_ID:groupId};
+	changeContent(url,arr);
+}
+
 function changeContent(url,arr) {
 	console.log(arr);
 	console.log(url);
@@ -207,7 +212,7 @@ function movePage(url) {
 	location.href = url;
 }
 function myFunction() {
-    //document.getElementById("myDropdown").classList.toggle("show");
+    document.getElementById("myDropdown").classList.toggle("show");
 }
 
 $(document).ready(function() {

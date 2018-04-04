@@ -13,4 +13,8 @@ public interface DocumentService{
 
 	ModelAndView viewDetail(HttpServletRequest request, DocumentBean bean, HttpSession session);
 
+	ModelAndView teamFolderInsert(HttpServletRequest request, DocumentBean bean, HttpSession session);
+
+	ModelAndView teamFolderManager(HttpServletRequest request, DocumentBean bean, HttpSession session);
+
 }

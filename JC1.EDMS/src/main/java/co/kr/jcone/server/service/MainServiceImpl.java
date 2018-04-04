@@ -38,11 +38,9 @@ public class MainServiceImpl implements MainService{
 		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList();
 		List<GroupBean> groupList = new ArrayList<>();
 		int overCnt = 0;
+		String myTeam = "";
 		
 		for(int i = 0; i < groupInFolderList.size(); i++) {
-			
-//			System.out.println(" test : " + groupInFolderList.get(i));
-//			System.out.println(" test2 : " + groupList.contains(groupInFolderList.get(i)));
 			
 			if (groupList.size() <= 0) {
 				groupList.add(groupInFolderList.get(i));
@@ -57,18 +55,6 @@ public class MainServiceImpl implements MainService{
 				else overCnt = 0;
 			}
 		}
-		
-//		for(int i = 0; i < groupInFolderList.size(); i++) {
-//			groupList.add(groupInFolderList.get(i));
-//		}
-//		for(int i=0; i<groupList.size();i++) {
-//			for(int j = 0; j<groupList.size();j++) {
-//				if(groupList.get(i).equals(groupList.get(j))) {
-//					groupList.remove(i);
-//				}
-//			}
-//		}
-		
 		mv.addObject("groupList", groupList);
 		mv.addObject("groupInFolderList", groupInFolderList);
 		

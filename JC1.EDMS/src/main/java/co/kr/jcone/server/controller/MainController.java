@@ -65,12 +65,22 @@ public class MainController {
 		
 	}
 	
-
 	@RequestMapping(value = "/viewDetail")
 	public ModelAndView viewDetail(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
 		
 		return documentService.viewDetail(request, bean, session);
 		
+	}
+	
+	@RequestMapping(value = "/teamFolderInsert")
+	public ModelAndView teamFolderInsert(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
+		
+		return documentService.teamFolderInsert(request, bean, session);
+	}
+	@RequestMapping(value = "/teamFolderManager")
+	public ModelAndView teamFolderManager(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
+		
+		return documentService.teamFolderManager(request, bean, session);
 	}
 
 	@RequestMapping(value = "/setting")
