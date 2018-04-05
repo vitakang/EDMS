@@ -37,7 +37,7 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr style="text-align: center;">
-				<th class="listTable1"><input type="checkbox" id="allCheck"></th>
+				<th class="listTable1"><input type="checkbox" id="allCheck" onclick="allCheckMananger()"></th>
 				<th class="listTable2">레벨</th>
 				<th class="listTable3">문서함이름</th>
 				<th class="listTable4">문서함설명</th>
@@ -50,7 +50,7 @@
 			<c:if test="${fn:length(folderList) < 10}">
 				<c:forEach var="list" items="${folderList }">
 					<tr style="text-align: center;">
-						<td class="listTable1 listCheck" id="${list.FOLDER_ID}"><input type="checkbox"></td>
+						<td class="listTable1 listCheck"><input type="checkbox" id="${list.FOLDER_ID}"></td>
 						<td class="listTable2">${list.FOLDER_LEVEL}</td>
 						<td class="listTable3">${list.FOLDER_NAME}</td>
 						<td class="listTable4">${list.FOLDER_DESCRIPTION}</td>
@@ -73,7 +73,7 @@
 			<c:if test="${fn:length(folderList) > 10}">
 				<c:forEach var="list" items="${folderList }">
 					<tr style="text-align: center;">
-						<td class="listTable1 listCheck" id="${list.FOLDER_ID}"><input type="checkbox"></td>
+						<td class="listTable1 listCheck"><input type="checkbox" id="${list.FOLDER_ID}"></td>
 						<td class="listTable2">${list.FOLDER_LEVEL}</td>
 						<td class="listTable3">${list.FOLDER_NAME}</td>
 						<td class="listTable4">${list.FOLDER_DESCRIPTION}</td>
@@ -84,27 +84,86 @@
 			</c:if>
 			<tr>
 				<td colspan="2" style="text-align: left;">검색건수 :  ${fn:length(folderList)}</td>
-				<td colspan="4" style="text-align: center;">1</td>
+				<td colspan="4" style="text-align: center;">
+					<ul class="pagination">
+						<li class="page-item disabled"><a href="#">Previous</a></li>
+						<li class="page-item"><a href="#" class="page-link">1</a></li>
+						<li class="page-item"><a href="#" class="page-link">2</a></li>
+						<li class="page-item"><a href="#" class="page-link">3</a></li>
+						<li class="page-item active"><a href="#" class="page-link">4</a></li>
+						<li class="page-item"><a href="#" class="page-link">5</a></li>
+						<li class="page-item"><a href="#" class="page-link">6</a></li>
+						<li class="page-item"><a href="#" class="page-link">7</a></li>
+						<li class="page-item"><a href="#" class="page-link">Next</a></li>
+					</ul>
+				</td>
 			</tr>
 			<tr>
-				<td colspan="6" style="text-align: right;"><input type="button" value="수정"><input type="button" value="삭제"></td>
+				<td colspan="6" style="text-align: right;">
+					<input type="button" value="수정">
+					<input type="button" value="삭제" onclick="deleteTeamFolder()">
+				</td>
 			</tr>
 		</tbody>
 	</table>
-<!-- 	<div class="clearfix">
-		<div class="hint-text">
-			Showing <b>5</b> out of <b>25</b> entries
-		</div>
-		<ul class="pagination">
-			<li class="page-item disabled"><a href="#">Previous</a></li>
-			<li class="page-item"><a href="#" class="page-link">1</a></li>
-			<li class="page-item"><a href="#" class="page-link">2</a></li>
-			<li class="page-item"><a href="#" class="page-link">3</a></li>
-			<li class="page-item active"><a href="#" class="page-link">4</a></li>
-			<li class="page-item"><a href="#" class="page-link">5</a></li>
-			<li class="page-item"><a href="#" class="page-link">6</a></li>
-			<li class="page-item"><a href="#" class="page-link">7</a></li>
-			<li class="page-item"><a href="#" class="page-link">Next</a></li>
-		</ul>
-	</div> -->
 </div>
+
+
+<script type="text/javascript">
+
+var deleteArr = new Array();
+
+function allCheckMananger() {
+	if($('#allCheck').prop('checked')){
+		$('.listCheck').children('input[type=checkbox]').prop('checked',true);
+	}else{
+		$('.listCheck').children('input[type=checkbox]').prop('checked',false);
+	}
+}
+
+function deleteTeamFolder() {
+	var checked = $('.listCheck').children('input[type=checkbox]:checked');
+	
+	for(var i = 0; i < checked.length; i++){
+		
+		deleteArr.push('FOLDER_IDS', checked[i].id);
+		console.log(checked[i]);
+		console.log(checked[i].id);
+	}
+	console.log(deleteArr.length);
+}
+
+function folderReset() {
+	$('#folderName').val('');
+	$('#folderDescription').val('');
+}
+
+function insertFolder() {
+	//console.log('come');
+	$.ajax({
+	    url: '/jcone/insertFolder',
+	    contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
+	    data: {FOLDER_NAME:$('#folderName').val(),FOLDER_DESCRIPTION:$('#folderDescription').val()},
+	    type: 'POST',
+	    success: function(result){
+	    	if('success' == result){
+	    		alert('등록완료');
+	    		movePage('/jcone/main');
+	    	}else{
+	    		alert('fail');
+	    	}
+	
+	    },beforeSend:function(){
+	        //(이미지 보여주기 처리)
+	        $('.wrap-loading').removeClass('display-none');
+	    },complete:function(){
+	       // (이미지 감추기 처리)
+	        $('.wrap-loading').addClass('display-none');
+	    },error:function(e){
+	    	alert('오류 발생\n' + e);
+	    },timeout:100000 //"응답제한시간 ms"
+	
+	});
+}
+</script>
+
