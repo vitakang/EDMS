@@ -7,6 +7,18 @@
 <title>JC1 EDMS</title>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/jquery-ui.css">
+<style>
+	#layer-conts3 table tr th, #layer-conts3 table tr td { color : #000; }
+	#layer-conts3 table { width: 100%; border: 3px double #ccc; padding: 10px; margin-bottom: 10px; background-color: #f7f7f7;}
+	#layer-conts3-title { color: #000;
+    margin: 0px auto;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700; }
+    #layer-conts3 table input {padding: 5px;}
+</style> 
 </head>
 <body>
 	<div id="header">
@@ -152,13 +164,30 @@
         </div>
     </div>
 </div>
+<div class="dim-layer" id="layer3Div">
+    <div class="dimBg"></div>
+    <div id="layer3" class="pop-layer">
+        <div class="pop-container">
+            <div class="pop-conts">
+				<div id="layer-conts3" style="min-height: 390px;">
+				</div>
+                <div class="btn-r">
+                    <a href="#" class="btn-layerSave" onclick="favoriteSave()">Save</a>
+                    <a href="#" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
+</div>
 <div class="wrap-loading display-none">
     <div><img src="resources/images/loading.gif" /></div>
-</div>   
+</div>  
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="resources/js/jquery-ui.js"></script>
 <script src="resources/js/datepicker-ko.js"></script>
+<script src="resources/js/favorite.js"></script>
 <script type="text/javascript">
 
 //문서 목록
@@ -302,7 +331,11 @@ function layer_popup(el){
     if(el == '#layer'){
     	$('#layer-conts').css('height','400px');
     	$('#layer-conts').css('overflow-y','scroll');
+    } else if ( el == "#layer3") {
+    	$('#layer3').css('height','500px');
+    	$('#layer3').css('overflow-y','scroll');
     }
+    
 
     isDim ? $(el+'Div').fadeIn() : $el.fadeIn();
 

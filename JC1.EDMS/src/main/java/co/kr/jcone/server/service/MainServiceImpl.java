@@ -2,11 +2,10 @@ package co.kr.jcone.server.service;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -144,5 +143,44 @@ public class MainServiceImpl implements MainService{
 		
 		return "ok";
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String addFavoriteDocument(Map<String, Object> paramMap) {
+		List<String> favoriteNameList = (ArrayList<String>) paramMap.get("favoriteName");
+		List<String> favoriteDescriptionList = (ArrayList<String>) paramMap.get("favoriteDescription");
+		List<String> docIdList = (ArrayList<String>) paramMap.get("docId");
+//		List<String> mapInList = null;
+		int size = favoriteNameList.size();
+		String favoriteName = null;
+		String favoriteDescription = null;
+		Map<String, String> dataMap = new HashMap<>();
+		int errorCnt = 0;
+		
+		dataMap.put("userId", (String) paramMap.get("userId"));
+		dataMap.put("userName", (String) paramMap.get("userName"));
+//		dataMap.put("objectId", UUID.randomUUID().toString());
+		
+//		Iterator<String> keys = paramMap.keySet().iterator();
+//		String key = null;
+		
+//		while (keys.hasNext()) {
+//			key = keys.next();
+//			mapInList = (ArrayList<String>) paramMap.get(key);
+//			size = mapInList.size();
+			
+			for (int i = 0; i < size; i++) {
+				favoriteDescription = favoriteDescriptionList.get(i);
+				favoriteName = favoriteNameList.get(i);
+				dataMap.put("favoriteName", favoriteName);
+				dataMap.put("favoriteDescription", favoriteDescription);
+				dataMap.put("docId", docIdList.get(i));
+				
+				if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
+			}
+//		}
+		
+		
+		return errorCnt > 0 ? "F" : "S";
+	}
 }

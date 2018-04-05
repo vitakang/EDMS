@@ -237,5 +237,34 @@
 			FOLDER_ID DESC
 	
 	</select>
+	
+	<insert id="insertFavoriteDocument" parameterType="HashMap">
+		MERGE INTO USER_FAVORITE
+			USING DUAL
+			ON (OBJECT_ID = #{docId})
+		WHEN MATCHED THEN
+			UPDATE SET
+				FAVORITE_NAME = #{favoriteName},
+				FAVORITE_DESCRIPTION = #{favoriteDescription},
+				ROW_INPUT_DATE = sysdate
+		WHEN NOT MATCHED THEN
+			INSERT (
+				OBJECT_ID,
+				OBJECT_TYPE,
+				FAVORITE_NAME,
+				FAVORITE_DESCRIPTION,
+				USER_ID,
+				USER_NAME
+			) VALUES (
+				#{docId},
+				0,
+				#{favoriteName},
+				#{favoriteDescription},
+				#{userId},
+				#{userName}
+			)
+			 
+		
+	</insert>
 
 </mapper>

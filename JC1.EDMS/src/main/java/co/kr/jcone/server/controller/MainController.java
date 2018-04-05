@@ -1,6 +1,6 @@
 package co.kr.jcone.server.controller;
 
-import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,16 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.jcone.server.bean.DocumentBean;
 import co.kr.jcone.server.service.DocumentService;
 import co.kr.jcone.server.service.MainService;
+import co.kr.jcone.server.util.CommonUtil;
 
 @Controller
 public class MainController {
@@ -110,4 +109,18 @@ public class MainController {
 		return mainService.download(request, response, session, bean);
 	}
 
+	@RequestMapping(value = "addFavorite")
+	@ResponseBody
+	public String addFavorite(HttpServletRequest request) {
+		Map<String, Object> paramMap = CommonUtil.getMap(request);
+		HttpSession session = request.getSession();
+		String userName = (String) session.getAttribute("userName");
+		String userId = (String) session.getAttribute("userId");
+		
+		paramMap.put("userName", userName);
+		paramMap.put("userId", userId);
+		
+		return mainService.addFavoriteDocument(paramMap);
+	}
+	
 }

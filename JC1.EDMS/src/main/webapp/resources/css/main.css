@@ -162,6 +162,7 @@ a:hover {
 		url(../images/bg_tree.gif)
 		no-repeat 4px top;
 	font-size: 13px;
+	cursor : pointer;
 }
 
 #treeMenu li.end {
@@ -257,7 +258,7 @@ a:hover {
   display: block;
 }
 
-a.btn-layerClose {
+a.btn-layerClose, a.btn-layerSave {
   display: inline-block;
   height: 25px;
   padding: 0 14px 0;

@@ -3,8 +3,6 @@ package co.kr.jcone.server.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import co.kr.jcone.server.controller.MainController;
-
 public class MainUtls {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainUtls.class);
@@ -60,5 +58,5 @@ public class MainUtls {
 		
 		return "FAIL";
 	}
-
+	
 }
