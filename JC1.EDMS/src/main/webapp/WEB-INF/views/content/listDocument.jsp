@@ -105,3 +105,41 @@
 		</tbody>
 	</table>
 </div>
+<script type="text/javascript">
+
+var listNowPage = ${nowPage};
+var listMaxPage = ${maxPage};
+var listFolderName = '${folderName}';
+var listFolderId = '${folderId}';
+
+function previousPage() {
+	if(listNowPage < 2){
+		alert('이전페이지가 없습니다.');
+	}else{
+		console.log(listNowPage-1);
+		loadListPage(listNowPage-1);
+	}
+}
+
+function nextPage() {
+	if(listNowPage >= listMaxPage){
+		alert('다음페이지가 없습니다.');
+	}else{
+		//console.log(listNowPage+1);
+		loadListPage(listNowPage+1);
+	}
+}
+
+function changePage(p) {
+	loadListPage(p);
+}
+
+function loadListPage(page) {
+	var arr = {FOLDER_NAME:listFolderName, FOLDER_ID:listFolderId, page:page};
+	var url = 'listDocument';
+	changeContent(url,arr);
+}
+
+</script>
+
+

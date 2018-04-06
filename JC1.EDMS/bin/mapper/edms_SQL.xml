@@ -323,6 +323,7 @@
 			USER_ID=#{userId}
 	</select>
 	
+<<<<<<< HEAD
 	<delete id="deleteFavorite" parameterType="HashMap">
 		DELETE
 		FROM
@@ -333,6 +334,8 @@
 			OBJECT_ID=#{docId}
 	</delete>
 	
+=======
+>>>>>>> branch 'master' of https://github.com/vitakang/EDMS.git
 	<select id="selectDocumentPageCount" parameterType="document" resultType="int">
 		SELECT 
 			MOD(COUNT(D.DOCUMENT_ID),10)

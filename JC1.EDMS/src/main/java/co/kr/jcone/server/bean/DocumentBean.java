@@ -61,9 +61,10 @@ public class DocumentBean{
 	
 	// TEST
 	
-	private String[] FOLDER_IDS;
-	
 	private String title;
+	private String startPage;
+	private String endPage;
+	private String page;
 	
 	public String getTitle() {
 		return title;
@@ -293,11 +294,24 @@ public class DocumentBean{
 	public void setFOLDER_PATH(String fOLDER_PATH) {
 		FOLDER_PATH = fOLDER_PATH;
 	}
-	public String[] getFOLDER_IDS() {
-		return FOLDER_IDS;
+	public String getStartPage() {
+		return startPage;
 	}
-	public void setFOLDER_IDS(String[] fOLDER_IDS) {
-		FOLDER_IDS = fOLDER_IDS;
-	}		
-	
+	public void setStartPage(String startPage) {
+		this.startPage = startPage;
+	}
+	public String getEndPage() {
+		return endPage;
+	}
+	public void setEndPage(String endPage) {
+		this.endPage = endPage;
+	}
+	public String getPage() {
+		return page;
+	}
+	public void setPage(String page) {
+		this.page = page;
+	}
+
+
 }

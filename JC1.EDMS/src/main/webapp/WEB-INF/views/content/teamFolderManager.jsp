@@ -108,8 +108,6 @@
 		</tbody>
 	</table>
 </div>
-
-
 <script type="text/javascript">
 
 var deleteArr = new Array();
