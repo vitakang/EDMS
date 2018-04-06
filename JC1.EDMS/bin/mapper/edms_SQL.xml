@@ -296,6 +296,16 @@
 			USER_ID=#{userId}
 	</select>
 	
+	<delete id="deleteFavorite" parameterType="HashMap">
+		DELETE
+		FROM
+			USER_FAVORITE
+		WHERE
+			USER_ID=#{userId}
+		AND
+			OBJECT_ID=#{docId}
+	</delete>
+	
 	<resultMap type="java.util.HashMap" id="favoriteMap">
 		<result javaType="String" column="OBJECT_ID" property="OBJECT_ID"/>
 		<result javaType="String" column="FAVORITE_NAME" property="FAVORITE_NAME"/>

@@ -48,7 +48,7 @@
 			<c:if test="${fn:length(favoriteList) < 10}">
 				<c:forEach var="list" items="${favoriteList }">
 					<tr style="text-align: center;">
-						<td class="listTable1 listCheck"><input type="checkbox" id="${list.OBJECT_ID}" name="document-chk"></td>
+						<td class="listTable1 listCheck" id="${list.OBJECT_ID}"><input type="checkbox" name="document-chk"></td>
 						<td class="listTable5">${list.FAVORITE_NAME}</td>
 						<td class="listTable4">${list.FAVORITE_DESCRIPTION}</td>
 						<td class="listTable2">${list.USER_NAME}</td>
@@ -69,7 +69,7 @@
 			<c:if test="${fn:length(favoriteList) > 10}">
 				<c:forEach var="list" items="${favoriteList}">
 					<tr style="text-align: center;">
-						<td class="listTable1 listCheck"><input type="checkbox" id="${list.OBJECT_ID}" name="document-chk"></td>
+						<td class="listTable1 listCheck" id="${list.OBJECT_ID}"><input type="checkbox" name="document-chk"></td>
 						<td class="listTable5">${list.FAVORITE_NAME}</td>
 						<td class="listTable4">${list.FAVORITE_DESCRIPTION}</td>
 						<td class="listTable2">${list.USER_NAME}</td>
@@ -95,8 +95,8 @@
 			</tr>
 			<tr>
 				<td colspan="6" style="text-align: right;">
-					<input type="button" value="수정" onclick="modFavorite()">
-					<input type="button" value="삭제" onclick="deleteFavorite()">
+					<input type="button" value="수정" id="favorite-mod">
+					<input type="button" value="삭제" id="favorite-del">
 				</td>
 			</tr>
 		</tbody>
@@ -115,5 +115,7 @@ function allCheckMananger() {
 		$('.listCheck').children('input[type=checkbox]').prop('checked',false);
 	}
 }
+
+favorite.init();
 </script>
 
