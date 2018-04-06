@@ -11,6 +11,8 @@ public interface MainDao {
 
 	List<GroupBean> selectGroupInFolderList();
 
-	abstract public int insertFavoriteDocument(Map<String, String> dataMap); 
+	abstract public int insertFavoriteDocument(Map<String, String> dataMap);
+
+	abstract public List<Map<String, Object>> selectFavoriteList(String userId); 
 	
 }

@@ -266,5 +266,26 @@
 			 
 		
 	</insert>
+	
+	<select id="selectFavoriteList" parameterType="String" resultMap="favoriteMap">
+		SELECT
+			OBJECT_ID,
+			FAVORITE_NAME, 
+			FAVORITE_DESCRIPTION, 
+			USER_NAME, 
+			ROW_INPUT_DATE
+		FROM
+			USER_FAVORITE
+		WHERE
+			USER_ID=#{userId}
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="favoriteMap">
+		<result javaType="String" column="OBJECT_ID" property="OBJECT_ID"/>
+		<result javaType="String" column="FAVORITE_NAME" property="FAVORITE_NAME"/>
+		<result javaType="String" column="FAVORITE_DESCRIPTION" property="FAVORITE_DESCRIPTION"/>
+		<result javaType="String" column="USER_NAME" property="USER_NAME"/>
+		<result javaType="Date" column="ROW_INPUT_DATE" property="ROW_INPUT_DATE"/>
+	</resultMap>
 
 </mapper>

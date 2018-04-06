@@ -183,4 +183,10 @@ public class MainServiceImpl implements MainService{
 		
 		return errorCnt > 0 ? "F" : "S";
 	}
+
+	@Override
+	public void favoriteList(String userId, ModelAndView model) {
+		List<Map<String, Object>> favoriteList = mainDao.selectFavoriteList(userId);
+		model.addObject("favoriteList", favoriteList);
+	}
 }

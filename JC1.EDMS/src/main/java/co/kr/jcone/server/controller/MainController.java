@@ -108,6 +108,15 @@ public class MainController {
 		
 		return mainService.download(request, response, session, bean);
 	}
+	
+	@RequestMapping(value = "favoriteList")
+	public ModelAndView favoriteList(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("content/favoriteList");
+		String userId = (String) request.getSession().getAttribute("userId");
+		mainService.favoriteList(userId, model);
+		
+		return model;
+	}
 
 	@RequestMapping(value = "addFavorite")
 	@ResponseBody

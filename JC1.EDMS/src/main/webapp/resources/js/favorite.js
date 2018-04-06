@@ -90,3 +90,19 @@ function makeHtmlElements(chkEl) {
 	tableEl.appendChild(secondTrEl);
 	favoriteFormEl.appendChild(tableEl);
 }
+
+var favorite = {
+		popup : function () {
+			popupFavorite();
+		},
+		mod : function() {
+			favoriteSave();
+		},
+		del : function(){
+			
+		}		
+}
+
+$(function() {
+	
+});
