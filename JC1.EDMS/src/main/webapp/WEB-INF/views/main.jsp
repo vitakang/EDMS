@@ -172,7 +172,7 @@
 				<div id="layer-conts3" style="min-height: 390px;">
 				</div>
                 <div class="btn-r">
-                    <a href="#" class="btn-layerSave" onclick="favoriteSave()">Save</a>
+                    <a href="#" class="btn-layerSave" id="favorite-save">Save</a>
                     <a href="#" class="btn-layerClose">Close</a>
                 </div>
                 <!--// content-->

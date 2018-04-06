@@ -352,6 +352,7 @@
 			USER_ID=#{userId}
 	</select>
 	
+<<<<<<< HEAD
 	<delete id="deleteFavorite" parameterType="HashMap">
 		DELETE
 		FROM
@@ -362,6 +363,21 @@
 			OBJECT_ID=#{docId}
 	</delete>
 	
+=======
+<<<<<<< HEAD
+	<delete id="deleteFavorite" parameterType="HashMap">
+		DELETE
+		FROM
+			USER_FAVORITE
+		WHERE
+			USER_ID=#{userId}
+		AND
+			OBJECT_ID=#{docId}
+	</delete>
+	
+=======
+>>>>>>> branch 'master' of https://github.com/vitakang/EDMS.git
+>>>>>>> branch 'master' of https://github.com/vitakang/EDMS.git
 	<select id="selectDocumentPageCount" parameterType="document" resultType="int">
 		SELECT 
 			FLOOR((COUNT(D.DOCUMENT_ID)-1)/10)+1

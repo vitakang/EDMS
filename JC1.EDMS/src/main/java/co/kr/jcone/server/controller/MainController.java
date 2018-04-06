@@ -132,4 +132,16 @@ public class MainController {
 		return mainService.addFavoriteDocument(paramMap);
 	}
 	
+	@RequestMapping(value = "deleteFavorite")
+	@ResponseBody
+	public String deleteFavorite(HttpServletRequest request) {
+		Map<String, Object> paramMap = CommonUtil.getMap(request);
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		
+		paramMap.put("userId", userId);
+		
+		return mainService.deleteFavorite(paramMap);
+	}
+	
 }

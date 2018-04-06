@@ -22,4 +22,6 @@ public interface MainService {
 
 	abstract public void favoriteList(String userId, ModelAndView model);
 
+	abstract public String deleteFavorite(Map<String, Object> paramMap);
+
 }

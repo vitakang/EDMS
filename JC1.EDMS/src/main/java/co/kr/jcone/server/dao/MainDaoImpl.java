@@ -34,4 +34,9 @@ public class MainDaoImpl implements MainDao {
 		return sqlSession.selectList("edmsMapper.selectFavoriteList", userId);
 	}
 
+	@Override
+	public int deleteFavorite(Map<String, String> dataMap) {
+		return sqlSession.delete("edmsMapper.deleteFavorite", dataMap);
+	}
+	
 }

@@ -13,6 +13,8 @@ public interface MainDao {
 
 	abstract public int insertFavoriteDocument(Map<String, String> dataMap);
 
-	abstract public List<Map<String, Object>> selectFavoriteList(String userId); 
+	abstract public List<Map<String, Object>> selectFavoriteList(String userId);
+
+	abstract public int deleteFavorite(Map<String, String> dataMap); 
 	
 }
