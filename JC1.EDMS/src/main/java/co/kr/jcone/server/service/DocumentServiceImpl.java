@@ -38,7 +38,7 @@ public class DocumentServiceImpl implements DocumentService{
 		// ID를 위한 날짜 (밀리세컨드)
 	 	Date today = new Date();
 	    
-	 	SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	 	SimpleDateFormat date = new SimpleDateFormat("MMddHHmmssSSS");
 	    SimpleDateFormat dateFilePathFormat = new SimpleDateFormat("yyyy/MMdd");
 
 	    String dateMiliSecond = date.format(today);
@@ -217,7 +217,7 @@ public class DocumentServiceImpl implements DocumentService{
 		// ID를 위한 날짜 (밀리세컨드)
 	 	Date today = new Date();
 
-	 	SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	 	SimpleDateFormat date = new SimpleDateFormat("MMddHHmmssSSS");
 
 	    String dateMiliSecond = date.format(today);
 	    bean.setGROUP_ID("4");

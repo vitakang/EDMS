@@ -20,13 +20,11 @@ public class DocumentDaoImpl implements DocumentDao{
 	
 	@Override
 	public int insertDocument(DocumentBean db) {
-		
 		return sqlSession.insert("edmsMapper.insertDocument", db);
 	}
 
 	@Override
 	public String testDb() {
-		
 		return sqlSession.selectOne("edmsMapper.selectTest");
 	}
 
@@ -80,6 +78,20 @@ public class DocumentDaoImpl implements DocumentDao{
 		
 		return sqlSession.selectList("edmsMapper.selectTeamFolderList", bean);
 	}
+
+	@Override
+	public int selectDocumentPageCount(DocumentBean documentBean) {
+		return sqlSession.selectOne("edmsMapper.selectDocumentPageCount",documentBean);
+	}
+
+	@Override
+	public int selectCountDocument(DocumentBean documentBean) {
+		return sqlSession.selectOne("edmsMapper.selectCountDocument",documentBean);
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -85,6 +85,8 @@
 	</table>
 </div>
 
+<script src="resources/js/jquery-ui.js"></script>
+<script src="resources/js/datepicker-ko.js"></script>
 <script type="text/javascript">
 console.log('누를때마다 호출');
 

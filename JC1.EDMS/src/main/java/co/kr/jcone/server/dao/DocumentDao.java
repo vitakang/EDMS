@@ -30,4 +30,8 @@ public interface DocumentDao {
 
 	List<DocumentBean> selectTeamFolderList(DocumentBean bean);
 
+	int selectDocumentPageCount(DocumentBean documentBean);
+
+	int selectCountDocument(DocumentBean documentBean);
+
 }

@@ -2,10 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="edmsMapper">
-
-	<select id="selectTest" resultType="String">
-		select count(*) from document
-	</select>
 	
 	<insert id="insertDocument" parameterType="document">
 		INSERT INTO DOCUMENT(
@@ -112,7 +108,7 @@
 		SELECT 
 			* 
 		FROM 
-			GROUP_INFORMATION g LEFT JOIN (SELECT * FROM FOLDER WHERE PARENT_FOLDER_ID = '4') f
+			GROUP_INFORMATION g LEFT JOIN (SELECT * FROM FOLDER WHERE PARENT_FOLDER_ID = '4' AND FOLDER_TYPE = '1') f
 		ON 
 			g.group_id = f.PARENT_FOLDER_ID
 		WHERE
@@ -120,17 +116,48 @@
 	</select>
 	
 	<select id="getDocumentList" parameterType="document" resultType="document">
+	
 		SELECT 
-			D.DOCUMENT_ID,
- 			D.REGISTER_DATE,
- 			D.DOCUMENT_DESCRIPTION,
-			D.SECURITY_GRADE,
-			D.BIND_ID,
-			D.BIND_TITLE,
-			D.DOCUMENT_TITLE,
-			D.VERSION,
-			D.GROUP_NAME,
-			F.FOLDER_ID
+			AL.* 
+		FROM (
+				SELECT 
+					ROWNUM AS IDX,
+					S.*
+				FROM (	
+						SELECT 
+							D.DOCUMENT_ID,
+				 			D.REGISTER_DATE,
+				 			D.DOCUMENT_DESCRIPTION,
+							D.SECURITY_GRADE,
+							D.BIND_ID,
+							D.BIND_TITLE,
+							D.DOCUMENT_TITLE,
+							D.VERSION,
+							D.GROUP_NAME,
+							F.FOLDER_ID
+						FROM
+							DOCUMENT D, DOCUMENT_FOLDER F
+						WHERE
+								D.DOCUMENT_ID = F.DOCUMENT_ID
+							AND
+								D.DELETE_TYPE != 1
+							AND
+								F.FOLDER_ID = #{FOLDER_ID}
+					) S
+			)AL 
+		WHERE 
+			<![CDATA[ 
+					AL.IDX <= #{endPage}
+				AND
+					AL.IDX > #{startPage}
+			]]> 
+		
+	</select>
+	
+	
+	<select id="selectCountDocument" parameterType="document" resultType="int">
+		SELECT 
+			COUNT(*)
 		FROM
 			DOCUMENT D, DOCUMENT_FOLDER F
 		WHERE
@@ -294,6 +321,19 @@
 			USER_FAVORITE
 		WHERE
 			USER_ID=#{userId}
+	</select>
+	
+	<select id="selectDocumentPageCount" parameterType="document" resultType="int">
+		SELECT 
+			MOD(COUNT(D.DOCUMENT_ID),10)
+		FROM
+			DOCUMENT D, DOCUMENT_FOLDER F
+		WHERE
+				D.DOCUMENT_ID = F.DOCUMENT_ID
+			AND
+				D.DELETE_TYPE != 1
+			AND
+				F.FOLDER_ID = #{FOLDER_ID}
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="favoriteMap">
