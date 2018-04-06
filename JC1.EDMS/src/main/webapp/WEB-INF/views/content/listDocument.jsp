@@ -70,7 +70,7 @@
 				</c:forEach>
 				
 			</c:if>
-			<c:if test="${fn:length(d_list) > 10}">
+			<c:if test="${fn:length(d_list) >= 10}">
 				<c:forEach var="list" items="${d_list }">
 					<tr style="text-align: center;">
 						<td class="listTable1 listCheck" id="${list.DOCUMENT_ID}"><input type="checkbox" name="document-chk"></td>
@@ -83,28 +83,25 @@
 				</c:forEach>
 			</c:if>
 			<tr>
-				<td colspan="2" style="text-align: left;">검색건수 :  ${fn:length(d_list)}</td>
-				<td colspan="4" style="text-align: center;">1</td>
+				<td colspan="2" style="text-align: left;">검색건수 :  ${maxDocument}</td>
+				<td colspan="4" style="text-align: center;">
+					<ul class="pagination">
+						<li class="page-item disabled"><a href="javascript:previousPage();">Previous</a></li>
+						<c:forEach begin="${startingPage}" end="${endPage}" var="i">
+							<c:if test="${i == nowPage }">
+								<li class="page-item active"><a class="page-link" style="cursor: pointer;">${i}</a></li>
+							</c:if>
+							<c:if test="${i != nowPage }">
+								<li class="page-item"><a href="javascript:changePage(${i});" class="page-link">${i}</a></li>
+							</c:if>
+						</c:forEach>
+						<li class="page-item"><a href="javascript:nextPage();" class="page-link">Next</a></li>
+					</ul>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="6" style="text-align: right;"><input type="button" value="즐겨찾기등록" onclick="popupFavorite('insert')"></td>
 			</tr>
 		</tbody>
 	</table>
-<!-- 	<div class="clearfix">
-		<div class="hint-text">
-			Showing <b>5</b> out of <b>25</b> entries
-		</div>
-		<ul class="pagination">
-			<li class="page-item disabled"><a href="#">Previous</a></li>
-			<li class="page-item"><a href="#" class="page-link">1</a></li>
-			<li class="page-item"><a href="#" class="page-link">2</a></li>
-			<li class="page-item"><a href="#" class="page-link">3</a></li>
-			<li class="page-item active"><a href="#" class="page-link">4</a></li>
-			<li class="page-item"><a href="#" class="page-link">5</a></li>
-			<li class="page-item"><a href="#" class="page-link">6</a></li>
-			<li class="page-item"><a href="#" class="page-link">7</a></li>
-			<li class="page-item"><a href="#" class="page-link">Next</a></li>
-		</ul>
-	</div> -->
 </div>

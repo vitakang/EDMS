@@ -20,6 +20,7 @@ import co.kr.jcone.server.bean.DocumentBean;
 import co.kr.jcone.server.bean.GroupBean;
 import co.kr.jcone.server.dao.DocumentDao;
 import co.kr.jcone.server.dao.MainDao;
+import co.kr.jcone.server.util.MainUtls;
 
 @Service
 public class MainServiceImpl implements MainService{
@@ -66,18 +67,34 @@ public class MainServiceImpl implements MainService{
 	public ModelAndView getListDocument(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 
-		String folderName = bean.getFOLDER_NAME();	
+		String folderName = bean.getFOLDER_NAME();
+		String folderId = bean.getFOLDER_ID();
+		String page = bean.getPage();
 		
 		DocumentBean documentBean = new DocumentBean();
 //		documentBean.setUSER_ID("vitakang");
 		documentBean.setFOLDER_ID(bean.getFOLDER_ID());
 		documentBean.setGROUP_ID("4");
+		documentBean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
+		documentBean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
 		
 		List<DocumentBean> list = documentDao.getDocumentList(documentBean);
-
+		int maxPage = documentDao.selectDocumentPageCount(documentBean);
+		int maxDocument = documentDao.selectCountDocument(documentBean);
+		
+		mv.addObject("startingPage", MainUtls.getStartpage(maxPage,Integer.parseInt(page)));
+		mv.addObject("endPage", MainUtls.getEndpage(maxPage,Integer.parseInt(page)));
+		mv.addObject("nowPage", Integer.parseInt(page));
+		mv.addObject("maxPage", maxPage);
+		mv.addObject("maxDocument", maxDocument);
+		
+		System.out.println(maxPage);
+		
+		
 		mv.addObject("d_list", list);
-		mv.setViewName("content/listDocument");
 		mv.addObject("folderName", folderName);
+		mv.addObject("folderId", folderId);
+		mv.setViewName("content/listDocument");
 		// todo
 		// 문서 목록
 		return mv;
@@ -85,7 +102,6 @@ public class MainServiceImpl implements MainService{
 
 	@Override
 	public String download(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean) {
-		
 		
 		String documentFileId = bean.getDOCUMENT_FILE_ID();
 		

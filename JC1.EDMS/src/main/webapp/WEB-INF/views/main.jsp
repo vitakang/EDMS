@@ -31,7 +31,7 @@
 					<button onclick="documentInsert(this)" class="dropbtn">문서등록</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn">문서검색</button>
+					<button class="dropbtn" onclick="ready_ing()">문서검색</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
 					<button onclick="myFunction()" class="dropbtn">팀문서함</button>
@@ -44,7 +44,7 @@
 					<button class="dropbtn" onclick="favoriteList();">즐겨찾기</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn">개인문서</button>
+					<button class="dropbtn" onclick="ready_ing()">개인문서</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
 					<button class="dropbtn">로그아웃</button>
@@ -79,7 +79,7 @@
 										<c:forEach var="gFolderList" items="${groupInFolderList}">
 											<c:if test="${gFolderList.parent_folder_id ==  gList.group_id}">
 													<li class="forderPut">
-													<a onclick="documentContent(this)" class="box-color" id="${gFolderList.folder_id }">${gFolderList.folder_name }</a>
+													<a onclick="documentContent(this,'1')" class="box-color" id="${gFolderList.folder_id }">${gFolderList.folder_name }</a>
 													</li>
 											</c:if>
 										</c:forEach>
@@ -186,13 +186,12 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="resources/js/jquery-ui.js"></script>
-<script src="resources/js/datepicker-ko.js"></script>
 <script src="resources/js/favorite.js"></script>
 <script type="text/javascript">
 
 //문서 목록
-function documentContent(obj) {
-	var arr = {FOLDER_NAME:obj.text,FOLDER_ID:obj.id};
+function documentContent(obj,page) {
+	var arr = {FOLDER_NAME:obj.text,FOLDER_ID:obj.id,page:page};
 	var url = 'listDocument';
 	console.log(arr);
 	console.log(url);
@@ -369,6 +368,10 @@ function layer_popup(el){
         return false;
     });
 
+}
+
+function ready_ing() {
+	alert('준비중입니다.');
 }
 
 //Close the dropdown menu if the user clicks outside of it
