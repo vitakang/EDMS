@@ -134,6 +134,8 @@
 							D.DOCUMENT_TITLE,
 							D.VERSION,
 							D.GROUP_NAME,
+							D.USER_ID,
+							D.USER_NAME,
 							F.FOLDER_ID
 						FROM
 							DOCUMENT D, DOCUMENT_FOLDER F
@@ -143,6 +145,20 @@
 								D.DELETE_TYPE != 1
 							AND
 								F.FOLDER_ID = #{FOLDER_ID}
+							<if test="searchText != null and searchText != ''">
+								<if test="searchType == 'bindTitle'">
+									AND
+										D.BIND_TITLE like '%'||#{searchText}||'%'
+								</if>
+								<if test="searchType == 'documentTitle'">
+									AND
+										D.DOCUMENT_TITLE like '%'||#{searchText}||'%'
+								</if>
+								<if test="searchType == 'userId'">
+									AND
+										D.USER_NAME like '%'||#{searchText}||'%'
+								</if>
+							</if>
 					) S
 			)AL 
 		WHERE 
@@ -153,7 +169,6 @@
 			]]> 
 		
 	</select>
-	
 	
 	<select id="selectCountDocument" parameterType="document" resultType="int">
 		SELECT 
@@ -166,6 +181,20 @@
 				D.DELETE_TYPE != 1
 			AND
 				F.FOLDER_ID = #{FOLDER_ID}
+			<if test="searchText != null and searchText != ''">
+				<if test="searchType == 'bindTitle'">
+					AND
+						D.BIND_TITLE like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'documentTitle'">
+					AND
+						D.DOCUMENT_TITLE like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'userId'">
+					AND
+						D.USER_NAME like '%'||#{searchText}||'%'
+				</if>
+			</if>
 	</select>
 	
 	<select id="viewDetail" parameterType="String" resultType="document">
@@ -323,9 +352,19 @@
 			USER_ID=#{userId}
 	</select>
 	
+	<delete id="deleteFavorite" parameterType="HashMap">
+		DELETE
+		FROM
+			USER_FAVORITE
+		WHERE
+			USER_ID=#{userId}
+		AND
+			OBJECT_ID=#{docId}
+	</delete>
+	
 	<select id="selectDocumentPageCount" parameterType="document" resultType="int">
 		SELECT 
-			MOD(COUNT(D.DOCUMENT_ID),10)
+			FLOOR((COUNT(D.DOCUMENT_ID)-1)/10)+1
 		FROM
 			DOCUMENT D, DOCUMENT_FOLDER F
 		WHERE
@@ -334,6 +373,20 @@
 				D.DELETE_TYPE != 1
 			AND
 				F.FOLDER_ID = #{FOLDER_ID}
+			<if test="searchText != null and searchText != ''">
+				<if test="searchType == 'bindTitle'">
+					AND
+						D.BIND_TITLE like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'documentTitle'">
+					AND
+						D.DOCUMENT_TITLE like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'userId'">
+					AND
+						D.USER_NAME like '%'||#{searchText}||'%'
+				</if>
+			</if>
 	</select>
 	
 	<resultMap type="java.util.HashMap" id="favoriteMap">

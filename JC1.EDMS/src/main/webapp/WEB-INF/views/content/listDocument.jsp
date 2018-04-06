@@ -19,19 +19,21 @@
 	<div class="table-filter">
 		<div class="table-search-list" id="search-title"><img src="resources/images/search.png" style="vertical-align: middle; height: 100%">&nbsp;&nbsp;<span style="vertical-align: middle; font-weight: bold;">SEARCH</span></div>
 		<div class="table-search-list" id="search-select">
-			<span style="vertical-align: middle;"><select>
-				<option value="">등록구분</option>
-				<option value="">철제목</option>
-				<option value="">문서제목</option>
-				<option value="">작성일</option>
-				<option value="">작성일자</option>
-			</select></span>
+			<span style="vertical-align: middle;">
+				<select id="searchOp">
+					<option value="">등록구분</option>
+					<option value="bindTitle">철제목</option>
+					<option value="documentTitle">문서제목</option>
+					<option value="userId">작성자</option>
+					<!-- <option value="">작성일자</option> -->
+				</select>
+			</span>
 		</div>
 		<div class="table-search-list" id="search-input">
-			<input type="text" placeholder="검색어를 입력해주세요" style="width: 100%; vertical-align: middle;">
+			<input type="text" id="searchTxt" placeholder="검색어를 입력해주세요" style="width: 100%; vertical-align: middle;">
 		</div>
 		<div class="table-search-list" id="search-button">
-			<input type="button" value="검색" style="vertical-align: middle;">
+			<input type="button" value="검색" style="vertical-align: middle;" onclick="searchDocument()">
 		</div>
 	</div>
 	<table class="table table-striped table-hover">
@@ -73,7 +75,7 @@
 			<c:if test="${fn:length(d_list) >= 10}">
 				<c:forEach var="list" items="${d_list }">
 					<tr style="text-align: center;">
-						<td class="listTable1 listCheck" id="${list.DOCUMENT_ID}"><input type="checkbox"></td>
+						<td class="listTable1 listCheck" id="${list.DOCUMENT_ID}"><input type="checkbox" name="document-chk"></td>
 						<td class="listTable2">${list.GROUP_NAME}</td>
 						<td class="listTable3">${list.BIND_TITLE}</td>
 						<td class="listTable4" style="cursor: pointer; " onclick="viewDetail('${list.DOCUMENT_ID}','${folderName}')">${list.DOCUMENT_TITLE}</td>
@@ -100,7 +102,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="6" style="text-align: right;"><input type="button" value="즐겨찾기등록" onclick="popupFavorite()"></td>
+				<td colspan="6" style="text-align: right;"><input type="button" value="즐겨찾기등록" onclick="popupFavorite('insert')"></td>
 			</tr>
 		</tbody>
 	</table>
@@ -134,10 +136,17 @@ function changePage(p) {
 	loadListPage(p);
 }
 
-function loadListPage(page) {
-	var arr = {FOLDER_NAME:listFolderName, FOLDER_ID:listFolderId, page:page};
+function loadListPage(page,searchText,searchType) {
+	var arr = {FOLDER_NAME:listFolderName, FOLDER_ID:listFolderId, page:page, searchText:searchText, searchType:searchType};
 	var url = 'listDocument';
 	changeContent(url,arr);
+}
+
+function searchDocument() {
+	var txt = $('#searchTxt').val();
+	var selectVal = $("#searchOp option:selected").val();
+	
+	loadListPage('1', txt, selectVal);
 }
 
 </script>

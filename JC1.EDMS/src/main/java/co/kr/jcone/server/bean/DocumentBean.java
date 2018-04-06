@@ -65,6 +65,8 @@ public class DocumentBean{
 	private String startPage;
 	private String endPage;
 	private String page;
+	private String searchText;
+	private String searchType;
 	
 	public String getTitle() {
 		return title;
@@ -312,6 +314,17 @@ public class DocumentBean{
 	public void setPage(String page) {
 		this.page = page;
 	}
-
+	public String getSearchText() {
+		return searchText;
+	}
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
+	}
+	public String getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
 
 }

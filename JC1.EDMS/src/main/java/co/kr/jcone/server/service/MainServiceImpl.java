@@ -70,6 +70,9 @@ public class MainServiceImpl implements MainService{
 		String folderName = bean.getFOLDER_NAME();
 		String folderId = bean.getFOLDER_ID();
 		String page = bean.getPage();
+		String searchType = bean.getSearchType();
+		
+		System.out.println(searchType);
 		
 		DocumentBean documentBean = new DocumentBean();
 //		documentBean.setUSER_ID("vitakang");
@@ -77,6 +80,8 @@ public class MainServiceImpl implements MainService{
 		documentBean.setGROUP_ID("4");
 		documentBean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
 		documentBean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
+		documentBean.setSearchText(bean.getSearchText());
+		documentBean.setSearchType(bean.getSearchType());
 		
 		List<DocumentBean> list = documentDao.getDocumentList(documentBean);
 		int maxPage = documentDao.selectDocumentPageCount(documentBean);
@@ -88,15 +93,10 @@ public class MainServiceImpl implements MainService{
 		mv.addObject("maxPage", maxPage);
 		mv.addObject("maxDocument", maxDocument);
 		
-		System.out.println(maxPage);
-		
-		
 		mv.addObject("d_list", list);
 		mv.addObject("folderName", folderName);
 		mv.addObject("folderId", folderId);
 		mv.setViewName("content/listDocument");
-		// todo
-		// 문서 목록
 		return mv;
 	}
 
@@ -163,41 +163,51 @@ public class MainServiceImpl implements MainService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public String addFavoriteDocument(Map<String, Object> paramMap) {
-		List<String> favoriteNameList = (ArrayList<String>) paramMap.get("favoriteName");
-		List<String> favoriteDescriptionList = (ArrayList<String>) paramMap.get("favoriteDescription");
-		List<String> docIdList = (ArrayList<String>) paramMap.get("docId");
-//		List<String> mapInList = null;
-		int size = favoriteNameList.size();
-		String favoriteName = null;
-		String favoriteDescription = null;
 		Map<String, String> dataMap = new HashMap<>();
-		int errorCnt = 0;
-		
 		dataMap.put("userId", (String) paramMap.get("userId"));
 		dataMap.put("userName", (String) paramMap.get("userName"));
-//		dataMap.put("objectId", UUID.randomUUID().toString());
+		int errorCnt = 0;
 		
-//		Iterator<String> keys = paramMap.keySet().iterator();
-//		String key = null;
-		
-//		while (keys.hasNext()) {
-//			key = keys.next();
-//			mapInList = (ArrayList<String>) paramMap.get(key);
-//			size = mapInList.size();
+		if (paramMap.get("favoriteName") instanceof List) {
+			List<String> favoriteNameList = (ArrayList<String>) paramMap.get("favoriteName");
+			List<String> favoriteDescriptionList = (ArrayList<String>) paramMap.get("favoriteDescription");
+			List<String> docIdList = (ArrayList<String>) paramMap.get("docId");
+			int size = favoriteNameList.size();
 			
 			for (int i = 0; i < size; i++) {
-				favoriteDescription = favoriteDescriptionList.get(i);
-				favoriteName = favoriteNameList.get(i);
-				dataMap.put("favoriteName", favoriteName);
-				dataMap.put("favoriteDescription", favoriteDescription);
-				dataMap.put("docId", docIdList.get(i));
-				
-				if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
+//				favoriteDescription = favoriteDescriptionList.get(i);
+//				favoriteName = favoriteNameList.get(i);
+//				
+//				dataMap.put("favoriteName", favoriteName);
+//				dataMap.put("favoriteDescription", favoriteDescription);
+//				dataMap.put("docId", docIdList.get(i));
+				if (!this.addFavoriteDocument(favoriteDescriptionList.get(i), favoriteNameList.get(i), docIdList.get(i), dataMap)) errorCnt++;
+//				if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
 			}
-//		}
-		
+		} else if (paramMap.get("favoriteName") instanceof String) {
+//			favoriteName = (String) paramMap.get("favoriteName");
+//			favoriteDescription = (String) paramMap.get("favoriteDescription");
+//			docId = (String) paramMap.get("docId"); 
+//			
+//			dataMap.put("favoriteName", favoriteName);
+//			dataMap.put("favoriteDescription", favoriteDescription);
+//			dataMap.put("docId", docId);
+//			
+//			if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
+			
+			if (!this.addFavoriteDocument((String) paramMap.get("favoriteDescription"), (String) paramMap.get("favoriteName"), (String) paramMap.get("docId"), dataMap)) errorCnt++;
+		}
 		
 		return errorCnt > 0 ? "F" : "S";
+	}
+	
+	private boolean addFavoriteDocument(String favoriteDescription, String favoriteName,String docId, Map<String, String> dataMap) {
+		dataMap.put("favoriteName", favoriteName);
+		dataMap.put("favoriteDescription", favoriteDescription);
+		dataMap.put("docId", docId);
+		
+		if (mainDao.insertFavoriteDocument(dataMap) <= 0) return false;
+		else return true;
 	}
 
 	@Override
@@ -205,4 +215,21 @@ public class MainServiceImpl implements MainService{
 		List<Map<String, Object>> favoriteList = mainDao.selectFavoriteList(userId);
 		model.addObject("favoriteList", favoriteList);
 	}
+
+	@Override
+	public String deleteFavorite(Map<String, Object> paramMap) {
+		String[] docIdArr = ((String) paramMap.get("deleteStr")).split("[|]");
+		Map<String, String> dataMap = new HashMap<>(); 
+		int failCnt = 0;
+		dataMap.put("userId", (String) paramMap.get("userId"));
+		
+		for (String docId : docIdArr) {
+			dataMap.put("docId", docId);
+			
+			if (mainDao.deleteFavorite(dataMap) <= 0) failCnt++;  
+		}
+		
+		return failCnt == 0 ? "S" : "F";
+	}
+	
 }
