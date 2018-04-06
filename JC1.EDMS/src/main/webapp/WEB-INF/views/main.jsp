@@ -41,7 +41,7 @@
 					</div>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn">즐겨찾기</button>
+					<button class="dropbtn" onclick="favoriteList();">즐겨찾기</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
 					<button class="dropbtn">개인문서</button>
@@ -218,6 +218,11 @@ function viewDetail(documentId,folderName) {
 function documentInsert(obj) {
 	var url = 'insertDocument';
 	changeContent(url);
+}
+
+function favoriteList() {
+	var url = "favoriteList";
+	changeContent(url, null);
 }
 
 function settingContent() {

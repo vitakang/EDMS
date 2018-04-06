@@ -61,6 +61,8 @@ public class DocumentBean{
 	
 	// TEST
 	
+	private String[] FOLDER_IDS;
+	
 	private String title;
 	
 	public String getTitle() {
@@ -290,6 +292,12 @@ public class DocumentBean{
 	}
 	public void setFOLDER_PATH(String fOLDER_PATH) {
 		FOLDER_PATH = fOLDER_PATH;
+	}
+	public String[] getFOLDER_IDS() {
+		return FOLDER_IDS;
+	}
+	public void setFOLDER_IDS(String[] fOLDER_IDS) {
+		FOLDER_IDS = fOLDER_IDS;
 	}		
 	
 }

@@ -29,4 +29,9 @@ public class MainDaoImpl implements MainDao {
 		return sqlSession.insert("edmsMapper.insertFavoriteDocument", dataMap);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectFavoriteList(String userId) {
+		return sqlSession.selectList("edmsMapper.selectFavoriteList", userId);
+	}
+
 }
