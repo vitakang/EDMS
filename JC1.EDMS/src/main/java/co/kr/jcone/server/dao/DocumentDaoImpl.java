@@ -88,9 +88,21 @@ public class DocumentDaoImpl implements DocumentDao{
 	public int selectCountDocument(DocumentBean documentBean) {
 		return sqlSession.selectOne("edmsMapper.selectCountDocument",documentBean);
 	}
-	
-	
-	
+
+	@Override
+	public int selectTeamFolderPageCount(DocumentBean bean) {
+		return sqlSession.selectOne("edmsMapper.selectTeamFolderPageCount", bean);
+	}
+
+	@Override
+	public int selectCountTeamFolderList(DocumentBean bean) {
+		return sqlSession.selectOne("edmsMapper.selectCountTeamFolderList", bean);
+	}
+
+	@Override
+	public int documentDelete(DocumentBean bean) {
+		return sqlSession.selectOne("edmsMapper.documentDelete", bean);
+	}
 	
 	
 	

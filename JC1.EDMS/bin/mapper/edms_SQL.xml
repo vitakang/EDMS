@@ -159,14 +159,17 @@
 										D.USER_NAME like '%'||#{searchText}||'%'
 								</if>
 							</if>
-					) S
+							ORDER BY 
+								D.REGISTER_DATE DESC
+					) S ORDER BY IDX ASC
 			)AL 
 		WHERE 
 			<![CDATA[ 
 					AL.IDX <= #{endPage}
 				AND
 					AL.IDX > #{startPage}
-			]]> 
+			]]>
+			ORDER BY AL.IDX ASC
 		
 	</select>
 	
@@ -283,23 +286,102 @@
 	</insert>
 	
 	<select id="selectTeamFolderList" parameterType="document" resultType="document">
-		SELECT
-			FOLDER_ID,
-			FOLDER_NAME,
-			FOLDER_DESCRIPTION,
-			FOLDER_LEVEL,
-			USER_ID,
-			USER_NAME,
-			ROW_INPUT_DATE
-		FROM 
-			FOLDER 
+		SELECT 
+			AL.* 
+		FROM (
+				SELECT 
+					ROWNUM AS IDX,
+					S.*
+				FROM (	
+						SELECT
+							FOLDER_ID,
+							FOLDER_NAME,
+							FOLDER_DESCRIPTION,
+							FOLDER_LEVEL,
+							USER_ID,
+							USER_NAME,
+							ROW_INPUT_DATE
+						FROM 
+							FOLDER 
+						WHERE 
+								PARENT_FOLDER_ID = #{GROUP_ID} 
+							AND
+								FOLDER_TYPE = '1'
+							<if test="searchText != null and searchText != ''">
+								<if test="searchType == 'folderName'">
+									AND
+										FOLDER_NAME like '%'||#{searchText}||'%'
+								</if>
+								<if test="searchType == 'folderDes'">
+									AND
+										FOLDER_DESCRIPTION like '%'||#{searchText}||'%'
+								</if>
+								<if test="searchType == 'userId'">
+									AND
+										USER_NAME like '%'||#{searchText}||'%'
+								</if>
+							</if>
+						ORDER BY 
+							FOLDER_ID DESC
+					) S
+			)AL 
 		WHERE 
-				PARENT_FOLDER_ID = #{GROUP_ID} 
-			AND
-				FOLDER_TYPE = '1'
-		ORDER BY 
-			FOLDER_ID DESC
+			<![CDATA[ 
+					AL.IDX <= #{endPage}
+				AND
+					AL.IDX > #{startPage}
+			]]> 
 	
+	</select>
+	
+	<select id="selectTeamFolderPageCount" parameterType="document" resultType="int">
+		SELECT 
+			FLOOR((COUNT(FOLDER_ID)-1)/10)+1
+		FROM
+			FOLDER
+		WHERE
+				FOLDER_TYPE = 1
+			AND
+				PARENT_FOLDER_ID = #{GROUP_ID}
+			<if test="searchText != null and searchText != ''">
+				<if test="searchType == 'folderName'">
+					AND
+						FOLDER_NAME like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'folderDes'">
+					AND
+						FOLDER_DESCRIPTION like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'userId'">
+					AND
+						USER_NAME like '%'||#{searchText}||'%'
+				</if>
+			</if>
+	</select>
+	
+	<select id="selectCountTeamFolderList" parameterType="document" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM
+			FOLDER
+		WHERE
+				FOLDER_TYPE = 1
+			AND
+				PARENT_FOLDER_ID = #{GROUP_ID}
+			<if test="searchText != null and searchText != ''">
+				<if test="searchType == 'folderName'">
+					AND
+						FOLDER_NAME like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'folderDes'">
+					AND
+						FOLDER_DESCRIPTION like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'userId'">
+					AND
+						USER_NAME like '%'||#{searchText}||'%'
+				</if>
+			</if>
 	</select>
 	
 	<insert id="insertFavoriteDocument" parameterType="HashMap">
@@ -336,8 +418,18 @@
 			FOLDER_TYPE = '0'
 		WHERE
 			FOLDER_ID = #{string}
-	
 	</update>
+	
+	<update id="documentDelete" parameterType="document">
+		UPDATE
+			DOCUMENT
+		SET
+			DELETE_TYPE = '1'
+		WHERE
+			DOCUMENT_ID = #{DOCUMENT_ID}
+	</update>
+	
+	
 	
 	<select id="selectFavoriteList" parameterType="String" resultMap="favoriteMap">
 		SELECT

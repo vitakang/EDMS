@@ -103,6 +103,12 @@ public class MainController {
 	}
 	
 	@ResponseBody
+	@RequestMapping("/documentDelete")
+	public String documentDelete(HttpServletRequest request, HttpServletResponse response, HttpSession session, @ModelAttribute DocumentBean bean) {
+		return mainService.documentDelete(request, response, session, bean);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="download")
 	public String download(HttpServletRequest request, HttpServletResponse response, HttpSession session, @ModelAttribute DocumentBean bean) {
 		
