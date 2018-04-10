@@ -19,14 +19,14 @@ import org.springframework.web.servlet.ModelAndView;
 import co.kr.jcone.server.service.LoginService;
 
 @Controller
-@RequestMapping("login")
+//@RequestMapping("login")
 public class LoginController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	@Autowired private LoginService loginService;
 
-	@RequestMapping(value = "view")
+	@RequestMapping(value = "loginView")
 	public ModelAndView loginView(Locale locale, Model model) {
 		
 		return new ModelAndView("login");
@@ -35,6 +35,12 @@ public class LoginController {
 	@RequestMapping(value = "login", method = { RequestMethod.POST })
 	public @ResponseBody String login(@RequestParam Map<String, String> paramMap, HttpServletRequest request) {
 		String returnMsg = loginService.login(paramMap, request.getSession());
+		return returnMsg;
+	}
+	
+	@RequestMapping(value = "logout", method = { RequestMethod.POST })
+	public @ResponseBody String logout(@RequestParam Map<String, String> paramMap, HttpServletRequest request) {
+		String returnMsg = loginService.logout(paramMap, request.getSession());
 		return returnMsg;
 	}
 }

@@ -29,8 +29,14 @@ function login() {
 				form.submit();
 			}
 		},
-		error : function(e) {
-			alert(e);
+		error : function(xhr, textStatus, error) {
+			if (xhr.status == "901") {
+				 location.href = "loginView";
+//				goPage("loginView.jcg", {'COMMAND' : 'NOT_LOGIN'});
+			}
+		},
+		beforeSend : function(xmlHttpRequest) {
+			xmlHttpRequest.setRequestHeader("AJAX", "true");
 		}
 	});
 }

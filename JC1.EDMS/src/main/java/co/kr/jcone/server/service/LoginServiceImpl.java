@@ -39,4 +39,11 @@ public class LoginServiceImpl implements LoginService {
 		return resultMsg;
 	}
 
+	@Override
+	public String logout(Map<String, String> paramMap, HttpSession session) {
+//		String userId = (String) session.getAttribute("userId");
+		session.removeAttribute("userId");
+		return "S";
+	}
+	
 }

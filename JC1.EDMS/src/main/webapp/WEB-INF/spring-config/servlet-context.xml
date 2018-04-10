@@ -29,12 +29,15 @@
 		<beans:property name="locations" value="classpath:/config.properties" />
 		<beans:property name="fileEncoding" value="UTF-8" />
 	</beans:bean>
-	<!-- <interceptors>
+	
+	<interceptors>
 		<interceptor>
 			<mapping path="/**" />
-			<exclude-mapping path="/login/view" />
-			<beans:bean class="com.jcone.server.interceptor.UserInterceptor" />
+			<exclude-mapping path="/loginView" />
+			<exclude-mapping path="/login" />
+			<exclude-mapping path="/resources/**" />
+			<beans:bean class="co.kr.jcone.server.interceptor.UserInterceptor" />
 		</interceptor>
-	</interceptors> -->
+	</interceptors>
 
 </beans:beans>

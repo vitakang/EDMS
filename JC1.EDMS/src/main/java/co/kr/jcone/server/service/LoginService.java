@@ -7,4 +7,6 @@ import javax.servlet.http.HttpSession;
 public interface LoginService {
 
 	abstract public String login(Map<String, String> paramMap, HttpSession httpSession);
+
+	public abstract String logout(Map<String, String> paramMap, HttpSession session);
 }

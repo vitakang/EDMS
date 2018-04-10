@@ -47,7 +47,7 @@
 					<button class="dropbtn" onclick="ready_ing()">개인문서</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn">로그아웃</button>
+					<button class="dropbtn" onclick="logout()">로그아웃</button>
 				</div>
 			</div>
 		</div>
@@ -189,6 +189,56 @@
 <script src="resources/js/favorite.js"></script>
 <script type="text/javascript">
 
+function goPage(path, params, method) {
+	method = method || "post";
+	
+	var form = document.createElement("form");
+	form.setAttribute("method",method);
+	form.setAttribute("action",path);
+	
+	for(var key in params){
+		var hiddenFiled = document.createElement("input");
+		hiddenFiled.setAttribute("type","hidden");
+		hiddenFiled.setAttribute("name",key);
+		hiddenFiled.setAttribute('value',params[key]);
+		
+		form.appendChild(hiddenFiled);
+		
+	}
+	
+	document.body.appendChild(form);
+	form.submit();
+
+}
+
+// 로그아웃
+function logout() {
+	$.ajax({
+		type : "POST",
+		url : 'logout.jcg',
+		contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+		data : {
+			"id" : '${id}'
+		},
+		success : function(data) {
+			// alert(data);
+			if (data == "S") goPage("login/view.jcg");
+			else {
+				alert("로그아웃 실패" + data);
+			}
+		},
+		error : function(xhr, textStatus, error) {
+			if (xhr.status == "901") {
+				// location.href = "loginView.jcg?COMMAND=NOT_LOGIN";
+				goPage("login/view.jcg", {'COMMAND' : 'NOT_LOGIN'});
+			}
+		},
+		beforeSend : function(xmlHttpRequest) {
+			xmlHttpRequest.setRequestHeader("AJAX", "true");
+		}
+	});
+}
+
 //문서 목록
 function documentContent(obj,page) {
 	var arr = {FOLDER_NAME:obj.text,FOLDER_ID:obj.id,page:page};
@@ -238,7 +288,28 @@ function teamFolder(url) {
 function changeContent(url,arr) {
 	console.log(arr);
 	console.log(url);
-    $('#right_Content').load(url,arr);
+    /* $('#right_Content').load(url,arr); */
+    
+    $.ajax({
+		type : "POST",
+		url : url,
+		contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+		data : arr,
+//		processData : false,
+		success : function(data) {
+			var contentEl = document.getElementById("right_Content");
+			contentEl.innerHTML = data;
+		},
+		error : function(xhr, textStatus, error) {
+			if (xhr.status == "901") {
+				 location.href = "loginView";
+//				goPage("loginView.jcg", {'COMMAND' : 'NOT_LOGIN'});
+			}
+		},
+		beforeSend : function(xmlHttpRequest) {
+			xmlHttpRequest.setRequestHeader("AJAX", "true");
+		}
+	});
 }
 
 function movePage(url) {
