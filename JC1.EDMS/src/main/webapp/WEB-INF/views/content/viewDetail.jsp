@@ -63,8 +63,8 @@
 			</tr>
 			<tr style="height:8%">
 				<td colspan="2" style="text-align: right; width: 100%">
-					<input type="button" value="삭제">
-					<input type="button" value="수정">
+					<input type="button" value="삭제" onclick="documentDelete()">
+					<!-- <input type="button" value="수정"> -->
 					<input type="button" value="목록" onclick="documentlist()"><a style="display: none;" id="d-title">${folderName}</a>
 				</td>
 			</tr>
@@ -80,6 +80,31 @@ function documentlist() {
 	console.log(arr);
 	console.log(url);
 	changeContent(url,arr);
+}
+
+function documentDelete() {
+	
+	$.ajax({
+        url: '/jcone/documentDelete',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
+        data: {DOCUMENT_ID:${documentBean.DOCUMENT_ID}},
+        type: 'POST',
+        success: function(result){
+        	
+        	console.log(result);
+
+        },beforeSend:function(){
+            //(이미지 보여주기 처리)
+            $('.wrap-loading').removeClass('display-none');
+        },complete:function(){
+           // (이미지 감추기 처리)
+            $('.wrap-loading').addClass('display-none');
+        },error:function(e){
+        	alert('오류 발생\n' + e);
+        	form_Data = new FormData();
+        },timeout:100000 //"응답제한시간 ms"
+
+    });
 }
 
 function downloadFile() {

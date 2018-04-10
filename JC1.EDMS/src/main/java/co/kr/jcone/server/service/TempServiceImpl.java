@@ -34,7 +34,9 @@ public class TempServiceImpl implements TempService{
 				JSONObject jsonObject = (JSONObject) jArr.get(i);
 				System.out.println(jsonObject.get("FOLDER_IDS"));
 				
-				tempDao.teamFolderDelete((String)jsonObject.get("FOLDER_IDS"));
+				if(tempDao.teamFolderDelete((String)jsonObject.get("FOLDER_IDS")) < 1) {
+					System.out.println("실패");
+				}
 				
 			}
 			

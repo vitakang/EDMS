@@ -72,7 +72,7 @@ public class MainServiceImpl implements MainService{
 		String page = bean.getPage();
 		String searchType = bean.getSearchType();
 		
-		System.out.println(searchType);
+		//System.out.println(searchType);
 		
 		DocumentBean documentBean = new DocumentBean();
 //		documentBean.setUSER_ID("vitakang");
@@ -231,5 +231,15 @@ public class MainServiceImpl implements MainService{
 		
 		return failCnt == 0 ? "S" : "F";
 	}
+
+	@Override
+	public String documentDelete(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean) {
+		if(documentDao.documentDelete(bean) < 1) {
+			
+		}
+		return null;
+	}
+	
+	
 	
 }

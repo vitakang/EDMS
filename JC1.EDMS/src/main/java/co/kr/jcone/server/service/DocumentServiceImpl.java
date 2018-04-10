@@ -201,10 +201,39 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public ModelAndView teamFolderManager(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
+		
+		String folderName = bean.getFOLDER_NAME();
+		String folderId = bean.getFOLDER_ID();
+		String page = bean.getPage();
+		String searchType = bean.getSearchType();
+		
+		//System.out.println(searchType);
+		
+		//DocumentBean documentBean = new DocumentBean();
+//		documentBean.setUSER_ID("vitakang");
+		//documentBean.setFOLDER_ID(bean.getFOLDER_ID());
+		//documentBean.setGROUP_ID("4");
+		//documentBean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
+		//documentBean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
+		//documentBean.setSearchText(bean.getSearchText());
+		//documentBean.setSearchType(bean.getSearchType());
+		
+		//List<DocumentBean> list = documentDao.getDocumentList(documentBean);
+		//int maxPage = documentDao.selectDocumentPageCount(documentBean);
+		//int maxDocument = documentDao.selectCountDocument(documentBean);
 
 	    bean.setGROUP_ID("4");
+	    bean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
+	    bean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
 		List<DocumentBean> folderList = documentDao.selectTeamFolderList(bean); 
+		int maxPage = documentDao.selectTeamFolderPageCount(bean);
+		int maxFolder = documentDao.selectCountTeamFolderList(bean);
 
+		mv.addObject("startingPage", MainUtls.getStartpage(maxPage,Integer.parseInt(page)));
+		mv.addObject("endPage", MainUtls.getEndpage(maxPage,Integer.parseInt(page)));
+		mv.addObject("nowPage", Integer.parseInt(page));
+		mv.addObject("maxPage", maxPage);
+		mv.addObject("maxFolder", maxFolder);
 		mv.addObject("folderList", folderList);
 		mv.setViewName("content/teamFolderManager");
 		

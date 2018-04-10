@@ -24,4 +24,7 @@ public interface MainService {
 
 	abstract public String deleteFavorite(Map<String, Object> paramMap);
 
+	String documentDelete(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			DocumentBean bean);
+
 }

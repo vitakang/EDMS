@@ -37,7 +37,7 @@
 					<button onclick="myFunction()" class="dropbtn">팀문서함</button>
 					<div id="myDropdown" class="dropdown-content">
 						<a href="javascript:teamFolder('teamFolderInsert');">팀문서함 등록</a>
-						<a href="javascript:teamFolder('teamFolderManager');">팀문서함 관리</a>
+						<a href="javascript:teamFolder('teamFolderManager','1');">팀문서함 관리</a>
 					</div>
 				</div>
 				<div class="menu-col" style="text-align: center;">
@@ -279,9 +279,9 @@ function settingContent() {
 	changeContent(url,null);
 }
 
-function teamFolder(url) {
+function teamFolder(url,page,searchText,searchType) {
 	var groupId = ${myGroup};
-	var arr = {GROUP_ID:groupId};
+	var arr = {GROUP_ID:groupId, page:page, searchText:searchText, searchType:searchType};
 	changeContent(url,arr);
 }
 

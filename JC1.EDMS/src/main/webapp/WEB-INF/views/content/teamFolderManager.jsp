@@ -21,11 +21,9 @@
 		<div class="table-search-list" id="search-title"><img src="resources/images/search.png" style="vertical-align: middle; height: 100%">&nbsp;&nbsp;<span style="vertical-align: middle; font-weight: bold;">SEARCH</span></div>
 		<div class="table-search-list" id="search-select">
 			<span style="vertical-align: middle;"><select>
-				<option value="">레벨</option>
-				<option value="">문서함이름</option>
-				<option value="">문서함설명</option>
-				<option value="">생성자</option>
-				<option value="">생성일자</option>
+				<option value="folderName">문서함이름</option>
+				<option value="folderDes">문서함설명</option>
+				<option value="userId">생성자</option>
 			</select></span>
 		</div>
 		<div class="table-search-list" id="search-input">
@@ -84,24 +82,25 @@
 				</c:forEach>
 			</c:if>
 			<tr>
-				<td colspan="2" style="text-align: left;">검색건수 :  ${fn:length(folderList)}</td>
+				<td colspan="2" style="text-align: left;">검색건수 :  ${maxFolder}</td>
 				<td colspan="4" style="text-align: center;">
 					<ul class="pagination">
-						<li class="page-item disabled"><a href="#">Previous</a></li>
-						<li class="page-item"><a href="#" class="page-link">1</a></li>
-						<li class="page-item"><a href="#" class="page-link">2</a></li>
-						<li class="page-item"><a href="#" class="page-link">3</a></li>
-						<li class="page-item active"><a href="#" class="page-link">4</a></li>
-						<li class="page-item"><a href="#" class="page-link">5</a></li>
-						<li class="page-item"><a href="#" class="page-link">6</a></li>
-						<li class="page-item"><a href="#" class="page-link">7</a></li>
-						<li class="page-item"><a href="#" class="page-link">Next</a></li>
+						<li class="page-item disabled"><a href="javascript:previousPage();">Previous</a></li>
+						<c:forEach begin="${startingPage}" end="${endPage}" var="i">
+							<c:if test="${i == nowPage }">
+								<li class="page-item active"><a class="page-link" style="cursor: pointer;">${i}</a></li>
+							</c:if>
+							<c:if test="${i != nowPage }">
+								<li class="page-item"><a href="javascript:changePage(${i});" class="page-link">${i}</a></li>
+							</c:if>
+						</c:forEach>
+						<li class="page-item"><a href="javascript:nextPage();" class="page-link">Next</a></li>
 					</ul>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="6" style="text-align: right;">
-					<input type="button" value="수정">
+					<!-- <input type="button" value="수정"> -->
 					<input type="button" value="삭제" onclick="deleteTeamFolder()">
 				</td>
 			</tr>
@@ -111,6 +110,43 @@
 <script type="text/javascript">
 
 var deleteArr = new Array();
+var listNowPage = ${nowPage};
+var listMaxPage = ${maxPage};
+
+function previousPage() {
+	if(listNowPage < 2){
+		alert('이전페이지가 없습니다.');
+	}else{
+		console.log(listNowPage-1);
+		loadListPage(listNowPage-1);
+	}
+}
+
+function nextPage() {
+	if(listNowPage >= listMaxPage){
+		alert('다음페이지가 없습니다.');
+	}else{
+		//console.log(listNowPage+1);
+		loadListPage(listNowPage+1);
+	}
+}
+
+function changePage(p) {
+	loadListPage(p);
+}
+
+function loadListPage(page,searchText,searchType) {
+	var arr = {page:page, searchText:searchText, searchType:searchType};
+	var url = 'teamFolderManager';
+	changeContent(url,arr);
+}
+
+function searchDocument() {
+	var txt = $('#searchTxt').val();
+	var selectVal = $("#searchOp option:selected").val();
+	
+	loadListPage('1', txt, selectVal);
+}
 
 function allCheckMananger() {
 	if($('#allCheck').prop('checked')){
@@ -140,13 +176,13 @@ function deleteTeamFolder() {
 		    url: '/jcone/teamFolderDelete',
 		    contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
 		    data: {jsonData:json_arr},
-		    dataType:'JSON',
+		    dataType:'text',
 	        cache: false,
 		    type: 'POST',
 		    success: function(result){
 		    	if('success' == result){
 		    		alert('삭제완료');
-		    		teamFolder('teamFolderManager');
+		    		teamFolder('teamFolderManager','1');
 		    	}else{
 		    		alert('fail');
 		    	}
@@ -158,6 +194,7 @@ function deleteTeamFolder() {
 		        $('.wrap-loading').addClass('display-none');
 		    },error:function(e){
 		    	alert('오류 발생\n' + e);
+		    	console.log(e);
 		    },timeout:100000 //"응답제한시간 ms"
 		});
 	}
