@@ -2,6 +2,7 @@ package co.kr.jcone.server.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +35,10 @@ public class MainServiceImpl implements MainService{
 	@Override
 	public ModelAndView mainPageView(HttpServletRequest request, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
+
+		String groupId = (String) session.getAttribute("groupId");
 		
-		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList();
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
 		List<GroupBean> groupList = new ArrayList<>();
 		int overCnt = 0;
 		String myTeam = "";
@@ -58,7 +61,7 @@ public class MainServiceImpl implements MainService{
 		mv.addObject("groupList", groupList);
 		mv.addObject("groupInFolderList", groupInFolderList);
 		
-		mv.addObject("myGroup", "4");
+		mv.addObject("myGroup", groupId);
 		mv.setViewName("main");
 		return mv;
 	}
@@ -66,37 +69,45 @@ public class MainServiceImpl implements MainService{
 	@Override
 	public ModelAndView getListDocument(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
+		
+		try {
+			String folderName = bean.getFOLDER_NAME();
+			String folderId = bean.getFOLDER_ID();
+			String page = bean.getPage();
+			System.out.println(page);
 
-		String folderName = bean.getFOLDER_NAME();
-		String folderId = bean.getFOLDER_ID();
-		String page = bean.getPage();
-		String searchType = bean.getSearchType();
-		
-		//System.out.println(searchType);
-		
-		DocumentBean documentBean = new DocumentBean();
-//		documentBean.setUSER_ID("vitakang");
-		documentBean.setFOLDER_ID(bean.getFOLDER_ID());
-		documentBean.setGROUP_ID("4");
-		documentBean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
-		documentBean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
-		documentBean.setSearchText(bean.getSearchText());
-		documentBean.setSearchType(bean.getSearchType());
-		
-		List<DocumentBean> list = documentDao.getDocumentList(documentBean);
-		int maxPage = documentDao.selectDocumentPageCount(documentBean);
-		int maxDocument = documentDao.selectCountDocument(documentBean);
-		
-		mv.addObject("startingPage", MainUtls.getStartpage(maxPage,Integer.parseInt(page)));
-		mv.addObject("endPage", MainUtls.getEndpage(maxPage,Integer.parseInt(page)));
-		mv.addObject("nowPage", Integer.parseInt(page));
-		mv.addObject("maxPage", maxPage);
-		mv.addObject("maxDocument", maxDocument);
-		
-		mv.addObject("d_list", list);
-		mv.addObject("folderName", folderName);
-		mv.addObject("folderId", folderId);
-		mv.setViewName("content/listDocument");
+			String userId = (String) session.getAttribute("userId");
+			String groupId = (String) session.getAttribute("groupId");
+			List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+			
+			DocumentBean documentBean = new DocumentBean();
+			documentBean.setFOLDER_ID(bean.getFOLDER_ID());
+			documentBean.setGROUP_ID(groupId);
+			documentBean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
+			documentBean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
+			documentBean.setSearchText(bean.getSearchText());
+			documentBean.setSearchType(bean.getSearchType());
+			
+			List<DocumentBean> list = documentDao.getDocumentList(documentBean);
+			int maxPage = documentDao.selectDocumentPageCount(documentBean);
+			int maxDocument = documentDao.selectCountDocument(documentBean);
+			
+			mv.addObject("startingPage", MainUtls.getStartpage(maxPage,Integer.parseInt(page)));
+			mv.addObject("endPage", MainUtls.getEndpage(maxPage,Integer.parseInt(page)));
+			mv.addObject("nowPage", Integer.parseInt(page));
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("maxDocument", maxDocument);
+			mv.addObject("myGroup", groupId);
+			mv.addObject("groupList", MainUtls.getGroupList(groupInFolderList));
+			mv.addObject("groupInFolderList", groupInFolderList);
+			mv.addObject("userId", userId);
+			mv.addObject("d_list", list);
+			mv.addObject("folderName", MainUtls.changeTextUTF8(folderName));
+			mv.addObject("folderId", MainUtls.changeTextUTF8(folderId));
+			mv.setViewName("content/listDocument");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return mv;
 	}
 
@@ -211,12 +222,24 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public void favoriteList(String userId, ModelAndView model) {
-		List<Map<String, Object>> favoriteList = mainDao.selectFavoriteList(userId);
+	public void favoriteList(Map<String, String> paramMap, ModelAndView model) {
+		List<Map<String, Object>> favoriteList = null;
 		model.addObject("favoriteList", favoriteList);
-		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList();
+		
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(paramMap.get("groupId"));
 		List<GroupBean> groupList = new ArrayList<>();
 		int overCnt = 0;
+		String pageStr = (String) paramMap.get("page");
+		int page = 1;
+		
+		if (pageStr != null) {
+			page = Integer.parseInt(pageStr);
+		}
+		
+		paramMap.put("startIdx", String.valueOf(page * 10 - 10));
+		paramMap.put("endIdx", String.valueOf(page * 10));
+		
+		favoriteList = mainDao.selectFavoriteList(paramMap);
 		
 		for(int i = 0; i < groupInFolderList.size(); i++) {
 			
@@ -233,8 +256,18 @@ public class MainServiceImpl implements MainService{
 				else overCnt = 0;
 			}
 		}
+		
+		int maxPage = documentDao.selectFavoriteDocumentPageCount(paramMap);
+		int maxDocument = documentDao.selectCountFavoriteDocument(paramMap);
+		
+		model.addObject("startingPage", MainUtls.getStartpage(maxPage, page));
+		model.addObject("endPage", MainUtls.getEndpage(maxPage,page));
+		model.addObject("nowPage", page);
+		model.addObject("maxPage", maxPage);
+		model.addObject("maxDocument", maxDocument);
 		model.addObject("groupList", groupList);
 		model.addObject("groupInFolderList", groupInFolderList);
+		model.addObject("favoriteList", favoriteList);
 	}
 
 	@Override

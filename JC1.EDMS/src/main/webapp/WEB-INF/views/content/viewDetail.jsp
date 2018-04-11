@@ -1,11 +1,29 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JC1 EDMS</title>
+
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="resources/css/table2.css">
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="resources/js/jquery-ui.js"></script>
+<script src="resources/js/datepicker-ko.js"></script>
+</head>
+<body>
+	<%@ include file="../header.jsp"%>
+	<div id="main">
+		<%@ include file="../leftBar.jsp"%>
+		<div id="right_Content">
 <div class="table-wrapper">
 	<div class="table-title">
 		<h2>
@@ -71,11 +89,14 @@
 		</tbody>
 	</table>
 </div>
+		</div>
+	</div>
 <script type="text/javascript">
 console.log('누를때마다 호출');
 
 function documentlist() {
-	var arr = {folderName:'${folderName}'};
+	var nPage = ${nowPage};
+	var arr = {FOLDER_NAME:'${folderName}',page:nPage,FOLDER_ID:'${folderId}'};
 	var url = 'listDocument';
 	console.log(arr);
 	console.log(url);
@@ -83,11 +104,12 @@ function documentlist() {
 }
 
 function documentDelete() {
+	var documentId = '${documentBean.DOCUMENT_ID}';
 	
 	$.ajax({
         url: '/jcone/documentDelete',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
-        data: {DOCUMENT_ID:${documentBean.DOCUMENT_ID}},
+        data: {DOCUMENT_ID:documentId},
         type: 'POST',
         success: function(result){
         	
@@ -136,3 +158,6 @@ function downloadFile() {
 }
 
 </script>
+<script src="resources/js/common.js"></script>
+</body>
+</html>

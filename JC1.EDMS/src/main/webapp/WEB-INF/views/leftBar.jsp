@@ -4,7 +4,7 @@
 	<div id="left-menu">
 		<div style="height: 35px; padding-top: 10px">
 			<div class="leftMenu-top" style="color: white;">사용자</div>
-			<div class="leftMenu-top" style="color: white;">누구</div>
+			<div class="leftMenu-top" style="color: white;">${userId}</div>
 			<div class="leftMenu-top" onclick="settingContent()" style="color: white;">
 				<img src="resources/images/gear.png">
 			</div>

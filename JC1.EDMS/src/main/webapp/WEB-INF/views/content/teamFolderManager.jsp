@@ -2,15 +2,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JC1 EDMS</title>
+
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="resources/css/table2.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="resources/js/jquery-ui.js"></script>
+<script src="resources/js/datepicker-ko.js"></script>
+</head>
+<body>
+	<%@ include file="../header.jsp"%>
+	<div id="main">
+		<%@ include file="../leftBar.jsp"%>
+		<div id="right_Content">
 <div class="table-wrapper">
 	<div class="table-title">
 		<h2>
@@ -107,6 +121,8 @@
 		</tbody>
 	</table>
 </div>
+		</div>
+	</div>
 <script type="text/javascript">
 
 var deleteArr = new Array();
@@ -207,4 +223,6 @@ function folderReset() {
 }
 
 </script>
-
+<script src="resources/js/common.js"></script>
+</body>
+</html>

@@ -19,4 +19,6 @@ public interface DocumentService{
 
 	String insertFolder(HttpServletRequest request, DocumentBean bean, HttpSession session);
 
+	ModelAndView insertDocument(HttpServletRequest request, HttpSession session);
+
 }

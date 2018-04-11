@@ -20,17 +20,42 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.jcone.server.bean.DocumentBean;
+import co.kr.jcone.server.bean.GroupBean;
 import co.kr.jcone.server.bean.PathBean;
 import co.kr.jcone.server.dao.DocumentDao;
+import co.kr.jcone.server.dao.MainDao;
 import co.kr.jcone.server.util.MainUtls;
 
 @Service
 public class DocumentServiceImpl implements DocumentService{
 
 	private static final Logger logger = LoggerFactory.getLogger(DocumentServiceImpl.class);
-	
+
 	@Autowired
 	private DocumentDao documentDao;
+	
+	@Autowired
+	private MainDao mainDao;
+	
+	@Override
+	public ModelAndView insertDocument(HttpServletRequest request, HttpSession session) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("content/insertDocument");
+
+		String userId = (String) session.getAttribute("userId");
+		String groupId = (String) session.getAttribute("groupId");
+		System.out.println(userId + groupId);
+		mv.addObject("myGroup", groupId);
+		
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+
+		mv.addObject("groupList", MainUtls.getGroupList(groupInFolderList));
+		mv.addObject("groupInFolderList", groupInFolderList);
+		
+		return mv;
+	}
 
 	@Override
 	public String uploadDocument(HttpServletRequest request, DocumentBean bean, HttpSession session) {
@@ -167,20 +192,33 @@ public class DocumentServiceImpl implements DocumentService{
 	public ModelAndView viewDetail(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
-		String documentId = bean.getDOCUMENT_ID();
 		
-		System.out.println(documentId);
-		
-		DocumentBean documentBean = documentDao.viewDetail(documentId);
-		List<DocumentBean> documentFileBean = documentDao.selectFileListFromDocumentId(documentId);
-		
-		documentBean.setSECURITY_GRADE(MainUtls.changeSecurityGradeCode(documentBean.getSECURITY_GRADE(),"2"));
-		
-		mv.addObject("folderName",bean.getFOLDER_NAME());
-		mv.addObject("documentBean",documentBean);
-		mv.addObject("fileList",documentFileBean);
-		mv.setViewName("content/viewDetail");
-		
+		try {
+			String documentId = bean.getDOCUMENT_ID();
+			documentId = MainUtls.changeTextUTF8(documentId);
+			DocumentBean documentBean = documentDao.viewDetail(documentId);
+			List<DocumentBean> documentFileBean = documentDao.selectFileListFromDocumentId(documentId);
+
+			String userId = (String) session.getAttribute("userId");
+			String groupId = (String) session.getAttribute("groupId");
+			
+			List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+			System.out.println(bean.getPage());
+			System.out.println(MainUtls.changeTextUTF8(bean.getFOLDER_NAME()));
+			documentBean.setSECURITY_GRADE(MainUtls.changeSecurityGradeCode(documentBean.getSECURITY_GRADE(),"2"));
+			mv.addObject("folderName",MainUtls.changeTextUTF8(bean.getFOLDER_NAME()));
+			mv.addObject("folderId",MainUtls.changeTextUTF8(bean.getFOLDER_ID()));
+			mv.addObject("documentBean",documentBean);
+			mv.addObject("fileList",documentFileBean);
+			mv.addObject("groupList", MainUtls.getGroupList(groupInFolderList));
+			mv.addObject("groupInFolderList", groupInFolderList);
+			mv.addObject("userId", userId);
+			mv.addObject("myGroup", groupId);
+			mv.addObject("nowPage", bean.getPage());
+			mv.setViewName("content/viewDetail");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return mv;
 	}
@@ -190,8 +228,19 @@ public class DocumentServiceImpl implements DocumentService{
 		ModelAndView mv = new ModelAndView();
 		
 		List<DocumentBean> groupFolderList = documentDao.selectGroupFolderList(bean);
+
+		String userId = (String) session.getAttribute("userId");
+		String groupId = (String) session.getAttribute("groupId");
+		String groupName = (String) session.getAttribute("groupName");
 		
-		mv.addObject("groupName", "3사업부");
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+
+		mv.addObject("groupList", MainUtls.getGroupList(groupInFolderList));
+		mv.addObject("groupInFolderList", groupInFolderList);
+		mv.addObject("userId", userId);
+		mv.addObject("myGroup", groupId);
+		
+		mv.addObject("groupName", groupName);
 		mv.addObject("groupFolderList", groupFolderList);
 		mv.setViewName("content/teamFolderInsert");
 		
@@ -205,26 +254,16 @@ public class DocumentServiceImpl implements DocumentService{
 		String folderName = bean.getFOLDER_NAME();
 		String folderId = bean.getFOLDER_ID();
 		String page = bean.getPage();
-		String searchType = bean.getSearchType();
-		
-		//System.out.println(searchType);
-		
-		//DocumentBean documentBean = new DocumentBean();
-//		documentBean.setUSER_ID("vitakang");
-		//documentBean.setFOLDER_ID(bean.getFOLDER_ID());
-		//documentBean.setGROUP_ID("4");
-		//documentBean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
-		//documentBean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
-		//documentBean.setSearchText(bean.getSearchText());
-		//documentBean.setSearchType(bean.getSearchType());
-		
-		//List<DocumentBean> list = documentDao.getDocumentList(documentBean);
-		//int maxPage = documentDao.selectDocumentPageCount(documentBean);
-		//int maxDocument = documentDao.selectCountDocument(documentBean);
 
-	    bean.setGROUP_ID("4");
+		String userId = (String) session.getAttribute("userId");
+		String groupId = (String) session.getAttribute("groupId");
+		
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+		
+	    bean.setGROUP_ID(groupId);
 	    bean.setStartPage(String.valueOf(Integer.parseInt(page)*10-10));
 	    bean.setEndPage(String.valueOf(Integer.parseInt(page)*10));
+		
 		List<DocumentBean> folderList = documentDao.selectTeamFolderList(bean); 
 		int maxPage = documentDao.selectTeamFolderPageCount(bean);
 		int maxFolder = documentDao.selectCountTeamFolderList(bean);
@@ -235,6 +274,10 @@ public class DocumentServiceImpl implements DocumentService{
 		mv.addObject("maxPage", maxPage);
 		mv.addObject("maxFolder", maxFolder);
 		mv.addObject("folderList", folderList);
+		mv.addObject("groupList", MainUtls.getGroupList(groupInFolderList));
+		mv.addObject("groupInFolderList", groupInFolderList);
+		mv.addObject("userId", userId);
+		mv.addObject("myGroup", groupId);
 		mv.setViewName("content/teamFolderManager");
 		
 		return mv;
@@ -246,11 +289,16 @@ public class DocumentServiceImpl implements DocumentService{
 		// ID를 위한 날짜 (밀리세컨드)
 	 	Date today = new Date();
 
+		String userId = (String) session.getAttribute("userId");
+		String userName = (String) session.getAttribute("userName");
+		
 	 	SimpleDateFormat date = new SimpleDateFormat("MMddHHmmssSSS");
 
 	    String dateMiliSecond = date.format(today);
 	    bean.setGROUP_ID("4");
 	    bean.setFOLDER_ID(bean.getGROUP_ID() + "_" + dateMiliSecond);
+	    bean.setUSER_ID(userId);
+	    bean.setUSER_NAME(userName);
 		
 		if(documentDao.insertFolder(bean) < 1) {
 			return "fail";

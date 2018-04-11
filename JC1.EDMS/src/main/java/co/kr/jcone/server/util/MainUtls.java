@@ -1,7 +1,12 @@
 package co.kr.jcone.server.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import co.kr.jcone.server.bean.GroupBean;
 
 public class MainUtls {
 	
@@ -92,6 +97,30 @@ public class MainUtls {
 			endPage = pageCnt;
 		}
 		return endPage;
+	}
+	
+	public static List<GroupBean> getGroupList(List<GroupBean> groupInFolderList){
+		
+		List<GroupBean> groupList = new ArrayList<>();
+		int overCnt = 0;
+		
+		for(int i = 0; i < groupInFolderList.size(); i++) {
+			
+			if (groupList.size() <= 0) {
+				groupList.add(groupInFolderList.get(i));
+			} else {
+				for (int j = 0; j < groupList.size(); j++) {
+					if (groupList.get(j).getGroup_id().equals(groupInFolderList.get(i).getGroup_id())) {
+						overCnt++;
+					}
+				}
+				
+				if (overCnt == 0) groupList.add(groupInFolderList.get(i));
+				else overCnt = 0;
+			}
+		}
+		
+		return groupList;
 	}
 	
 }

@@ -1,11 +1,29 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JC1 EDMS</title>
+
+<link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="resources/css/table2.css">
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="resources/js/jquery-ui.js"></script>
+<script src="resources/js/datepicker-ko.js"></script>
+</head>
+<body>
+	<%@ include file="../header.jsp"%>
+	<div id="main">
+		<%@ include file="../leftBar.jsp"%>
+		<div id="right_Content">
 <div class="table-wrapper">
 	<div class="table-title">
 		<h2>
@@ -84,11 +102,57 @@
 		</tbody>
 	</table>
 </div>
-
-<script src="resources/js/jquery-ui.js"></script>
-<script src="resources/js/datepicker-ko.js"></script>
+		</div>
+	</div>
+	<div class="dim-layer" id="layerDiv">
+    <div class="dimBg"></div>
+    <div id="layer" class="pop-layer">
+        <div class="pop-container">
+            <div class="pop-conts">
+				<div id="layer-conts">
+					<ul id="treeMenu">
+						<li>
+							<button type="button" class="holer"></button> <a class="open box-color" style="color: black;">JCONE</a>
+							<ul id="subMenu1">
+								<c:forEach var="gList" items="${groupList}">
+									<li class="forderPut group_${gList.group_id}">
+										<button type="button" class="open"></button> <a class="open box-color" style="color: black;">${gList.group_name}</a>
+										<ul id="subMenu1-1">
+										<c:forEach var="gFolderList" items="${groupInFolderList}">
+											<c:if test="${gFolderList.parent_folder_id ==  gList.group_id}">
+													<li class="forderPut"><a onclick="setDocumentFolderValue(this)" class="box-color" style="color: black;" id="${gFolderList.folder_id }">${gFolderList.folder_name }</a></li>
+											</c:if>
+										</c:forEach>
+										</ul>
+									</li>
+								</c:forEach>
+							</ul>
+						</li>
+					</ul>
+				</div>
+                <div class="btn-r">
+                    <a href="#" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
+</div>	
+<div class="dim-layer" id="layer2Div">
+    <div class="dimBg"></div>
+    <div id="layer2" class="pop-layer">
+        <div class="pop-container">
+            <div class="pop-conts">
+				<div id="layer-conts2"></div>
+                <div class="btn-r">
+                    <a href="#" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
-console.log('누를때마다 호출');
 
 var form_Data = new FormData();
 var file_arr = new Array();
@@ -264,3 +328,6 @@ $('.radio-label').click(function() {
 });
 
 </script>
+<script src="resources/js/common.js"></script>
+</body>
+</html>

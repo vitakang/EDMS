@@ -39,14 +39,8 @@ public class MainController {
 
 	@RequestMapping(value = "/insertDocument")
 	public ModelAndView insertDocument(HttpServletRequest request, HttpSession session) {
-
-		ModelAndView mv = new ModelAndView();
 		
-		mv.setViewName("content/insertDocument");
-		// todo
-		// 문서 등록  
-		
-		return mv;
+		return documentService.insertDocument(request, session);
 	}
 	
 	@ResponseBody
@@ -116,15 +110,33 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "favoriteList")
-	public ModelAndView favoriteList(HttpServletRequest request) {
+	public ModelAndView favoriteList(HttpServletRequest request, Map<String, String> paramMap) {
 		ModelAndView model = new ModelAndView("content/favoriteList");
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
 		String groupId = (String) session.getAttribute("groupId");
+		paramMap.put("userId", userId);
+		paramMap.put("groupId", groupId);
 		model.addObject("myGroup", groupId);
-		mainService.favoriteList(userId, model);
+		
+		mainService.favoriteList(paramMap, model);
 		
 		return model;
+	}
+	
+	@RequestMapping(value = "asyncFavoriteList")
+	@ResponseBody
+	public Map<String, Object> asyncFavoriteList(HttpServletRequest request, Map<String, String> paramMap) {
+		ModelAndView model = new ModelAndView("content/favoriteList");
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		String groupId = (String) session.getAttribute("groupId");
+		paramMap.put("userId", userId);
+		model.addObject("myGroup", groupId);
+		
+		mainService.favoriteList(paramMap, model);
+		
+		return model.getModel();
 	}
 
 	@RequestMapping(value = "addFavorite")

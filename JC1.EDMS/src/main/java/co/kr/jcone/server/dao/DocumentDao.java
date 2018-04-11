@@ -1,6 +1,7 @@
 package co.kr.jcone.server.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import co.kr.jcone.server.bean.DocumentBean;
 
@@ -39,5 +40,9 @@ public interface DocumentDao {
 	int selectCountTeamFolderList(DocumentBean bean);
 
 	int documentDelete(DocumentBean bean);
+
+	int selectFavoriteDocumentPageCount(Map<String, String> paramMap);
+
+	int selectCountFavoriteDocument(Map<String, String> paramMap);
 
 }

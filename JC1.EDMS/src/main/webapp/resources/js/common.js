@@ -4,7 +4,8 @@ function goPage(path, params, method) {
 	var form = document.createElement("form");
 	form.setAttribute("method",method);
 	form.setAttribute("action",path);
-	
+	form.acceptCharset = "utf-8";
+
 	for(var key in params){
 		var hiddenFiled = document.createElement("input");
 		hiddenFiled.setAttribute("type","hidden");
@@ -67,9 +68,9 @@ function setDocumentFolderValue(obj) {
 }
 
 // 상세보기
-function viewDetail(documentId,folderName) {
+function viewDetail(documentId,folderName,folderId,page) {
 	var url = 'viewDetail';
-	var arr = {DOCUMENT_ID:documentId,FOLDER_NAME:folderName};
+	var arr = {DOCUMENT_ID:documentId,FOLDER_NAME:folderName,FOLDER_ID:folderId,page:page};
 	changeContent(url,arr);
 }
 
@@ -78,9 +79,9 @@ function documentInsert(obj) {
 	changeContent(url);
 }
 
-function favoriteList() {
+function favoriteList(page) {
 	var url = "favoriteList";
-	changeContent(url, null);
+	changeContent(url, {page : page});
 }
 
 function settingContent() {

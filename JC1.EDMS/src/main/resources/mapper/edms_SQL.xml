@@ -104,11 +104,11 @@
 		SELECT * FROM GROUP_INFORMATION
 	</select>
 	
-	<select id="selectGroupInFolderList" resultType="group">
+	<select id="selectGroupInFolderList" parameterType="String" resultType="group">
 		SELECT 
 			* 
 		FROM 
-			GROUP_INFORMATION g LEFT JOIN (SELECT * FROM FOLDER WHERE PARENT_FOLDER_ID = '4' AND FOLDER_TYPE = '1') f
+			GROUP_INFORMATION g LEFT JOIN (SELECT * FROM FOLDER WHERE PARENT_FOLDER_ID = #{groupId} AND FOLDER_TYPE = '1') f
 		ON 
 			g.group_id = f.PARENT_FOLDER_ID
 		WHERE
@@ -272,15 +272,17 @@
 			FOLDER_DESCRIPTION,
 			FOLDER_LEVEL,
 			PARENT_FOLDER_ID
-			<!-- USER_ID,
-			USER_NAME -->
+			USER_ID,
+			USER_NAME
 		) VALUES(
 			#{FOLDER_ID},
 			'1',
 			#{FOLDER_NAME},
 			#{FOLDER_DESCRIPTION},
 			'1',
-			#{GROUP_ID}
+			#{GROUP_ID},
+			#{USER_ID},
+			#{USER_NAME}
 		)
 	
 	</insert>
@@ -432,16 +434,36 @@
 	
 	
 	<select id="selectFavoriteList" parameterType="String" resultMap="favoriteMap">
-		SELECT
-			OBJECT_ID,
-			FAVORITE_NAME, 
-			FAVORITE_DESCRIPTION, 
-			USER_NAME, 
-			ROW_INPUT_DATE
-		FROM
-			USER_FAVORITE
-		WHERE
-			USER_ID=#{userId}
+	SELECT 
+			AL.OBJECT_ID,           
+			AL.FAVORITE_NAME,       
+			AL.FAVORITE_DESCRIPTION,
+			AL.USER_NAME,           
+			AL.ROW_INPUT_DATE,       
+			AL.IDX
+		FROM (
+				SELECT 
+					ROWNUM AS IDX,
+					S.*
+				FROM (	
+						SELECT
+							OBJECT_ID,
+							FAVORITE_NAME, 
+							FAVORITE_DESCRIPTION, 
+							USER_NAME, 
+							ROW_INPUT_DATE
+						FROM
+							USER_FAVORITE
+						WHERE
+							USER_ID=#{userId}
+				)S
+			)AL 
+		WHERE 
+		<![CDATA[ 
+					AL.IDX <= #{endIdx}
+				AND
+					AL.IDX > #{startIdx}
+		]]> 
 	</select>
 	
 	<delete id="deleteFavorite" parameterType="HashMap">
@@ -478,6 +500,44 @@
 				<if test="searchType == 'userId'">
 					AND
 						D.USER_NAME like '%'||#{searchText}||'%'
+				</if>
+			</if>
+	</select>
+	
+	<select id="selectFavoriteDocumentPageCount" parameterType="HashMap" resultType="int">
+		SELECT 
+			FLOOR((COUNT(OBJECT_ID)-1)/10)+1 AS COUNT
+		FROM
+			USER_FAVORITE
+		WHERE
+			USER_ID = #{userId}
+			<if test="searchText != null and searchText != ''">
+				<if test="searchType == 'favoriteName'">
+					AND
+						FAVORITE_NAME like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'favoriteDescription'">
+					AND
+						FAVORITE_DESCRIPTION like '%'||#{searchText}||'%'
+				</if>
+			</if>
+	</select>
+	
+	<select id="selectCountFavoriteDocument" parameterType="HashMap" resultType="int">
+		SELECT 
+			COUNT(*) AS DOC_COUNT
+		FROM
+			USER_FAVORITE
+		WHERE
+			USER_ID = #{userId}
+			<if test="searchText != null and searchText != ''">
+				<if test="searchType == 'favoriteName'">
+					AND
+						FAVORITE_NAME like '%'||#{searchText}||'%'
+				</if>
+				<if test="searchType == 'favoriteDescription'">
+					AND
+						FAVORITE_DESCRIPTION like '%'||#{searchText}||'%'
 				</if>
 			</if>
 	</select>
