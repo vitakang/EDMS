@@ -169,3 +169,7 @@ var favorite = {
 			delEl.addEventListener("click", this.del, false);
 		}
 }
+
+$(function() {
+	favorite.init();
+});

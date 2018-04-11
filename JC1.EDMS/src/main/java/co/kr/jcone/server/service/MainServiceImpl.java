@@ -214,6 +214,27 @@ public class MainServiceImpl implements MainService{
 	public void favoriteList(String userId, ModelAndView model) {
 		List<Map<String, Object>> favoriteList = mainDao.selectFavoriteList(userId);
 		model.addObject("favoriteList", favoriteList);
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList();
+		List<GroupBean> groupList = new ArrayList<>();
+		int overCnt = 0;
+		
+		for(int i = 0; i < groupInFolderList.size(); i++) {
+			
+			if (groupList.size() <= 0) {
+				groupList.add(groupInFolderList.get(i));
+			} else {
+				for (int j = 0; j < groupList.size(); j++) {
+					if (groupList.get(j).getGroup_id().equals(groupInFolderList.get(i).getGroup_id())) {
+						overCnt++;
+					}
+				}
+				
+				if (overCnt == 0) groupList.add(groupInFolderList.get(i));
+				else overCnt = 0;
+			}
+		}
+		model.addObject("groupList", groupList);
+		model.addObject("groupInFolderList", groupInFolderList);
 	}
 
 	@Override

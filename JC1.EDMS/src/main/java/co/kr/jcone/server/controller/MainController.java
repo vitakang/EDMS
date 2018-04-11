@@ -118,7 +118,10 @@ public class MainController {
 	@RequestMapping(value = "favoriteList")
 	public ModelAndView favoriteList(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("content/favoriteList");
-		String userId = (String) request.getSession().getAttribute("userId");
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		String groupId = (String) session.getAttribute("groupId");
+		model.addObject("myGroup", groupId);
 		mainService.favoriteList(userId, model);
 		
 		return model;

@@ -1,0 +1,11 @@
+@charset "UTF-8";
+#layer-conts3 table tr th, #layer-conts3 table tr td { color : #000; }
+	#layer-conts3 table { width: 100%; border: 3px double #ccc; padding: 10px; margin-bottom: 10px; background-color: #f7f7f7;}
+	#layer-conts3-title { color: #000;
+    margin: 0px auto;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700; }
+    #layer-conts3 table input {padding: 5px;}

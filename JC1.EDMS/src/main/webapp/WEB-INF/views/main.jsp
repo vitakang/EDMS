@@ -7,21 +7,11 @@
 <title>JC1 EDMS</title>
 <link rel="stylesheet" href="resources/css/main.css">
 <link rel="stylesheet" href="resources/css/jquery-ui.css">
-<style>
-	#layer-conts3 table tr th, #layer-conts3 table tr td { color : #000; }
-	#layer-conts3 table { width: 100%; border: 3px double #ccc; padding: 10px; margin-bottom: 10px; background-color: #f7f7f7;}
-	#layer-conts3-title { color: #000;
-    margin: 0px auto;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 20px;
-    font-weight: 700; }
-    #layer-conts3 table input {padding: 5px;}
-</style> 
+<link rel="stylesheet" href="resources/css/common.css">
 </head>
 <body>
-	<div id="header">
+	<%@ include file="header.jsp" %> 
+	<!-- <div id="header">
 	    <div id="logo" onclick="movePage('/jcone/main')" style="cursor: pointer;">
 	 		<div id="logoDiv">EDMS</div>
 		</div>
@@ -51,9 +41,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div id="main">
-		<div id="left_Bar">
+		<%@ include file="leftBar.jsp" %> 
+		<%-- <div id="left_Bar">
 			<div id="left-menu" >
 				<div style="height: 35px; padding-top: 10px">
 					<div class="leftMenu-top" style="color: white;">사용자</div>
@@ -109,7 +100,7 @@
 					todo
 				</div>
 			</div>
-		</div>
+		</div> --%>
 		<div id="right_Content">
 			<div>전자문서 관리 시스템</div>
 		</div>
@@ -186,8 +177,8 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="resources/js/jquery-ui.js"></script>
-<script src="resources/js/favorite.js"></script>
-<script type="text/javascript">
+<script src="resources/js/common.js"></script>
+<!-- <script type="text/javascript">
 
 function goPage(path, params, method) {
 	method = method || "post";
@@ -461,7 +452,7 @@ window.onclick = function(event) {
 }
 
 $('#treeMenu').css('display','block');
-</script>
+</script> -->
 </body>
 </html>
 
