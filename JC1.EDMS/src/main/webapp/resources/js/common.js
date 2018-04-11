@@ -78,9 +78,9 @@ function documentInsert(obj) {
 	changeContent(url);
 }
 
-function favoriteList() {
+function favoriteList(page) {
 	var url = "favoriteList";
-	changeContent(url, null);
+	changeContent(url, {page : page});
 }
 
 function settingContent() {

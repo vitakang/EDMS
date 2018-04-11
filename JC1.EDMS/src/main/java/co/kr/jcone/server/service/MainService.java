@@ -20,7 +20,7 @@ public interface MainService {
 	
 	abstract public String addFavoriteDocument(Map<String, Object> paramMap);
 
-	abstract public void favoriteList(String userId, ModelAndView model);
+	abstract public void favoriteList(Map<String, String> paramMap, ModelAndView model);
 
 	abstract public String deleteFavorite(Map<String, Object> paramMap);
 

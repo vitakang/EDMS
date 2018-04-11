@@ -120,31 +120,22 @@
 							<td colspan="4" style="text-align: center;">
 								<ul class="pagination">
 									<li class="page-item disabled">
-										<a href="#">Previous</a>
+										<a href="javascript:previousPage();">Previous</a>
 									</li>
+									<c:forEach begin="${startingPage}" end="${endPage}" var="i">
+										<c:if test="${i == nowPage }">
+											<li class="page-item active">
+												<a class="page-link" style="cursor: pointer;">${i}</a>
+											</li>
+										</c:if>
+										<c:if test="${i != nowPage }">
+											<li class="page-item">
+												<a href="javascript:changePage(${i});" class="page-link">${i}</a>
+											</li>
+										</c:if>
+									</c:forEach>
 									<li class="page-item">
-										<a href="#" class="page-link">1</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link">2</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link">3</a>
-									</li>
-									<li class="page-item active">
-										<a href="#" class="page-link">4</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link">5</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link">6</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link">7</a>
-									</li>
-									<li class="page-item">
-										<a href="#" class="page-link">Next</a>
+										<a href="javascript:nextPage();" class="page-link">Next</a>
 									</li>
 								</ul>
 							</td>
@@ -161,44 +152,6 @@
 		</div>
 	</div>
 	<div id="footer"></div>
-	<div class="dim-layer" id="layerDiv">
-		<div class="dimBg"></div>
-		<div id="layer" class="pop-layer">
-			<div class="pop-container">
-				<div class="pop-conts">
-					<div id="layer-conts">
-						<ul id="treeMenu">
-							<li>
-								<button type="button" class="holer"></button>
-								<a class="open box-color" style="color: black;">JCONE</a>
-								<ul id="subMenu1">
-									<c:forEach var="gList" items="${groupList}">
-										<li class="forderPut group_${gList.group_id}">
-											<button type="button" class="open"></button>
-											<a class="open box-color" style="color: black;">${gList.group_name}</a>
-											<ul id="subMenu1-1">
-												<c:forEach var="gFolderList" items="${groupInFolderList}">
-													<c:if test="${gFolderList.parent_folder_id ==  gList.group_id}">
-														<li class="forderPut">
-															<a onclick="setDocumentFolderValue(this)" class="box-color" style="color: black;" id="${gFolderList.folder_id }">${gFolderList.folder_name }</a>
-														</li>
-													</c:if>
-												</c:forEach>
-											</ul>
-										</li>
-									</c:forEach>
-								</ul>
-							</li>
-						</ul>
-					</div>
-					<div class="btn-r">
-						<a href="#" class="btn-layerClose">Close</a>
-					</div>
-					<!--// content-->
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="dim-layer" id="layer3Div">
 		<div class="dimBg"></div>
 		<div id="layer3" class="pop-layer">
@@ -222,8 +175,12 @@
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="resources/js/jquery-ui.js"></script>
-	<script src="resources/js/favorite.js"></script>
+	<script src="resources/js/favorite.js?ver=1.0"></script>
 	<script src="resources/js/common.js"></script>
 </body>
 </html>
+<script>
+var listNowPage = ${nowPage};
+var listMaxPage = ${maxPage};
+</script>
 

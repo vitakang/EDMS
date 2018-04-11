@@ -1,16 +1,13 @@
 package co.kr.jcone.server.dao;
 
 import java.util.List;
-
-import javax.annotation.Resource;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import co.kr.jcone.server.bean.DocumentBean;
-import co.kr.jcone.server.util.MainUtls;
 
 @Repository
 public class DocumentDaoImpl implements DocumentDao{
@@ -103,8 +100,15 @@ public class DocumentDaoImpl implements DocumentDao{
 	public int documentDelete(DocumentBean bean) {
 		return sqlSession.selectOne("edmsMapper.documentDelete", bean);
 	}
-	
-	
-	
+
+	@Override
+	public int selectFavoriteDocumentPageCount(Map<String, String> paramMap) {
+		return sqlSession.selectOne("edmsMapper.selectFavoriteDocumentPageCount", paramMap);
+	}
+
+	@Override
+	public int selectCountFavoriteDocument(Map<String, String> paramMap) {
+		return sqlSession.selectOne("edmsMapper.selectCountFavoriteDocument", paramMap);
+	}
 	
 }

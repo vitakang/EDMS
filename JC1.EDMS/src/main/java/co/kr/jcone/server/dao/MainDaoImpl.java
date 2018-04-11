@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import co.kr.jcone.server.bean.DocumentBean;
 import co.kr.jcone.server.bean.GroupBean;
 
 @Repository
@@ -31,8 +30,8 @@ public class MainDaoImpl implements MainDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectFavoriteList(String userId) {
-		return sqlSession.selectList("edmsMapper.selectFavoriteList", userId);
+	public List<Map<String, Object>> selectFavoriteList(Map<String, String> paramMap) {
+		return sqlSession.selectList("edmsMapper.selectFavoriteList", paramMap);
 	}
 
 	@Override

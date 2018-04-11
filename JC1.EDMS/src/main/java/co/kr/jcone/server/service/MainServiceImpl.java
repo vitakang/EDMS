@@ -211,12 +211,23 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public void favoriteList(String userId, ModelAndView model) {
-		List<Map<String, Object>> favoriteList = mainDao.selectFavoriteList(userId);
+	public void favoriteList(Map<String, String> paramMap, ModelAndView model) {
+		List<Map<String, Object>> favoriteList = null;
 		model.addObject("favoriteList", favoriteList);
 		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList();
 		List<GroupBean> groupList = new ArrayList<>();
 		int overCnt = 0;
+		String pageStr = (String) paramMap.get("page");
+		int page = 1;
+		
+		if (pageStr != null) {
+			page = Integer.parseInt(pageStr);
+		}
+		
+		paramMap.put("startIdx", String.valueOf(page * 10 - 10));
+		paramMap.put("endIdx", String.valueOf(page * 10));
+		
+		favoriteList = mainDao.selectFavoriteList(paramMap);
 		
 		for(int i = 0; i < groupInFolderList.size(); i++) {
 			
@@ -233,8 +244,18 @@ public class MainServiceImpl implements MainService{
 				else overCnt = 0;
 			}
 		}
+		
+		int maxPage = documentDao.selectFavoriteDocumentPageCount(paramMap);
+		int maxDocument = documentDao.selectCountFavoriteDocument(paramMap);
+		
+		model.addObject("startingPage", MainUtls.getStartpage(maxPage, page));
+		model.addObject("endPage", MainUtls.getEndpage(maxPage,page));
+		model.addObject("nowPage", page);
+		model.addObject("maxPage", maxPage);
+		model.addObject("maxDocument", maxDocument);
 		model.addObject("groupList", groupList);
 		model.addObject("groupInFolderList", groupInFolderList);
+		model.addObject("favoriteList", favoriteList);
 	}
 
 	@Override
