@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn" onclick="favoriteList();">즐겨찾기</button>
+					<button class="dropbtn" onclick="favoriteList(1);">즐겨찾기</button>
 				</div>
 				<div class="menu-col" style="text-align: center;">
 					<button class="dropbtn" onclick="ready_ing()">개인문서</button>

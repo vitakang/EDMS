@@ -29,7 +29,7 @@
 		<beans:property name="locations" value="classpath:/config.properties" />
 		<beans:property name="fileEncoding" value="UTF-8" />
 	</beans:bean>
-	
+
 	<interceptors>
 		<interceptor>
 			<mapping path="/**" />

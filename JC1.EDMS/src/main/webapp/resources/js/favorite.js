@@ -170,6 +170,29 @@ var favorite = {
 		}
 }
 
+function changePage(pageNum) {
+	favoriteList(pageNum);
+}
+
+function previousPage() {
+	if(listNowPage < 2){
+		alert('이전페이지가 없습니다.');
+	}else{
+		console.log(listNowPage-1);
+		loadListPage(listNowPage-1);
+	}
+}
+
+
+function nextPage() {
+	if(listNowPage >= listMaxPage){
+		alert('다음페이지가 없습니다.');
+	}else{
+		//console.log(listNowPage+1);
+		loadListPage(listNowPage+1);
+	}
+}
+
 $(function() {
 	favorite.init();
 });
