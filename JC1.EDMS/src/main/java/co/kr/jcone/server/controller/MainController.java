@@ -122,6 +122,7 @@ public class MainController {
 		String userId = (String) session.getAttribute("userId");
 		String groupId = (String) session.getAttribute("groupId");
 		paramMap.put("userId", userId);
+		paramMap.put("groupId", groupId);
 		model.addObject("myGroup", groupId);
 		
 		mainService.favoriteList(paramMap, model);
