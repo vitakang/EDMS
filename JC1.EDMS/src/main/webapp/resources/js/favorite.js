@@ -161,12 +161,30 @@ var favorite = {
 			
 			favoriteDelete(arrStr);
 		},
+		search : function () {
+			var url = "favoriteList";
+			var searchTypeElArr = document.getElementsByName("searchType");
+			var searchTextElArr = document.getElementsByName("searchText");
+			var searchText = searchTextElArr[0].value;
+			var page = 1;
+			
+			if (searchText == "") {
+				alert("검색어를 입력하세요.");
+			} else {
+				var typeIdx = searchTypeElArr[0].selectedIndex;
+				var searchType = searchTypeElArr[0].options[typeIdx].value;
+				
+				changeContent(url, {page : page, searchType : searchType, searchText : searchText});
+			}
+		},
 		init : function () {
 			var popupEl = document.getElementById("favorite-mod");
 			var delEl = document.getElementById("favorite-del");
+			var searchEl = document.getElementById("search-button-input");
 			
 			popupEl.addEventListener("click", this.popup, false);
 			delEl.addEventListener("click", this.del, false);
+			searchEl.addEventListener("click", this.search, false);
 		}
 }
 

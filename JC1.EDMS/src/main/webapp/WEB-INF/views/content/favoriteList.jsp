@@ -64,18 +64,17 @@
 					</div>
 					<div class="table-search-list" id="search-select">
 						<span style="vertical-align: middle;">
-							<select>
-								<option value="">즐겨찾기이름</option>
-								<option value="">문서함설명</option>
-								<option value="">생성일자</option>
+							<select name="searchType">
+								<option value="favoriteName">문서이름</option>
+								<option value="favoriteDescription">문서설명</option>
 							</select>
 						</span>
 					</div>
 					<div class="table-search-list" id="search-input">
-						<input type="text" placeholder="검색어를 입력해주세요" style="width: 100%; vertical-align: middle;">
+						<input type="text" name="searchText" placeholder="검색어를 입력해주세요" style="width: 100%; vertical-align: middle;">
 					</div>
 					<div class="table-search-list" id="search-button">
-						<input type="button" value="검색" style="vertical-align: middle;">
+						<input type="button" value="검색" style="vertical-align: middle;" id="search-button-input">
 					</div>
 				</div>
 				<table class="table table-striped table-hover">
@@ -83,7 +82,7 @@
 						<tr style="text-align: center;">
 							<th class="listTable1"><input type="checkbox" id="allCheck" onclick="allCheckMananger()"></th>
 							<th class="listTable5">문서이름</th>
-							<th class="listTable4">즐겨찾기 설명</th>
+							<th class="listTable4">문서설명</th>
 							<th class="listTable2">생성자</th>
 							<th class="listTable6">생성일자</th>
 						</tr>
@@ -178,9 +177,9 @@
 	<script src="resources/js/favorite.js?ver=1.0"></script>
 	<script src="resources/js/common.js"></script>
 </body>
-</html>
 <script>
 var listNowPage = ${nowPage};
 var listMaxPage = ${maxPage};
 </script>
+</html>
 

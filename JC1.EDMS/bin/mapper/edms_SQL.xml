@@ -456,6 +456,16 @@
 							USER_FAVORITE
 						WHERE
 							USER_ID=#{userId}
+							<if test="searchText != null and searchText != ''">
+								<if test="searchType == 'favoriteName'">
+									AND
+										FAVORITE_NAME like '%'||#{searchText}||'%'
+								</if>
+								<if test="searchType == 'favoriteDescription'">
+									AND
+										FAVORITE_DESCRIPTION like '%'||#{searchText}||'%'
+								</if>
+							</if>
 				)S
 			)AL 
 		WHERE 

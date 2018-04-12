@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -110,7 +111,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "favoriteList")
-	public ModelAndView favoriteList(HttpServletRequest request, Map<String, String> paramMap) {
+	public ModelAndView favoriteList(HttpServletRequest request, @RequestParam Map<String, String> paramMap) {
 		ModelAndView model = new ModelAndView("content/favoriteList");
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
@@ -122,21 +123,6 @@ public class MainController {
 		mainService.favoriteList(paramMap, model);
 		
 		return model;
-	}
-	
-	@RequestMapping(value = "asyncFavoriteList")
-	@ResponseBody
-	public Map<String, Object> asyncFavoriteList(HttpServletRequest request, Map<String, String> paramMap) {
-		ModelAndView model = new ModelAndView("content/favoriteList");
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
-		String groupId = (String) session.getAttribute("groupId");
-		paramMap.put("userId", userId);
-		model.addObject("myGroup", groupId);
-		
-		mainService.favoriteList(paramMap, model);
-		
-		return model.getModel();
 	}
 
 	@RequestMapping(value = "addFavorite")
