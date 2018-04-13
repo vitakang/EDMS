@@ -56,7 +56,7 @@ public class DocumentDaoImpl implements DocumentDao{
 	}
 
 	@Override
-	public String getFileOriginalPath(DocumentBean bean) {
+	public DocumentBean getFileOriginalPath(DocumentBean bean) {
 		return sqlSession.selectOne("edmsMapper.getFileOriginalPath", bean);
 	}
 
@@ -98,7 +98,7 @@ public class DocumentDaoImpl implements DocumentDao{
 
 	@Override
 	public int documentDelete(DocumentBean bean) {
-		return sqlSession.selectOne("edmsMapper.documentDelete", bean);
+		return sqlSession.update("edmsMapper.documentDelete", bean);
 	}
 
 	@Override
@@ -110,5 +110,12 @@ public class DocumentDaoImpl implements DocumentDao{
 	public int selectCountFavoriteDocument(Map<String, String> paramMap) {
 		return sqlSession.selectOne("edmsMapper.selectCountFavoriteDocument", paramMap);
 	}
+
+	@Override
+	public int updateDocumentReadHistory(DocumentBean historyBean) {
+		return sqlSession.update("edmsMapper.updateDocumentReadHistory", historyBean);
+	}
 	
+	
+
 }

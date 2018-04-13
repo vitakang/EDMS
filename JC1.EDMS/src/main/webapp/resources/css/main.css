@@ -7,24 +7,33 @@ body {
     color: #FFF;
     margin: 0px;
     height: 100%;
+    background-color: #E8ECF2;
 }
 
 #header {
-    height: 10%;
+    /* height: 10%; */
+    min-height: 66px;
     width: 100%;
+    box-shadow: 0 1px 8px 0 rgba(51, 51, 51, 0.1);
+    position: fixed;
+    background: #fff;
 }
 
 #logo {
-	width:15%;
-	background-color: #282828;
-	height: 100%; 
-	float: left;
+	    color: #000;
+    width: 15%;
+    background-color: #ffffff;
+    height: 100%;
+    float: left;
+    margin-top: 15px;
 }
 
 #menu {
-	width:85%; 
-	height: 100%; 
-	float: left;
+	width: 85%;
+    height: 100%;
+    float: left;
+    /* box-shadow: 0 5px 8px 0 rgba(51, 51, 51, 0.1); */
+    background-color: #fff;
 }
 
 .box-color {
@@ -32,15 +41,19 @@ body {
 }
 
 #main {
-	height: 90%;
+	height: 100%;
+	padding-top: 83px;
 }
 
 #left_Bar {
-	width:15%;
-	height: 100%; 
-	float: left;
-	box-sizing: border-box;
-	background-color: #282828;
+	width: 15%;
+    /* height: 100%; */
+    float: left;
+    box-sizing: border-box;
+    box-shadow: 4px 5px 8px 0 rgba(51, 51, 51, 0.1);
+    background-color: #173329;
+    position: fixed;
+    top: 104px;
 }
 
 #left-menu {
@@ -51,15 +64,15 @@ body {
 #right_Content{
 	width:85%; 
 	height: 100%; 
-	float: left;
+	float: right;
 	color: black;
 }
 
 #logoDiv {
-	text-align: center;
+	    text-align: center;
     font-weight: bold;
-    font-size: 55px;
-    padding-top: 7%;
+    font-size: 30px;
+    /* padding-top: 7%; */
 }
 
 .menu-col {
@@ -69,8 +82,12 @@ body {
 }
 
 .menu-row {
-	width : 100%;
-	height: 100%;
+	width: 35%;
+    height: 100%;
+    font-size: 14px;
+    float: right;
+    min-width: 570px;
+    margin-right: 13px;
 }
 
 footer {
@@ -100,7 +117,7 @@ ul.tabs{
 }
 ul.tabs li{
 	background: none;
-	color: #222;
+	/* color: #222; */
 	cursor: pointer;
 }
 
@@ -154,7 +171,7 @@ a:hover {
 	text-decoration: underline;
 }
 
-#treeMenu li {
+.treeMenu li {
 	line-height: 18px;
 	padding: 0 0 10px 20px;
 	position: relative;
@@ -165,13 +182,13 @@ a:hover {
 	cursor : pointer;
 }
 
-#treeMenu li.end {
+.treeMenu li.end {
 	background:
 		url(http://hcs1105.com/wp/wp-content/themes/hcs1105/images/bg_treeEnd.gif)
 		no-repeat 4px 0;
 }
 
-#treeMenu li button {
+.treeMenu li button {
 	width: 9px;
 	height: 9px;
 	border: 0 none;
@@ -183,20 +200,20 @@ a:hover {
 	text-indent: -9999em;
 }
 
-#treeMenu li button.open {
+.treeMenu li button.open {
 	background:
 		url(../images/folder_C.png)
 		no-repeat 0 0;
 }
 
-#treeMenu li button.holer {
+.treeMenu li button.holer {
 	background:
 		url(../images/folder_C.png)
 		no-repeat 0 0;
 }
 
 
-#treeMenu li button.close {
+.treeMenu li button.close {
 	background:
 		url(../images/folder_O.png)
 		no-repeat 0 0;
@@ -284,7 +301,7 @@ a.btn-layerClose:hover {
     padding: 16px;
     font-size: 16px;
     border: none; */
-    cursor: pointer;
+    /* cursor: pointer;
     
     display: inline-block;
 	outline: none;
@@ -299,13 +316,13 @@ a.btn-layerClose:hover {
 	border-radius: .5em;
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2); */
 }
 
 /* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
+/* .dropbtn:hover, .dropbtn:focus {
     background-color: #2980B9;
-}
+} */
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -357,4 +374,35 @@ a.btn-layerClose:hover {
 
 .display-none { /*감추기*/
 	display: none;
+}
+
+#layer-conts3 table tr th, #layer-conts3 table tr td { color : #000; }
+	#layer-conts3 table { width: 100%; border: 3px double #ccc; padding: 10px; margin-bottom: 10px; background-color: #f7f7f7;}
+	#layer-conts3-title { color: #000;
+    margin: 0px auto;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700; }
+    #layer-conts3 table input {padding: 5px;
+}
+
+#menu .menu-col{
+	color: #000;
+	cursor : pointer;
+}
+
+#menu .menu-col .b-img{
+	display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 6px;
+    padding-top: 6px;
+    vertical-align: middle;
+    border-top: 5px dashed;
+    border-top: 4px solid\9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    background-color: white;
 }

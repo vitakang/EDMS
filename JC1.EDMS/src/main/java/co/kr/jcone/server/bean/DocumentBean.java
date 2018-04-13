@@ -40,6 +40,7 @@ public class DocumentBean{
 	private String ORIGINAL_FILE_NAME;
 	private int FILE_SIZE;
 	private int FILE_ORDER;
+	private String FILE_PATH;
 	
 	// TABLE : document_version
 	
@@ -67,6 +68,7 @@ public class DocumentBean{
 	private String page;
 	private String searchText;
 	private String searchType;
+	private String updateType;
 	
 	public String getTitle() {
 		return title;
@@ -326,5 +328,18 @@ public class DocumentBean{
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
 	}
+	public String getUpdateType() {
+		return updateType;
+	}
+	public void setUpdateType(String updateType) {
+		this.updateType = updateType;
+	}
+	public String getFILE_PATH() {
+		return FILE_PATH;
+	}
+	public void setFILE_PATH(String fILE_PATH) {
+		FILE_PATH = fILE_PATH;
+	}
+	
 
 }

@@ -73,7 +73,7 @@
 				<td class="table-right">
 					<select id="fileListBox" size="6" style="width: 90%">
 						<c:forEach var="list" items="${fileList}">
-							<option value="${list.DOCUMENT_FILE_ID }">${list.DOCUMENT_FILE_ID }</option>
+							<option value="${list.DOCUMENT_FILE_ID }">${list.ORIGINAL_FILE_NAME}</option>
 						</c:forEach>
 					</select> 
 					<input type="button" value="다운로드" onclick="downloadFile()">
@@ -82,7 +82,7 @@
 			<tr style="height:8%">
 				<td colspan="2" style="text-align: right; width: 100%">
 					<input type="button" value="삭제" onclick="documentDelete()">
-					<!-- <input type="button" value="수정"> -->
+					<input type="button" value="수정" onclick="documentModify()">
 					<input type="button" value="목록" onclick="documentlist()"><a style="display: none;" id="d-title">${folderName}</a>
 				</td>
 			</tr>
@@ -93,6 +93,7 @@
 	</div>
 <script type="text/javascript">
 console.log('누를때마다 호출');
+var documentId = '${documentBean.DOCUMENT_ID}';
 
 function documentlist() {
 	var nPage = ${nowPage};
@@ -103,37 +104,55 @@ function documentlist() {
 	changeContent(url,arr);
 }
 
+function documentModify() {
+	var arr = {FOLDER_NAME:'${folderName}',FOLDER_ID:'${folderId}',DOCUMENT_ID:documentId};
+	var url = 'modifyDocument';
+	console.log(arr);
+	console.log(url);
+	changeContent(url,arr);
+}
+
 function documentDelete() {
-	var documentId = '${documentBean.DOCUMENT_ID}';
 	
-	$.ajax({
-        url: '/jcone/documentDelete',
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
-        data: {DOCUMENT_ID:documentId},
-        type: 'POST',
-        success: function(result){
-        	
-        	console.log(result);
+	var con = confirm('정말 삭제하시겠습니까?');
+	if(con){
+		$.ajax({
+	        url: '/jcone/documentDelete',
+	        contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
+	        data: {DOCUMENT_ID:documentId},
+		    dataType:'text',
+	        type: 'POST',
+	        success: function(result){
+	        	alert('삭제완료');
+	        	documentlist();
+	        	//console.log(result);
 
-        },beforeSend:function(){
-            //(이미지 보여주기 처리)
-            $('.wrap-loading').removeClass('display-none');
-        },complete:function(){
-           // (이미지 감추기 처리)
-            $('.wrap-loading').addClass('display-none');
-        },error:function(e){
-        	alert('오류 발생\n' + e);
-        	form_Data = new FormData();
-        },timeout:100000 //"응답제한시간 ms"
+	        },beforeSend:function(){
+	            //(이미지 보여주기 처리)
+	            $('.wrap-loading').removeClass('display-none');
+	        },complete:function(){
+	           // (이미지 감추기 처리)
+	            $('.wrap-loading').addClass('display-none');
+	        },error:function(e){
+	        	alert('오류 발생\n' + e);
+	        	form_Data = new FormData();
+	        },timeout:100000 //"응답제한시간 ms"
 
-    });
+	    });
+	}
+	
 }
 
 function downloadFile() {
 	
 	var fileId = $('#fileListBox option:selected').val();
 	
-	$.ajax({
+	var arr = {DOCUMENT_FILE_ID:fileId};
+	var url = '/jcone/download';
+	
+	changeContent(url,arr);
+	
+	/* $.ajax({
         url: '/jcone/download',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8;',
         data: {DOCUMENT_FILE_ID:fileId},
@@ -153,7 +172,7 @@ function downloadFile() {
         	form_Data = new FormData();
         },timeout:100000 //"응답제한시간 ms"
 
-    });
+    }); */
 	
 }
 

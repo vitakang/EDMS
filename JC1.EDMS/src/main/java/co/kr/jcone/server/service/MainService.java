@@ -16,7 +16,7 @@ public interface MainService {
 
 	ModelAndView mainPageView(HttpServletRequest request, HttpSession session);
 
-	String download(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean);
+	void download(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean);
 	
 	abstract public String addFavoriteDocument(Map<String, Object> paramMap);
 

@@ -41,7 +41,6 @@ public class MainServiceImpl implements MainService{
 		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
 		List<GroupBean> groupList = new ArrayList<>();
 		int overCnt = 0;
-		String myTeam = "";
 		
 		for(int i = 0; i < groupInFolderList.size(); i++) {
 			
@@ -63,6 +62,7 @@ public class MainServiceImpl implements MainService{
 		
 		mv.addObject("myGroup", groupId);
 		mv.setViewName("main");
+//		mv.setViewName("new/index");
 		return mv;
 	}
 
@@ -112,22 +112,23 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public String download(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean) {
+	public void download(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean) {
 		
 		String documentFileId = bean.getDOCUMENT_FILE_ID();
 		
 		response.setHeader("Cache-Control", "max-age=0");
 
 		if (documentFileId == null || "".equals(documentFileId)) {
-			return "fail"; 
+			//return "fail"; 
 		} else {
 
-			String fullPath = documentDao.getFileOriginalPath(bean);
-
+			DocumentBean fileBean = documentDao.getFileOriginalPath(bean);
+			String fileName = fileBean.getORIGINAL_FILE_NAME();
+			String fullPath = fileBean.getFILE_PATH();
 			File file = new File(fullPath);
 
 			if (!file.exists()) {
-				return "fail"; 
+				//return "fail"; 
 			} else {
 
 				FileInputStream fin = null;
@@ -141,7 +142,7 @@ public class MainServiceImpl implements MainService{
 
 					response.setContentType("multipart/form-data;boundary=dkjseu40f9844djs8dviwdf;charset=UTF-8");
 					response.setHeader("Content-Transfer-Encoding", "base64");
-					response.setHeader("Content-Disposition", "attachment;filename=" + documentFileId + ";");
+					response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 					response.setHeader("Content-Length", String.valueOf(len));
 
 					sout = response.getOutputStream();
@@ -168,7 +169,7 @@ public class MainServiceImpl implements MainService{
 			}
 		}
 		
-		return "ok";
+		//return "ok";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -186,26 +187,9 @@ public class MainServiceImpl implements MainService{
 			int size = favoriteNameList.size();
 			
 			for (int i = 0; i < size; i++) {
-//				favoriteDescription = favoriteDescriptionList.get(i);
-//				favoriteName = favoriteNameList.get(i);
-//				
-//				dataMap.put("favoriteName", favoriteName);
-//				dataMap.put("favoriteDescription", favoriteDescription);
-//				dataMap.put("docId", docIdList.get(i));
 				if (!this.addFavoriteDocument(favoriteDescriptionList.get(i), favoriteNameList.get(i), docIdList.get(i), dataMap)) errorCnt++;
-//				if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
 			}
 		} else if (paramMap.get("favoriteName") instanceof String) {
-//			favoriteName = (String) paramMap.get("favoriteName");
-//			favoriteDescription = (String) paramMap.get("favoriteDescription");
-//			docId = (String) paramMap.get("docId"); 
-//			
-//			dataMap.put("favoriteName", favoriteName);
-//			dataMap.put("favoriteDescription", favoriteDescription);
-//			dataMap.put("docId", docId);
-//			
-//			if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
-			
 			if (!this.addFavoriteDocument((String) paramMap.get("favoriteDescription"), (String) paramMap.get("favoriteName"), (String) paramMap.get("docId"), dataMap)) errorCnt++;
 		}
 		
@@ -289,11 +273,9 @@ public class MainServiceImpl implements MainService{
 	@Override
 	public String documentDelete(HttpServletRequest request, HttpServletResponse response, HttpSession session, DocumentBean bean) {
 		if(documentDao.documentDelete(bean) < 1) {
-			
+			return "fail";
 		}
-		return null;
+		return "success";
 	}
-	
-	
 	
 }

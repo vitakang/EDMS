@@ -1,3 +1,4 @@
+
 function goPage(path, params, method) {
 	method = method || "post";
 	
@@ -127,6 +128,7 @@ function movePage(url) {
 	location.href = url;
 }
 function myFunction() {
+	console.log('d');
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
@@ -271,4 +273,4 @@ window.onclick = function(event) {
   }
 }
 
-$('#treeMenu').css('display','block');
+$('.treeMenu').css('display','block');

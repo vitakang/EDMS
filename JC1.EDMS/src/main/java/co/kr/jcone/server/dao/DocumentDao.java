@@ -23,7 +23,7 @@ public interface DocumentDao {
 
 	List<DocumentBean> selectFileListFromDocumentId(String documentId);
 
-	String getFileOriginalPath(DocumentBean bean);
+	DocumentBean getFileOriginalPath(DocumentBean bean);
 
 	List<DocumentBean> selectGroupFolderList(DocumentBean bean);
 
@@ -44,5 +44,7 @@ public interface DocumentDao {
 	int selectFavoriteDocumentPageCount(Map<String, String> paramMap);
 
 	int selectCountFavoriteDocument(Map<String, String> paramMap);
+
+	int updateDocumentReadHistory(DocumentBean historyBean);
 
 }
