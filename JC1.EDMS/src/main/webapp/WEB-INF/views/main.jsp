@@ -42,8 +42,8 @@
 			</div>
 		</div>
 	</div> -->
+	<%@ include file="leftBar.jsp" %> 
 	<div id="main">
-		<%@ include file="leftBar.jsp" %> 
 		<%-- <div id="left_Bar">
 			<div id="left-menu" >
 				<div style="height: 35px; padding-top: 10px">
