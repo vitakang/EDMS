@@ -49,8 +49,8 @@
 </head>
 <body>
 	<%@ include file="../header.jsp"%>
+	<%@ include file="../leftBar.jsp"%>
 	<div id="main">
-		<%@ include file="../leftBar.jsp"%>
 		<div id="right_Content">
 			<div class="table-wrapper">
 				<div class="table-title">

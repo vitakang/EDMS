@@ -2,7 +2,6 @@ package co.kr.jcone.server.service;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -186,26 +185,9 @@ public class MainServiceImpl implements MainService{
 			int size = favoriteNameList.size();
 			
 			for (int i = 0; i < size; i++) {
-//				favoriteDescription = favoriteDescriptionList.get(i);
-//				favoriteName = favoriteNameList.get(i);
-//				
-//				dataMap.put("favoriteName", favoriteName);
-//				dataMap.put("favoriteDescription", favoriteDescription);
-//				dataMap.put("docId", docIdList.get(i));
 				if (!this.addFavoriteDocument(favoriteDescriptionList.get(i), favoriteNameList.get(i), docIdList.get(i), dataMap)) errorCnt++;
-//				if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
 			}
 		} else if (paramMap.get("favoriteName") instanceof String) {
-//			favoriteName = (String) paramMap.get("favoriteName");
-//			favoriteDescription = (String) paramMap.get("favoriteDescription");
-//			docId = (String) paramMap.get("docId"); 
-//			
-//			dataMap.put("favoriteName", favoriteName);
-//			dataMap.put("favoriteDescription", favoriteDescription);
-//			dataMap.put("docId", docId);
-//			
-//			if (mainDao.insertFavoriteDocument(dataMap) <= 0 ) errorCnt++;
-			
 			if (!this.addFavoriteDocument((String) paramMap.get("favoriteDescription"), (String) paramMap.get("favoriteName"), (String) paramMap.get("docId"), dataMap)) errorCnt++;
 		}
 		
@@ -293,7 +275,5 @@ public class MainServiceImpl implements MainService{
 		}
 		return null;
 	}
-	
-	
 	
 }

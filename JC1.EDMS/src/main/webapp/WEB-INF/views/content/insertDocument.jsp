@@ -8,6 +8,7 @@
 <title>JC1 EDMS</title>
 
 <link rel="stylesheet" href="resources/css/main.css">
+<link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/jquery-ui.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">

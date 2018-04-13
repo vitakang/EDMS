@@ -127,6 +127,7 @@ function movePage(url) {
 	location.href = url;
 }
 function myFunction() {
+	console.log('d');
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
