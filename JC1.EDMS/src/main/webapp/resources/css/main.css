@@ -117,7 +117,7 @@ ul.tabs{
 }
 ul.tabs li{
 	background: none;
-	color: #222;
+	/* color: #222; */
 	cursor: pointer;
 }
 
@@ -171,7 +171,7 @@ a:hover {
 	text-decoration: underline;
 }
 
-#treeMenu li {
+.treeMenu li {
 	line-height: 18px;
 	padding: 0 0 10px 20px;
 	position: relative;
@@ -182,13 +182,13 @@ a:hover {
 	cursor : pointer;
 }
 
-#treeMenu li.end {
+.treeMenu li.end {
 	background:
 		url(http://hcs1105.com/wp/wp-content/themes/hcs1105/images/bg_treeEnd.gif)
 		no-repeat 4px 0;
 }
 
-#treeMenu li button {
+.treeMenu li button {
 	width: 9px;
 	height: 9px;
 	border: 0 none;
@@ -200,20 +200,20 @@ a:hover {
 	text-indent: -9999em;
 }
 
-#treeMenu li button.open {
+.treeMenu li button.open {
 	background:
 		url(../images/folder_C.png)
 		no-repeat 0 0;
 }
 
-#treeMenu li button.holer {
+.treeMenu li button.holer {
 	background:
 		url(../images/folder_C.png)
 		no-repeat 0 0;
 }
 
 
-#treeMenu li button.close {
+.treeMenu li button.close {
 	background:
 		url(../images/folder_O.png)
 		no-repeat 0 0;

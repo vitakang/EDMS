@@ -21,4 +21,6 @@ public interface DocumentService{
 
 	ModelAndView insertDocument(HttpServletRequest request, HttpSession session);
 
+	ModelAndView modifyDocument(HttpServletRequest request, HttpSession session, DocumentBean bean);
+
 }

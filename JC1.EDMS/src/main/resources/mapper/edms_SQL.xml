@@ -4,6 +4,7 @@
 <mapper namespace="edmsMapper">
 	
 	<insert id="insertDocument" parameterType="document">
+
 		INSERT INTO DOCUMENT(
 			DOCUMENT_ID,
 			REGISTER_DATE,
@@ -12,11 +13,11 @@
 			BIND_TITLE,
 			BIND_ID,
 			DOCUMENT_TITLE,
-			VERSION
-			<!-- USER_ID,
+			VERSION,
+			USER_ID,
 			USER_NAME,
 			GROUP_ID,
-			GROUP_NAME -->
+			GROUP_NAME
 		)VALUES(
 			#{DOCUMENT_ID},
 			#{REGISTER_DATE},
@@ -25,7 +26,11 @@
 			#{BIND_TITLE},
 			#{BIND_ID},
 			#{DOCUMENT_TITLE},
-			#{VERSION}
+			#{VERSION},
+			#{USER_ID},
+			#{USER_NAME},
+			#{GROUP_ID},
+			#{GROUP_NAME}
 		)
 	</insert>
 	
@@ -34,12 +39,14 @@
 			DOCUMENT_FILE_ID,
 			DOCUMENT_ID,
 			ORIGINAL_FILE_NAME,
+			FILE_PATH,
 			FILE_SIZE,
 			FILE_ORDER
 		) VALUES(
 			#{DOCUMENT_FILE_ID},
 			#{DOCUMENT_ID},
 			#{ORIGINAL_FILE_NAME},
+			#{FILE_PATH},
 			#{FILE_SIZE},
 			#{FILE_ORDER}
 		)
@@ -49,14 +56,17 @@
 		INSERT INTO DOCUMENT_VERSION(
 			DOCUMENT_ID,
 			VERSION,
-			MODIFY_REASON
-			<!-- USER_ID,
+			MODIFY_REASON,
+			USER_ID,
 			USER_NAME,
-			ORIGINAL_DOCUMENT_ID -->
+			ORIGINAL_DOCUMENT_ID 
 		) VALUES(
 			#{DOCUMENT_ID},
 			#{VERSION},
-			#{MODIFY_REASON}
+			#{MODIFY_REASON},
+			#{USER_ID},
+			#{USER_NAME},
+			#{ORIGINAL_DOCUMENT_ID} 
 		)
 	</insert>
 	
@@ -241,7 +251,8 @@
 	
 	<select id="getFileOriginalPath" parameterType="document" resultType="document">
 		SELECT
-			ORIGINAL_FILE_NAME
+			ORIGINAL_FILE_NAME,
+			FILE_PATH
 		FROM
 			DOCUMENT_FILE
 		WHERE
@@ -551,6 +562,18 @@
 				</if>
 			</if>
 	</select>
+	
+	<insert id="updateDocumentReadHistory">
+		INSERT INTO DOCUMENT_READ_HISTORY(
+			DOCUMENT_ID,
+			USER_ID,
+			USER_NAME
+		)VALUES(
+			#{DOCUMENT_ID},
+			#{USER_ID},
+			#{USER_NAME}
+		)
+	</insert>
 	
 	<resultMap type="java.util.HashMap" id="favoriteMap">
 		<result javaType="String" column="OBJECT_ID" property="OBJECT_ID"/>

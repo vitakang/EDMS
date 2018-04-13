@@ -1,3 +1,4 @@
+
 function goPage(path, params, method) {
 	method = method || "post";
 	
@@ -272,4 +273,4 @@ window.onclick = function(event) {
   }
 }
 
-$('#treeMenu').css('display','block');
+$('.treeMenu').css('display','block');

@@ -58,6 +58,46 @@ public class DocumentServiceImpl implements DocumentService{
 	}
 
 	@Override
+	public ModelAndView modifyDocument(HttpServletRequest request, HttpSession session, DocumentBean bean) {
+		ModelAndView mv = new ModelAndView();
+		
+		try {
+			mv.setViewName("content/modifyDocument");
+
+			String userId = (String) session.getAttribute("userId");
+			String groupId = (String) session.getAttribute("groupId");
+			System.out.println(userId + groupId);
+			mv.addObject("myGroup", groupId);
+			
+			List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+			
+			String documentId = bean.getDOCUMENT_ID();
+			documentId = MainUtls.changeTextUTF8(documentId);
+			DocumentBean documentBean = documentDao.viewDetail(documentId);
+			List<DocumentBean> documentFileBean = documentDao.selectFileListFromDocumentId(documentId);
+
+			documentBean.setSECURITY_GRADE(MainUtls.changeSecurityGradeCode(documentBean.getSECURITY_GRADE(),"2"));
+			mv.addObject("folderName",MainUtls.changeTextUTF8(bean.getFOLDER_NAME()));
+			mv.addObject("folderId",MainUtls.changeTextUTF8(bean.getFOLDER_ID()));
+			mv.addObject("documentBean",documentBean);
+			mv.addObject("fileList",documentFileBean);
+			mv.addObject("userId", userId);
+			mv.addObject("myGroup", groupId);
+			mv.addObject("nowPage", bean.getPage());
+			mv.addObject("groupList", MainUtls.getGroupList(groupInFolderList));
+			mv.addObject("groupInFolderList", groupInFolderList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mv;
+		
+	}
+
+
+
+	@Override
 	public String uploadDocument(HttpServletRequest request, DocumentBean bean, HttpSession session) {
 		
 		// ID를 위한 날짜 (밀리세컨드)
@@ -76,7 +116,25 @@ public class DocumentServiceImpl implements DocumentService{
 			String bindTitle = MainUtls.changeTextUTF8(bean.getBIND_TITLE());
 			String documentTitle = MainUtls.changeTextUTF8(bean.getDOCUMENT_TITLE());
 			String securityCode = MainUtls.changeSecurityGradeCode(MainUtls.changeTextUTF8(bean.getSECURITY_GRADE()),"1");
-			String documentId = documentTitle + "_" + dateMiliSecond;
+			String oldDocumentId = bean.getDOCUMENT_ID();
+			String newDocumentId = documentTitle + "_" + dateMiliSecond;
+
+			String userId = (String) session.getAttribute("userId");
+			String userName = (String) session.getAttribute("userName");
+			String groupId = (String) session.getAttribute("groupId");
+			String groupName = (String) session.getAttribute("groupName");
+			
+			System.out.println(oldDocumentId);
+			
+			if(oldDocumentId != null && !"".equals(oldDocumentId) && !oldDocumentId.isEmpty()) {
+
+				if(documentDao.documentDelete(bean) < 1) {
+					logger.info("documentDao.documentDelete(bean) FAIL");	
+					return "fail";			
+				}
+			}
+			
+			String isEdit = bean.getUpdateType();
 			
 			DocumentBean document = new DocumentBean();
 			// 철ID
@@ -84,7 +142,7 @@ public class DocumentServiceImpl implements DocumentService{
 			// 철제목
 			document.setBIND_TITLE(bindTitle);
 			// 문서 아이디
-			document.setDOCUMENT_ID(documentId);
+			document.setDOCUMENT_ID(newDocumentId);
 			// 문서 제목
 			document.setDOCUMENT_TITLE(documentTitle);
 			// 문서 설명
@@ -94,11 +152,22 @@ public class DocumentServiceImpl implements DocumentService{
 			// 등록일
 			document.setREGISTER_DATE(bean.getREGISTER_DATE());
 			// 버전 (최초 1.0)
-			document.setVERSION("1.0");
-			// 사용자 아이디 셋팅 	db.setUSER_ID(uSER_ID);
-			// 사용자 이름 			db.setUSER_NAME(uSER_NAME);
-			// 그룹 아이디			db.setGROUP_ID(gROUP_ID);
-			// 그룹이름			db.setGROUP_NAME(gROUP_NAME);
+			if("edit".equals(isEdit)) {
+				String version = bean.getVERSION();
+				Float versionFloat = (float) (Float.parseFloat(version)+0.1);
+				
+				document.setVERSION(String.valueOf(versionFloat));
+			} else {
+				document.setVERSION("1.0");
+			}
+			// 사용자 아이디 셋팅
+			document.setUSER_ID(userId);
+			// 사용자 이름
+			document.setUSER_NAME(userName);
+			// 그룹 아이디
+			document.setGROUP_ID(groupId);
+			// 그룹이름
+			document.setGROUP_NAME(groupName);
 			// 삭제유형 DEFAULT = 0
 			
 			if(documentDao.insertDocument(document) < 1) {
@@ -106,7 +175,6 @@ public class DocumentServiceImpl implements DocumentService{
 				return "fail";			
 			}
 			
-			System.out.println(PathBean.PATH_UPLOADFILE);
 			
 			if(multiPartUploadFile != null) {
 				DocumentBean documentFileBean = new DocumentBean();
@@ -114,7 +182,7 @@ public class DocumentServiceImpl implements DocumentService{
 				for(int i = 0; i < bean.getMultiPartFiles().length; i++) {
 					MultipartFile mFile = bean.getMultiPartFiles()[i];
 					byte[] bytes = mFile.getBytes();
-					String fileName = mFile.getOriginalFilename();
+					String fileName = MainUtls.changeTextUTF8(mFile.getOriginalFilename());
 					String uploadPath = PathBean.PATH_UPLOADFILE;
 					
 					File pathFile = new File(uploadPath + dateFilePath);
@@ -124,10 +192,13 @@ public class DocumentServiceImpl implements DocumentService{
 					}
 					
 					uploadPath = uploadPath + dateFilePath + File.separator + dateMiliSecond + "_" + fileName;
+
+					System.out.println(PathBean.PATH_UPLOADFILE);
 					
 					documentFileBean.setDOCUMENT_FILE_ID(fileName + dateMiliSecond);
-					documentFileBean.setDOCUMENT_ID(documentId);
-					documentFileBean.setORIGINAL_FILE_NAME(uploadPath);
+					documentFileBean.setDOCUMENT_ID(newDocumentId);
+					documentFileBean.setORIGINAL_FILE_NAME(fileName);
+					documentFileBean.setFILE_PATH(uploadPath);
 					documentFileBean.setFILE_ORDER(i);
 					documentFileBean.setFILE_SIZE((int) mFile.getSize());
 					
@@ -161,9 +232,24 @@ public class DocumentServiceImpl implements DocumentService{
 			}
 			
 			DocumentBean documentVersion = new DocumentBean();
-			documentVersion.setDOCUMENT_ID(documentId);
-			documentVersion.setVERSION("1.0");
-			documentVersion.setMODIFY_REASON("최초");
+			documentVersion.setDOCUMENT_ID(newDocumentId);
+			if("edit".equals(isEdit)) {
+				String version = bean.getVERSION();
+				Float versionFloat = (float) (Float.parseFloat(version)+0.1);
+				
+				documentVersion.setVERSION(String.valueOf(versionFloat));
+				documentVersion.setMODIFY_REASON("수정");
+				documentVersion.setUSER_ID(userId);
+				documentVersion.setUSER_NAME(userName);
+				documentVersion.setORIGINAL_DOCUMENT_ID(oldDocumentId);
+			} else {
+				documentVersion.setVERSION("1.0");
+				documentVersion.setMODIFY_REASON("최초");
+				documentVersion.setUSER_ID(userId);
+				documentVersion.setUSER_NAME(userName);
+				
+			}
+			
 			//documentVersion.setORIGINAL_DOCUMENT_ID(oRIGINAL_DOCUMENT_ID);
 			if(documentDao.insertDocumentVersion(documentVersion) < 1) {
 				logger.info("documentDao.insertDocumentVersion(documentVersion) FAIL");
@@ -171,7 +257,7 @@ public class DocumentServiceImpl implements DocumentService{
 			}
 			
 			DocumentBean documentFolder = new DocumentBean();
-			documentFolder.setDOCUMENT_ID(documentId);
+			documentFolder.setDOCUMENT_ID(newDocumentId);
 			documentFolder.setFOLDER_ID(MainUtls.changeTextUTF8(bean.getFOLDER_ID()));
 			
 			if(documentDao.insertDocumentFolder(documentFolder) < 1) {
@@ -200,9 +286,20 @@ public class DocumentServiceImpl implements DocumentService{
 			List<DocumentBean> documentFileBean = documentDao.selectFileListFromDocumentId(documentId);
 
 			String userId = (String) session.getAttribute("userId");
+			String userName = (String) session.getAttribute("userName");
 			String groupId = (String) session.getAttribute("groupId");
 			
 			List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+			
+			DocumentBean historyBean = new DocumentBean();
+			historyBean.setDOCUMENT_ID(documentBean.getDOCUMENT_ID());
+			historyBean.setUSER_ID(userId);
+			historyBean.setUSER_NAME(userName);
+			
+			if(documentDao.updateDocumentReadHistory(historyBean) < 1) {
+				logger.info("documentDao.updateDocumentReadHistory(historyBean) FAIL");
+			}
+			
 			System.out.println(bean.getPage());
 			System.out.println(MainUtls.changeTextUTF8(bean.getFOLDER_NAME()));
 			documentBean.setSECURITY_GRADE(MainUtls.changeSecurityGradeCode(documentBean.getSECURITY_GRADE(),"2"));

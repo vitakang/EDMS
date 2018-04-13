@@ -43,6 +43,12 @@ public class MainController {
 		
 		return documentService.insertDocument(request, session);
 	}
+
+	@RequestMapping(value = "/modifyDocument")
+	public ModelAndView modifyDocument(HttpServletRequest request, HttpSession session, @ModelAttribute DocumentBean bean) {
+		
+		return documentService.modifyDocument(request, session, bean);
+	}
 	
 	@ResponseBody
 	@RequestMapping(value="/uploadDocument")
@@ -53,17 +59,14 @@ public class MainController {
 	
 	@RequestMapping(value = "/listDocument")
 	public ModelAndView listDocument(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
-
 		
 		return mainService.getListDocument(request, bean, session);
-		
 	}
 	
 	@RequestMapping(value = "/viewDetail")
 	public ModelAndView viewDetail(HttpServletRequest request, @ModelAttribute DocumentBean bean, HttpSession session) {
 		
 		return documentService.viewDetail(request, bean, session);
-		
 	}
 	
 	@RequestMapping(value = "/teamFolderInsert")
@@ -105,9 +108,9 @@ public class MainController {
 	
 	@ResponseBody
 	@RequestMapping(value="download")
-	public String download(HttpServletRequest request, HttpServletResponse response, HttpSession session, @ModelAttribute DocumentBean bean) {
-		
-		return mainService.download(request, response, session, bean);
+	public void download(HttpServletRequest request, HttpServletResponse response, HttpSession session, @ModelAttribute DocumentBean bean) {
+		mainService.download(request, response, session, bean);
+		//return 
 	}
 	
 	@RequestMapping(value = "favoriteList")
