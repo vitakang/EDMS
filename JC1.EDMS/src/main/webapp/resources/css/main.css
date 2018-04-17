@@ -47,13 +47,14 @@ body {
 
 #left_Bar {
 	width: 15%;
-    /* height: 100%; */
+    height: 100%;
     float: left;
     box-sizing: border-box;
     box-shadow: 4px 5px 8px 0 rgba(51, 51, 51, 0.1);
-    background-color: #173329;
+    background-color: #08563a;
     position: fixed;
     top: 104px;
+        left: 20px;
 }
 
 #left-menu {
@@ -62,7 +63,7 @@ body {
 	border: 3px solid white;
 }
 #right_Content{
-	width:85%; 
+	width:84%; 
 	height: 100%; 
 	float: right;
 	color: black;
