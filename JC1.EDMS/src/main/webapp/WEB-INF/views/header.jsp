@@ -1,42 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div id="header">
-	    <div id="logo" onclick="movePage('/jcone/main')" style="cursor: pointer;">
-	 		<div id="logoDiv">EDMS</div>
-		</div>
-		<div id="menu">
-			<div class="menu-row">
-			<div class="menu-col" style="text-align: center;" onclick="documentInsert(this)">문서등록<b class="b-img"></b></div>
-			<div class="menu-col" style="text-align: center;" onclick="ready_ing()">문서검색<b class="b-img"></b></div>
-			<div class="menu-col dropbtn" style="text-align: center;" onclick="myFunction()">팀문서함<b class="b-img"></b>
-					<div id="myDropdown" class="dropdown-content">
-						<a href="javascript:teamFolder('teamFolderInsert');">팀문서함 등록</a>
-						<a href="javascript:teamFolder('teamFolderManager','1');">팀문서함 관리</a>
-					</div></div>
-			<div class="menu-col" style="text-align: center;" onclick="favoriteList(1);">즐겨찾기<b class="b-img"></b></div>
-			<div class="menu-col" style="text-align: center;" onclick="ready_ing()">개인문서<b class="b-img"></b></div>
-			<div class="menu-col" style="text-align: center;" onclick="logout()">로그아웃<b class="b-img"></b></div>
-				<!-- <div class="menu-col" style="text-align: center;">
-					<button onclick="documentInsert(this)" class="dropbtn">문서등록</button>
+	<div id="first_field" class="first_blank"></div>
+    <div id="logo" onclick="movePage('/jcone/main')" style="cursor: pointer;">
+ 		<div id="logoDiv"><img src="/jcone/resources/images/first_top.png"></div>
+	</div>
+	<div id="menu">
+		<div class="menu-row">
+			<div class="menu-col" style="text-align: center;" onclick="documentInsert(this)">
+				<div style="float: none !important; text-align: center; height: 80px">
+					<img src="/jcone/resources/images/insert.png" style="margin-top: 10px;">
 				</div>
-				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn" onclick="ready_ing()">문서검색</button>
+				<div style="float: none !important; text-align: center; margin-top: -67px;">문서등록</div>
+			</div>
+			<div class="menu-col" style="text-align: center;" onclick="ready_ing()">
+				<div style="float: none !important; text-align: center; height: 80px">
+					<img src="/jcone/resources/images/document-search.png" style="margin-top: 10px;">
 				</div>
-				<div class="menu-col" style="text-align: center;">
-					<button onclick="myFunction()" class="dropbtn">팀문서함</button>
-					<div id="myDropdown" class="dropdown-content">
-						<a href="javascript:teamFolder('teamFolderInsert');">팀문서함 등록</a>
-						<a href="javascript:teamFolder('teamFolderManager','1');">팀문서함 관리</a>
-					</div>
+				<div style="float: none !important; text-align: center; margin-top: -67px;">문서검색</div>
+			</div>
+			<div class="menu-col" style="text-align: center;" onclick="myFunction()">
+				<div style="float: none !important; text-align: center; height: 80px">
+					<img class="dropbtn" src="/jcone/resources/images/network.png" style="margin-top: 10px;">
 				</div>
-				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn" onclick="favoriteList(1);">즐겨찾기</button>
+				<div class="dropbtn" style="float: none !important; text-align: center; margin-top: -67px;">팀문서함</div>
+				<div id="myDropdown" class="dropdown-content">
+					<a href="javascript:teamFolder('teamFolderInsert');">팀문서함 등록</a>
+					<a href="javascript:teamFolder('teamFolderManager','1');">팀문서함 관리</a>
 				</div>
-				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn" onclick="ready_ing()">개인문서</button>
+			</div>
+			<div class="menu-col" style="text-align: center;" onclick="favoriteList(1);">
+				<div style="float: none !important; text-align: center; height: 80px">
+					<img src="/jcone/resources/images/file.png" style="margin-top: 10px;">
 				</div>
-				<div class="menu-col" style="text-align: center;">
-					<button class="dropbtn" onclick="logout()">로그아웃</button>
-				</div> -->
+				<div style="float: none !important; text-align: center; margin-top: -67px;">즐겨찾기</div>
+			</div>
+			<div class="menu-col" style="text-align: center;" onclick="ready_ing()">
+				<div style="float: none !important; text-align: center; height: 80px">
+					<img src="/jcone/resources/images/resume.png" style="margin-top: 10px;">
+				</div>
+				<div style="float: none !important; text-align: center; margin-top: -67px;">개인문서</div>
+			</div>
+			<div class="menu-col" style="text-align: center;" onclick="logout()">
+				<div style="float: none !important; text-align: center; height: 80px">
+					<img src="/jcone/resources/images/logout.png" style="margin-top: 10px;">
+				</div>
+				<div style="float: none !important; text-align: center; margin-top: -67px;">로그아웃</div>
 			</div>
 		</div>
 	</div>
+</div>

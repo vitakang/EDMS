@@ -22,12 +22,18 @@
 <body>
 	<%@ include file="../header.jsp"%>
 	<div id="main">
+		<div class="nav">
+			<div id="div_navigation" class="div_navigation">
+				<img src="/jcone/resources/images/home.png" style="margin-top: 12px;"> > ${folderName} > ${documentBean.DOCUMENT_TITLE}
+			</div>
+		</div>
+		<div style="height: 30px;">&nbsp;</div>
 		<%@ include file="../leftBar.jsp"%>
 		<div id="right_Content">
 <div class="table-wrapper">
 	<div class="table-title">
 		<h2>
-			 ※ 문서등록
+			 ※ ${documentBean.DOCUMENT_TITLE}
 		</h2>
 	</div>
 	<table class="table table-striped table-hover" style="width: 100%; margin-top: 50px">

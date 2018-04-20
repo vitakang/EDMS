@@ -115,6 +115,12 @@ public class DocumentDaoImpl implements DocumentDao{
 	public int updateDocumentReadHistory(DocumentBean historyBean) {
 		return sqlSession.update("edmsMapper.updateDocumentReadHistory", historyBean);
 	}
+
+	@Override
+	public int changePwd(DocumentBean bean) {
+		return sqlSession.update("edmsMapper.changePwd", bean);
+	}
+	
 	
 	
 

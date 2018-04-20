@@ -49,18 +49,22 @@
 </head>
 <body>
 	<%@ include file="../header.jsp"%>
-	<%@ include file="../leftBar.jsp"%>
 	<div id="main">
+		<div class="nav">
+			<div id="div_navigation" class="div_navigation">
+				<img src="/jcone/resources/images/home.png" style="margin-top: 12px;"> > 팀문서함 등록
+			</div>
+		</div>
+		<div style="height: 30px;">&nbsp;</div>	
+		<%@ include file="../leftBar.jsp"%>
 		<div id="right_Content">
 			<div class="table-wrapper">
 				<div class="table-title">
 					<h2>※ 즐겨찾기</h2>
 				</div>
 				<div class="table-filter">
-					<div class="table-search-list" id="search-title">
-						<img src="resources/images/search.png" style="vertical-align: middle; height: 100%">
-						&nbsp;&nbsp;
-						<span style="vertical-align: middle; font-weight: bold;">SEARCH</span>
+					<div class="table-search-list" id="search-title" style="text-align: center;line-height: 2">
+						SEARCH
 					</div>
 					<div class="table-search-list" id="search-select">
 						<span style="vertical-align: middle;">

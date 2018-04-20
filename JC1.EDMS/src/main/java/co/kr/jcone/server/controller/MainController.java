@@ -90,14 +90,14 @@ public class MainController {
 
 	@RequestMapping(value = "/setting")
 	public ModelAndView setting(HttpServletRequest request, HttpSession session) {
-
-		ModelAndView mv = new ModelAndView();
 		
-		mv.setViewName("content/setting");
-		// todo
-		// 메인 페이지
+		return mainService.settingPage(request, session);
+	}
+	
+	@RequestMapping(value = "/changePwd")
+	public String changePwd(HttpServletRequest request, HttpSession session, @ModelAttribute DocumentBean bean) {
 		
-		return mv;
+		return mainService.changePwd(request, session, bean);
 	}
 	
 	@ResponseBody

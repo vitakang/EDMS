@@ -4,7 +4,7 @@
 	width: 5%;
 }
 .listTable2 {
-	width: 7%;
+	width: 9%;
 }
 .listTable3 {
 	width: 13%;
@@ -52,14 +52,15 @@
 
 
 	.table-wrapper {
-            background: #fff;
+    background: #fff;
     /* padding: 20px 25px; */
     /* margin: 30px auto; */
-    height: 90%;
+    height: 80%;
+    width:1100px;
     /* border-radius: 3px; */
     box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
         border: 1px solid #dcdada;
-    margin: 20px;
+    /* margin: 20px; */
     margin-bottom: 0px;
     }
 	.table-wrapper .btn {
@@ -111,7 +112,7 @@
     .table-title h2 {
 		    margin: 5px 0 0;
     font-size: 16px;
-    background-color: #03a9f4;
+    background-color: #cfd1cd;
         padding: 6px;
     /* font-weight: 500; */
     padding-left: 10px;

@@ -69,6 +69,8 @@ public class DocumentBean{
 	private String searchText;
 	private String searchType;
 	private String updateType;
+	private String newPassword; 
+	private String newPasswordConfirm; 
 	
 	public String getTitle() {
 		return title;
@@ -340,6 +342,17 @@ public class DocumentBean{
 	public void setFILE_PATH(String fILE_PATH) {
 		FILE_PATH = fILE_PATH;
 	}
-	
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+	public String getNewPasswordConfirm() {
+		return newPasswordConfirm;
+	}
+	public void setNewPasswordConfirm(String newPasswordConfirm) {
+		this.newPasswordConfirm = newPasswordConfirm;
+	}
 
 }

@@ -27,4 +27,8 @@ public interface MainService {
 	String documentDelete(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			DocumentBean bean);
 
+	ModelAndView settingPage(HttpServletRequest request, HttpSession session);
+
+	String changePwd(HttpServletRequest request, HttpSession session, DocumentBean bean);
+
 }

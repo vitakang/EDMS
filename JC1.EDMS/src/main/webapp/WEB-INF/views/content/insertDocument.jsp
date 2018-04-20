@@ -23,6 +23,12 @@
 <body>
 	<%@ include file="../header.jsp"%>
 	<div id="main">
+		<div class="nav">
+			<div id="div_navigation" class="div_navigation">
+				<img src="/jcone/resources/images/home.png" style="margin-top: 12px;"> > 문서등록
+			</div>
+		</div>
+		<div style="height: 30px;">&nbsp;</div>
 		<%@ include file="../leftBar.jsp"%>
 		<div id="right_Content">
 <div class="table-wrapper">

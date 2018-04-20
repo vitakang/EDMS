@@ -22,6 +22,12 @@
 <body>
 	<%@ include file="../header.jsp"%>
 	<div id="main">
+		<div class="nav">
+			<div id="div_navigation" class="div_navigation">
+				<img src="/jcone/resources/images/home.png" style="margin-top: 12px;"> > 팀문서함 등록
+			</div>
+		</div>
+		<div style="height: 30px;">&nbsp;</div>
 		<%@ include file="../leftBar.jsp"%>
 		<div id="right_Content">
 <div class="table-wrapper">
@@ -34,7 +40,7 @@
 		<tbody>
 			<tr style="height:8%">
 				<td rowspan="3" style="width: 40%">
-					<ul id="treeMenu">
+					<ul class="treeMenu" style="margin-left: 100px">
 						<li>
 							<button type="button" class="holer"></button> <a class="open box-color" style="color: black;">${groupName}</a>
 							<ul id="subMenu1">

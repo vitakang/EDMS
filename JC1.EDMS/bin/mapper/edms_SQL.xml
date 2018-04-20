@@ -575,6 +575,15 @@
 		)
 	</insert>
 	
+	<update id="changePwd" parameterType="document">
+		UPDATE
+			USER_INFORMATION
+		SET
+			user_password = #{newPassword}
+		WHERE
+			user_id = #{USER_ID}
+	</update>
+	
 	<resultMap type="java.util.HashMap" id="favoriteMap">
 		<result javaType="String" column="OBJECT_ID" property="OBJECT_ID"/>
 		<result javaType="String" column="FAVORITE_NAME" property="FAVORITE_NAME"/>

@@ -47,4 +47,6 @@ public interface DocumentDao {
 
 	int updateDocumentReadHistory(DocumentBean historyBean);
 
+	int changePwd(DocumentBean bean);
+
 }

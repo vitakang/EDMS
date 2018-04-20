@@ -276,5 +276,38 @@ public class MainServiceImpl implements MainService{
 		}
 		return "success";
 	}
+
+	@Override
+	public ModelAndView settingPage(HttpServletRequest request, HttpSession session) {
+
+		ModelAndView mv = new ModelAndView();
+		String userId = (String) session.getAttribute("userId");
+		String groupId = (String) session.getAttribute("groupId");
+
+		List<GroupBean> groupInFolderList = mainDao.selectGroupInFolderList(groupId);
+
+		mv.addObject("groupList", MainUtls.getGroupList(groupInFolderList));
+		mv.addObject("groupInFolderList", groupInFolderList);
+		mv.addObject("myGroup", groupId);
+		mv.addObject("userId", userId);
+		mv.setViewName("content/setting");
+		
+		return mv;
+	}
+
+	@Override
+	public String changePwd(HttpServletRequest request, HttpSession session, DocumentBean bean) {
+
+		String userId = (String) session.getAttribute("userId");
+		bean.setUSER_ID(userId);
+		
+		if(documentDao.changePwd(bean) < 1) {
+			return "FAIL";
+		}
+		
+		return "SUCCESS";
+	}
+	
+	
 	
 }

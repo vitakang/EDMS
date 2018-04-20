@@ -2,14 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div id="left_Bar">
 	<div id="left-menu">
-		<div style="height: 35px; padding-top: 10px">
-			<div class="leftMenu-top" style="color: white;">사용자</div>
-			<div class="leftMenu-top" style="color: white;">${userId}</div>
-			<div class="leftMenu-top" onclick="settingContent()" style="color: white;">
-				<img src="resources/images/gear.png">
+		<div style="height: 50px; border-bottom: 1px solid #9b9b9b;">
+			<div class="leftMenu-top" style="font-family: 'Nanum Gothic', serif;">사용자</div>
+			<div class="leftMenu-top">${userName}</div>
+			<div class="leftMenu-top" onclick="settingContent()">
+				<img src="resources/images/gear-option.png" style="margin-top: 10px">
 			</div>
 		</div>
-		<div style="height: 50px;">
+		<div style="height: 50px; border-bottom: 1px solid #9b9b9b;">
 			<ul class="tabs">
 				<li class="tab-link current" data-tab="tab-1">회사</li>
 				<li class="tab-link" data-tab="tab-2">소속팀</li>

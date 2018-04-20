@@ -34,7 +34,6 @@
 
 	<mappers>
  		<mapper resource="mapper/edms_SQL.xml" />
-
 	</mappers>
 
 </configuration>
